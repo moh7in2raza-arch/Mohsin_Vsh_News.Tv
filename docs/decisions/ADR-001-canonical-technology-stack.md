@@ -41,3 +41,5 @@ Accounting must follow double-entry principles.
 This decision must be reviewed and approved before Phase 1 is marked complete.
 No alternative technology stack may be substituted without explicit approval.
 
+
+Approved by: Mohsin, 2026-11-10
