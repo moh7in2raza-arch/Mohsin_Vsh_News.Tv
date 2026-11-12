@@ -1,11 +1,19 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel
+
+from PySide6.QtWidgets import QApplication
+
+from src.app.ui.login_window import LoginWindow
+
 
 def main() -> int:
     app = QApplication(sys.argv)
-    win = QMainWindow()
-    win.setWindowTitle("ERP Office Management")
-    win.setCentralWidget(QLabel("Environment OK"))
-    win.resize(480, 240)
-    win.show()
+
+    window = LoginWindow()
+    window.show()
+
     return app.exec()
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+    
