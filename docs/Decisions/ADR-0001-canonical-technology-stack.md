@@ -1,4 +1,4 @@
-# ADR-001: Canonical Technology Stack
+# ADR-0001: Canonical Technology Stack
 
 Status: Approved
 Project: ERP Office Management
