@@ -37,3 +37,4 @@ Write-Host "== Inno Setup" -ForegroundColor Cyan
 if ($LASTEXITCODE -ne 0) { throw "ISCC failed" }
 
 Write-Host "Done: dist\installer\ERPOffice-Setup.exe" -ForegroundColor Green
+Name: "{autodesktop}\ERP Office"; Filename: "{app}\ERPOffice.exe"

@@ -1,4 +1,8 @@
-PySide6>=6.6
-argon2-cffi>=23.1
-pytest>=8.0
-pyinstaller>=6.0
+@'
+PySide6==6.12.0
+psycopg[binary]>=3.2
+python-dotenv>=1.0
+argon2-cffi==25.1.0
+pytest==9.2.0
+pyinstaller==6.22.3
+'@ | Set-Content -Path requirements.txt -Encoding ASCII
