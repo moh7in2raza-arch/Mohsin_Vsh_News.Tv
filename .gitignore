@@ -8,3 +8,5 @@ build/*.spec.bak
 
 erp_office_phase3.sql
 docs/project_status_report.md
+venv/
+*.swp
