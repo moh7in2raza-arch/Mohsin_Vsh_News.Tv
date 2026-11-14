@@ -1,4 +1,7 @@
-rom src.app.infrastructure.repositories._sql import fetch_all, fetch_one
+class rom:
+    ...
+
+from src.app.infrastructure.repositories._sql import fetch_all, fetch_one
 
 _HEADER_SQL = """
     SELECT h.id, h.voucher_no, h.voucher_date, h.narration, h.status,

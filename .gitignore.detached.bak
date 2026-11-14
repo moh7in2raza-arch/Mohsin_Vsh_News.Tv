@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+dist/
+build/*.spec.bak
+*.log
+
+erp_office_phase3.sql
+docs/project_status_report.md
+
+venv/
+.venv/
+backup_*.sql
+__pycache__/
