@@ -1,4 +1,3 @@
-powershell
 # Builds the installer, enforcing ADR-0001 sections 1-3. Run from anywhere:
 #   powershell -ExecutionPolicy Bypass -File tools\build_exe.ps1
 $ErrorActionPreference = "Stop"
