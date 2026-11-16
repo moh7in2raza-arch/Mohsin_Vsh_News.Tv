@@ -1,0 +1,187 @@
+56a9701 | Mohsin | 2026-11-14 | Remove temporary files
+ .gitignore.detached.bak | 15 -----------
+ docs/quick_report.txt   | 69 -------------------------------------------------
+ 2 files changed, 84 deletions(-)
+
+93fe8ea | Mohsin | 2026-11-14 | Fix typo in voucher_repository, move SQL draft out of migrations package
+ .gitignore.detached.bak                            |  15 +
+ docs/database/0001_core_draft.sql                  | 317 +++++++++++++++++++++
+ docs/quick_report.txt                              |  69 +++++
+ .../infrastructure/database/migrations/__init__.py | 317 ---------------------
+ .../repositories/voucher_repository.py             |   7 +-
+ tools/__init__.py                                  |   0
+ 6 files changed, 406 insertions(+), 319 deletions(-)
+
+ffacfa0 | Mohsin | 2026-11-14 | Remove stray label line from build_exe.ps1
+ tools/build_exe.ps1 | 1 -
+ 1 file changed, 1 deletion(-)
+
+e15df7d | Mohsin | 2026-11-14 | Add installer.iss, update requirements and build script
+ build/installer.iss | 22 ++++++++++++++++++++++
+ requirements.txt    | 12 ++++++++----
+ tools/build_exe.ps1 |  1 +
+ 3 files changed, 31 insertions(+), 4 deletions(-)
+
+c176511 | Mohsin | 2026-11-14 | Fix file names to match imports
+ src/app/domain/security/{permission.py => permissions.py} | 0
+ src/app/ui/{style_.py => style.py}                        | 0
+ src/app/ui/{voucher_view.py => vouchers_view.py}          | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+2a13b6e | Mohsin | 2026-11-14 | Add voucher services, UI, tests and migration 0006 (not yet applied)
+ .gitignore                                         |  13 +-
+ Mohsin_Vsh_News.tv.code-workspace                  |   8 -
+ build/vsh_erp.spec                                 |  15 ++
+ .../ADR-0001-canonical-technology-stack.md}        |   2 +-
+ docs/project_status_report.md                      | 175 +++++++++++++++++++++
+ erp_office_phase3.sql                              |  72 +++++++++
+ src/app/application/context.py                     |  19 +++
+ src/app/application/dto.py                         |  58 +++++++
+ src/app/application/services/account_service.py    |  42 +++++
+ src/app/application/services/auth_service.py       |  75 ++++++---
+ src/app/application/services/report_service.py     |  36 +++++
+ src/app/application/services/voucher_service.py    | 150 ++++++++++++++++--
+ src/app/application/session.py                     |  12 ++
+ src/app/bootstrap.py                               |  20 +++
+ src/app/domain/accounting/chart.py                 |  17 ++
+ src/app/domain/accounting/journal.py               |  51 ++++++
+ src/app/domain/security/__init__.py                |   0
+ src/app/domain/security/permission.py              |  16 ++
+ src/app/infrastructure/database/connection.py      |  15 +-
+ .../migrations/0006_accounting_integrity.sql       |  57 +++++++
+ src/app/infrastructure/database/unit_of_work.py    |  35 +++++
+ src/app/infrastructure/logging/setup.py            |  19 +++
+ src/app/infrastructure/repositories/_sql.py        |  14 ++
+ .../repositories/account_repository.py             |  34 ++++
+ .../repositories/audit_repository.py               |   9 ++
+ .../repositories/permission_repository.py          |  15 ++
+ .../repositories/report_repository.py              |  45 ++++++
+ .../repositories/voucher_repository.py             | 129 +++++++++++----
+ src/app/main.py                                    |  45 +++++-
+ src/app/ui/accounts_view.py                        |  87 ++++++++++
+ src/app/ui/login_window.py                         |  61 ++++++-
+ src/app/ui/main_window.py                          |  86 ++++++++++
+ src/app/ui/reports_view.py                         | 164 +++++++++++++++++++
+ src/app/ui/style_.py                               |  28 ++++
+ src/app/ui/support.py                              |  98 ++++++++++++
+ src/app/ui/voucher_dialog.py                       | 136 ++++++++++++++++
+ src/app/ui/voucher_view.py                         | 150 ++++++++++++++++++
+ tests/integration/test_voucher_flow.py             | 102 ++++++++++++
+ tests/unit/test_journal.py                         |  57 +++++++
+ tools/build_exe.ps1                                |  39 +++++
+ tools/check_schema.py                              |  52 ++++++
+ tools/seed_accounts.py                             |  30 ++++
+ 42 files changed, 2185 insertions(+), 103 deletions(-)
+
+e612d07 | Mohsin | 2026-11-14 | Add journal and audit schema
+ .../database/migrations/0005_journal.sql           | 40 ++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+6699289 | Mohsin | 2026-11-14 | Add voucher repository skeleton
+ .../repositories/voucher_repository.py             | 30 ++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+5dadf03 | Mohsin | 2026-11-14 | Recover missing migration files
+ .../infrastructure/database/migrations/0002_hr.sql | 18 ++++++++++++++++
+ .../database/migrations/0003_administration.sql    | 18 ++++++++++++++++
+ .../database/migrations/0004_vouchers.sql          | 25 ++++++++++++++++++++++
+ 3 files changed, 61 insertions(+)
+
+c227786 | Mohsin | 2026-11-14 | Add posting validation rules
+ src/app/application/services/posting_service.py | 18 ++++++++++
+ tests/test_posting.py                           | 45 +++++++++++++++++++++++--
+ 2 files changed, 61 insertions(+), 2 deletions(-)
+
+3c36b35 | Mohsin | 2026-11-14 | Create posting service with posting tests
+ src/app/application/services/posting_service.py | 28 ++++++++++++++++++++++
+ tests/test_posting.py                           | 32 +++++++++++++++++++++++++
+ 2 files changed, 60 insertions(+)
+
+670b792 | Mohsin | 2026-11-14 | Clean startup configuration and environment setup
+ .gitignore       |  2 ++
+ archive/.gitkeep | 10 +++++++++-
+ requirements.txt |  8 ++++----
+ run.py           |  5 ++---
+ 4 files changed, 17 insertions(+), 8 deletions(-)
+
+0d089ea | Mohsin | 2026-11-13 | Weeks 5-6 start: permission service, workflow, voucher service skeleton, project report script
+ .gitignore                                         |   1 +
+ src/app/application/services/permission_service.py |  17 +++
+ src/app/application/services/posting_service.py    |   0
+ src/app/application/services/voucher_service.py    |  28 +++++
+ src/app/domain/workflow.py                         |  35 ++++++
+ tests/unit/test_workflow.py                        |  20 ++++
+ tools/project_report.ps1                           | 127 +++++++++++++++++++++
+ 7 files changed, 228 insertions(+)
+
+0314e84 | Mohsin | 2026-11-12 | Authentication milestone complete
+ src/app/__init__.py                                |  27 ++
+ src/app/application/services/auth_service.py       |  46 +++
+ .../infrastructure/database/migrations/__init__.py | 317 +++++++++++++++++++++
+ .../infrastructure/repositories/user_repository.py |  37 +++
+ src/app/main.py                                    |  20 +-
+ src/app/ui/login_window.py                         |  34 +++
+ 6 files changed, 475 insertions(+), 6 deletions(-)
+
+86388b7 | Mohsin | 2026-11-10 | ADR-001: environment verified and approved
+ docs/decisions/ADR-001-canonical-technology-stack.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+1676106 | Mohsin | 2026-11-10 | Add money helpers with tests
+ pyproject.toml                     |  9 +++++++++
+ src/__init__.py                    |  0
+ src/app/domain/accounting/money.py | 20 ++++++++++++++++++++
+ tests/unit/test_money.py           | 25 +++++++++++++++++++++++++
+ 4 files changed, 54 insertions(+)
+
+6f9b9e2 | Mohsin | 2026-11-10 | Ignore local database backup
+ .gitignore | 2 ++
+ 1 file changed, 2 insertions(+)
+
+bdf3c75 | Mohsin | 2026-11-10 | Ignore local database backup
+ src/app/infrastructure/database/connection.py      | 19 ++++++
+ .../database/migrations/0001_core.sql              | 69 ++++++++++++++++++++++
+ src/app/infrastructure/database/migrator.py        | 43 ++++++++++++++
+ tools/check_db.py                                  | 30 ++++++++++
+ tools/migrate.py                                   |  5 ++
+ 5 files changed, 166 insertions(+)
+
+1617c9d | Mohsin | 2026-11-09 | Phase 3 foundation database setup completed
+ Mohsin_Vsh_News.tv.code-workspace | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+c4f837e | moh7in2raza-arch | 2026-11-09 | Initial project skeleton per ADR-001
+ .env.example                                       |  5 +++
+ .gitignore                                         |  7 ++++
+ README.md                                          |  1 +
+ archive/.gitkeep                                   |  1 +
+ .../ADR-001-canonical-technology-stack.md          | 43 ++++++++++++++++++++++
+ installer/inno_setup/.gitkeep                      |  1 +
+ requirements.lock.txt                              | 17 +++++++++
+ requirements.txt                                   |  4 ++
+ run.py                                             |  6 +++
+ src/app/__init__.py                                |  0
+ src/app/application/__init__.py                    |  0
+ src/app/application/commands/__init__.py           |  0
+ src/app/application/queries/__init__.py            |  0
+ src/app/application/security/__init__.py           |  0
+ src/app/application/services/__init__.py           |  0
+ src/app/domain/__init__.py                         |  0
+ src/app/domain/accounting/__init__.py              |  0
+ src/app/domain/audit/__init__.py                   |  0
+ src/app/domain/hr/__init__.py                      |  0
+ src/app/domain/inventory/__init__.py               |  0
+ src/app/domain/payroll/__init__.py                 |  0
+ src/app/infrastructure/__init__.py                 |  0
+ src/app/infrastructure/backup/__init__.py          |  0
+ src/app/infrastructure/database/__init__.py        |  0
+ .../infrastructure/database/migrations/__init__.py |  0
+ src/app/infrastructure/logging/__init__.py         |  0
+ src/app/infrastructure/reports/__init__.py         |  0
+ src/app/infrastructure/repositories/__init__.py    |  0
+ src/app/main.py                                    | 11 ++++++
+ src/app/ui/__init__.py                             |  0
+ tests/accounting/.gitkeep                          |  1 +
+ tests/integration/.gitkeep                         |  1 +
+ tests/unit/.gitkeep                                |  1 +
+ 33 files changed, 99 insertions(+)
