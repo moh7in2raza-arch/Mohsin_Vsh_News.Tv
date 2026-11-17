@@ -433,9 +433,15 @@ class VSHDashboard(QMainWindow):
         self.date_label.setText(now.strftime("%d-%b-%Y"))
 
     def _request_module(self, module_name: str) -> None:
-        """Send navigation request to the application layer/controller."""
         self.status_label.setText(f"Selected: {module_name}")
+
+        if module_name == "Employees":
+            from src.app.ui.employees_view import EmployeesView
+
+        self.employee_window = EmployeesView()
+        self.employee_window.show()
         self.module_requested.emit(module_name)
+
 
     def _on_navigation(self, item: str) -> None:
         if item == "Exit":
