@@ -1,17 +1,18 @@
 """
 VSH NEWS TV - ERP Office Management Dashboard
 Technology: Python 3.12 (64-bit) + PySide6
-Architecture boundary: UI only. No SQL or database access in this file.
+Architecture boundary (ADR-001): UI only. No SQL or database access in this file.
 
 Place this file at:
     C:\\Mohsin_Vsh_News.tv\\ui\\dashboard.py
 
-Run standalone for a UI smoke test:
-    .\\.venv\\Scripts\\python.exe -m ui.dashboard
+Run standalone for a UI smoke test (from the project root, venv active):
+    python -m ui.dashboard
 
 Integrate into the application:
     from ui.dashboard import VSHDashboard
     dashboard = VSHDashboard()
+    dashboard.module_requested.connect(controller.open_module)
     dashboard.show()
 """
 
@@ -30,8 +31,6 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QMainWindow,
-
-
     QMessageBox,
     QPushButton,
     QScrollArea,
@@ -94,7 +93,7 @@ class VSHDashboard(QMainWindow):
             "items": ["Users & Roles", "System Settings", "Company Profile"],
         },
         {
-	 "title": "Backup & Restore",
+            "title": "Backup & Restore",
             "color": "#C0392B",
             "icon": "▣",
             "items": ["Backup Database", "Restore Database"],
@@ -140,12 +139,10 @@ class VSHDashboard(QMainWindow):
 
         self._build_ui()
         self._start_clock()
-     
-     
+
     # ------------------------------------------------------------------
     # Main layout
     # ------------------------------------------------------------------
-    
     def _build_ui(self) -> None:
         central = QWidget(self)
         self.setCentralWidget(central)
@@ -190,7 +187,7 @@ class VSHDashboard(QMainWindow):
         logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
         logo.setFixedSize(66, 66)
         logo.setStyleSheet(
-		 "QLabel { background: #D32F2F; color: white; border-radius: 6px;"
+            "QLabel { background: #D32F2F; color: white; border-radius: 6px;"
             "font-family: Arial; font-size: 17px; font-weight: bold; }"
         )
         layout.addWidget(logo)
@@ -218,7 +215,9 @@ class VSHDashboard(QMainWindow):
         clock_layout = QVBoxLayout(clock_box)
         clock_layout.setContentsMargins(14, 8, 14, 8)
         self.time_label = QLabel()
-        self.time_label.setStyleSheet("color: white; font-size: 13px; font-weight: bold;")
+        self.time_label.setStyleSheet(
+            "color: white; font-size: 13px; font-weight: bold;"
+        )
         self.date_label = QLabel()
         self.date_label.setStyleSheet("color: #CBD5E1; font-size: 11px;")
         clock_layout.addWidget(self.time_label)
@@ -240,8 +239,12 @@ class VSHDashboard(QMainWindow):
             button = QPushButton(item if item == "Exit" else f"  {item}")
             button.setCursor(Qt.CursorShape.PointingHandCursor)
             button.setMinimumHeight(43)
-            button.setStyleSheet(self._nav_button_style(active=(index == 0), exit_item=(item == "Exit")))
-            button.clicked.connect(lambda checked=False, name=item: self._on_navigation(name))
+            button.setStyleSheet(
+                self._nav_button_style(active=(index == 0), exit_item=(item == "Exit"))
+            )
+            button.clicked.connect(
+                lambda checked=False, name=item: self._on_navigation(name)
+            )
             layout.addWidget(button)
 
         layout.addStretch(1)
@@ -253,7 +256,6 @@ class VSHDashboard(QMainWindow):
         return sidebar
 
     @staticmethod
-
     def _nav_button_style(active: bool = False, exit_item: bool = False) -> str:
         background = "#1D70D1" if active else "transparent"
         foreground = "#FF8A8A" if exit_item else "white"
@@ -266,6 +268,26 @@ class VSHDashboard(QMainWindow):
             "QPushButton:hover { background-color: #164E87; }"
         )
 
+    def _build_status_bar(self) -> QWidget:
+        bar = QFrame()
+        bar.setFixedHeight(30)
+        bar.setStyleSheet(f"background-color: {self.HEADER_BACKGROUND};")
+
+        layout = QHBoxLayout(bar)
+        layout.setContentsMargins(16, 0, 16, 0)
+
+        self.status_label = QLabel("Home dashboard")
+        self.status_label.setStyleSheet("color: #CBD5E1; font-size: 11px;")
+        layout.addWidget(self.status_label, 1)
+
+        env_label = QLabel("ERP Office Management")
+        env_label.setStyleSheet("color: #91A9C2; font-size: 11px;")
+        layout.addWidget(env_label)
+        return bar
+
+    # ------------------------------------------------------------------
+    # Dashboard content
+    # ------------------------------------------------------------------
     def _build_dashboard_content(self) -> QWidget:
         page = QWidget()
         page.setStyleSheet("background-color: #E8F0F8;")
@@ -293,9 +315,10 @@ class VSHDashboard(QMainWindow):
 
     def _build_welcome_banner(self) -> QWidget:
         banner = QFrame()
+        banner.setObjectName("welcomeBanner")
         banner.setMinimumHeight(155)
         banner.setStyleSheet(
-            "QFrame { background: #DCEBFA; border: 1px solid #BFD8F2;"
+            "QFrame#welcomeBanner { background: #DCEBFA; border: 1px solid #BFD8F2;"
             "border-radius: 12px; }"
         )
 
@@ -303,15 +326,55 @@ class VSHDashboard(QMainWindow):
         layout.setContentsMargins(24, 18, 24, 18)
         layout.setSpacing(22)
 
-        logo = QLabel("VSH\\nNEWS")
+        logo = QLabel("VSH\nNEWS")
         logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
         logo.setFixedSize(112, 112)
         logo.setStyleSheet(
             "QLabel { background: #D32F2F; color: white; border-radius: 8px;"
             "font-family: Arial; font-size: 27px; font-weight: bold; }"
         )
-	
+        layout.addWidget(logo)
+
+        text_box = QVBoxLayout()
+        text_box.setSpacing(6)
+
+        welcome = QLabel("Welcome to VSH NEWS TV ERP Office Management System")
+        welcome.setWordWrap(True)
+        welcome.setStyleSheet(
+            f"font-size: 20px; font-weight: bold; color: {self.TEXT_DARK};"
+            "background: transparent; border: none;"
+        )
+        text_box.addWidget(welcome)
+
+        sub = QLabel(
+            f"Signed in as {self.user_name} ({self.user_role}). "
+            "Select a module below to continue."
+        )
+        sub.setWordWrap(True)
+        sub.setStyleSheet(
+            "font-size: 12px; color: #475569; background: transparent; border: none;"
+        )
+        text_box.addWidget(sub)
+
+        layout.addLayout(text_box, 1)
+        return banner
+
+    def _build_module_card(self, data: dict) -> QWidget:
+        """Build one module card. `data` is one entry of MODULES."""
+        card = QFrame()
+        card.setObjectName("moduleCard")
+        card.setStyleSheet(
+            "QFrame#moduleCard { background: white; border: 1px solid #D5E0EC;"
+            "border-radius: 10px; }"
+        )
+
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(14, 14, 14, 12)
+        card_layout.setSpacing(6)
+
         heading = QHBoxLayout()
+        heading.setSpacing(10)
+
         icon = QLabel(data["icon"])
         icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
         icon.setFixedSize(40, 40)
@@ -323,13 +386,16 @@ class VSHDashboard(QMainWindow):
 
         title = QLabel(data["title"])
         title.setWordWrap(True)
-        title.setStyleSheet("color: #0F172A; font-size: 13px; font-weight: bold;")
+        title.setStyleSheet(
+            f"color: {self.TEXT_DARK}; font-size: 13px; font-weight: bold;"
+            "background: transparent; border: none;"
+        )
         heading.addWidget(title, 1)
         card_layout.addLayout(heading)
 
         line = QFrame()
         line.setFrameShape(QFrame.Shape.HLine)
-        line.setStyleSheet("color: #E2E8F0;")
+        line.setStyleSheet("color: #E2E8F0; background: transparent;")
         card_layout.addWidget(line)
 
         for item_name in data["items"]:
@@ -350,25 +416,7 @@ class VSHDashboard(QMainWindow):
             card_layout.addWidget(item_button)
 
         card_layout.addStretch(1)
-        outer_layout.addWidget(card)
-        return outer  
-
-    def _build_status_bar(self) -> QWidget:
-        status = QFrame()
-        status.setFixedHeight(29)
-        status.setStyleSheet("background: #D4E1EF; border-top: 1px solid #B8CADD;")
-        layout = QHBoxLayout(status)
-        layout.setContentsMargins(14, 2, 14, 2)
-
-        self.status_label = QLabel("Ready")
-        self.status_label.setStyleSheet("color: #334155; font-size: 10px;")
-        layout.addWidget(self.status_label)
-        layout.addStretch(1)
-
-        environment = QLabel("VSH NEWS TV  |  ERP Office Management")
-        environment.setStyleSheet("color: #475569; font-size: 10px;")
-        layout.addWidget(environment)
-        return status
+        return card
 
     # ------------------------------------------------------------------
     # Events and helpers
