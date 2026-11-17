@@ -1,3 +1,19 @@
+e4c137f | moh7in2raza-arch | 2026-11-16 | Phase 12: Configure PostgreSQL backend and Django server
+ .vscode/settings.json |   3 +
+ config/settings.py    | 168 ++++++++++++++++++++++++++++----------------------
+ 2 files changed, 98 insertions(+), 73 deletions(-)
+
+eaf2124 | moh7in2raza-arch | 2026-11-16 | Phase 11: Add Django framework integration and initial migrations
+ config/__init__.py |   0
+ config/asgi.py     |  16 +++++
+ config/settings.py | 127 ++++++++++++++++++++++++++++++++++++
+ config/urls.py     |  22 +++++++
+ config/wsgi.py     |  16 +++++
+ db.sqlite3         | Bin 0 -> 131072 bytes
+ git_report.txt     | 187 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ manage.py          |  22 +++++++
+ 8 files changed, 390 insertions(+)
+
 56a9701 | Mohsin | 2026-11-14 | Remove temporary files
  .gitignore.detached.bak | 15 -----------
  docs/quick_report.txt   | 69 -------------------------------------------------
