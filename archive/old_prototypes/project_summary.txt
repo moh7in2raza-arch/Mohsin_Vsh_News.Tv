@@ -1,0 +1,378 @@
+commit 3db5e6886607f5dd5ec46e4a13fce6d393f3e5ac
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Tue Nov 17 16:00:43 2026 +0500
+
+    Phase 18: Professional employee management UI
+
+ assets/vsh_logo.png.png                   | Bin 0 -> 29254 bytes
+ docs/hr_prototype/README.txt              |   0
+ docs/hr_prototype/index.html              |   0
+ docs/hr_prototype/reference-template.docx |   0
+ src/app/ui/login_window_backup.py         |  79 ++++++++++++++++++++++++++++++
+ 5 files changed, 79 insertions(+)
+
+commit 03c2e2296cdde72c831bc7cf9d10bbd6adb3362a
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Tue Nov 17 15:51:39 2026 +0500
+
+    Phase 18: Employee UI redesign and style system
+
+ src/app/ui/style.py | 122 ++++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 103 insertions(+), 19 deletions(-)
+
+commit a20272b17d969e632c41ff6bf6193e8464017262
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Tue Nov 17 15:39:01 2026 +0500
+
+    Connect employee screen to dashboard
+
+ ui/dashboard.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+commit 63416dc3d58be8e147eeeaa64a958b946ca4c122
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Tue Nov 17 15:25:54 2026 +0500
+
+    Fix dashboard runtime errors and welcome banner
+
+ ui/dashboard.py | 124 +++++++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 86 insertions(+), 38 deletions(-)
+
+commit 2ce7cc8eb66dff2a1875a44acb92f477a8c813d6
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Tue Nov 17 13:30:47 2026 +0500
+
+    Phase 15: Add employee management UI
+
+ src/app/ui/employees_view.py | 67 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+
+commit 25aa382965d16bffcd844e7666f4060608613fbd
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Tue Nov 17 13:28:57 2026 +0500
+
+    Phase 14: Add employee domain, service and repository
+
+ git_report.txt                                     |    16 +
+ project_structure.txt                              | 20952 +++++++++++++++++++
+ src/app/application/services/employee_service.py   |    32 +
+ src/app/domain/hr/employee.py                      |    46 +
+ .../repositories/employee_repository.py            |    26 +
+ src_structure.txt                                  |   216 +
+ ui/__init__.py                                     |     0
+ ui/dashboard.py                                    |   425 +
+ 8 files changed, 21713 insertions(+)
+
+commit e4c137ff627e6144f345d8ea46f79fc6486fe82b
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Mon Nov 16 15:32:23 2026 +0500
+
+    Phase 12: Configure PostgreSQL backend and Django server
+
+ .vscode/settings.json |   3 +
+ config/settings.py    | 168 ++++++++++++++++++++++++++++----------------------
+ 2 files changed, 98 insertions(+), 73 deletions(-)
+
+commit eaf2124f2b1f399cfa51633526332dba8ad9ad17
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Mon Nov 16 14:25:45 2026 +0500
+
+    Phase 11: Add Django framework integration and initial migrations
+
+ config/__init__.py |   0
+ config/asgi.py     |  16 +++++
+ config/settings.py | 127 ++++++++++++++++++++++++++++++++++++
+ config/urls.py     |  22 +++++++
+ config/wsgi.py     |  16 +++++
+ db.sqlite3         | Bin 0 -> 131072 bytes
+ git_report.txt     | 187 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ manage.py          |  22 +++++++
+ 8 files changed, 390 insertions(+)
+
+commit 56a9701af79f052eff31cf58aebde387f2391830
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 20:43:10 2026 +0500
+
+    Remove temporary files
+
+ .gitignore.detached.bak | 15 -----------
+ docs/quick_report.txt   | 69 -------------------------------------------------
+ 2 files changed, 84 deletions(-)
+
+commit 93fe8ea93bfbe0a8c13b65335ae67c8a6d25d8f5
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 20:42:14 2026 +0500
+
+    Fix typo in voucher_repository, move SQL draft out of migrations package
+
+ .gitignore.detached.bak                            |  15 +
+ docs/database/0001_core_draft.sql                  | 317 +++++++++++++++++++++
+ docs/quick_report.txt                              |  69 +++++
+ .../infrastructure/database/migrations/__init__.py | 317 ---------------------
+ .../repositories/voucher_repository.py             |   7 +-
+ tools/__init__.py                                  |   0
+ 6 files changed, 406 insertions(+), 319 deletions(-)
+
+commit ffacfa06153eb21cea9df94e89917f885c2bbf23
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 20:19:41 2026 +0500
+
+    Remove stray label line from build_exe.ps1
+
+ tools/build_exe.ps1 | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit e15df7d1923814143ef0fa9e060a0e44f6ef809e
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 20:15:58 2026 +0500
+
+    Add installer.iss, update requirements and build script
+
+ build/installer.iss | 22 ++++++++++++++++++++++
+ requirements.txt    | 12 ++++++++----
+ tools/build_exe.ps1 |  1 +
+ 3 files changed, 31 insertions(+), 4 deletions(-)
+
+commit c176511bebd42c99ba85d5060498dbd82035c26e
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 20:02:47 2026 +0500
+
+    Fix file names to match imports
+
+ src/app/domain/security/{permission.py => permissions.py} | 0
+ src/app/ui/{style_.py => style.py}                        | 0
+ src/app/ui/{voucher_view.py => vouchers_view.py}          | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 2a13b6ea825ba662e16cf38d96bcf3388312a3ee
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 20:01:51 2026 +0500
+
+    Add voucher services, UI, tests and migration 0006 (not yet applied)
+
+ .gitignore                                         |  13 +-
+ Mohsin_Vsh_News.tv.code-workspace                  |   8 -
+ build/vsh_erp.spec                                 |  15 ++
+ .../ADR-0001-canonical-technology-stack.md}        |   2 +-
+ docs/project_status_report.md                      | 175 +++++++++++++++++++++
+ erp_office_phase3.sql                              |  72 +++++++++
+ src/app/application/context.py                     |  19 +++
+ src/app/application/dto.py                         |  58 +++++++
+ src/app/application/services/account_service.py    |  42 +++++
+ src/app/application/services/auth_service.py       |  75 ++++++---
+ src/app/application/services/report_service.py     |  36 +++++
+ src/app/application/services/voucher_service.py    | 150 ++++++++++++++++--
+ src/app/application/session.py                     |  12 ++
+ src/app/bootstrap.py                               |  20 +++
+ src/app/domain/accounting/chart.py                 |  17 ++
+ src/app/domain/accounting/journal.py               |  51 ++++++
+ src/app/domain/security/__init__.py                |   0
+ src/app/domain/security/permission.py              |  16 ++
+ src/app/infrastructure/database/connection.py      |  15 +-
+ .../migrations/0006_accounting_integrity.sql       |  57 +++++++
+ src/app/infrastructure/database/unit_of_work.py    |  35 +++++
+ src/app/infrastructure/logging/setup.py            |  19 +++
+ src/app/infrastructure/repositories/_sql.py        |  14 ++
+ .../repositories/account_repository.py             |  34 ++++
+ .../repositories/audit_repository.py               |   9 ++
+ .../repositories/permission_repository.py          |  15 ++
+ .../repositories/report_repository.py              |  45 ++++++
+ .../repositories/voucher_repository.py             | 129 +++++++++++----
+ src/app/main.py                                    |  45 +++++-
+ src/app/ui/accounts_view.py                        |  87 ++++++++++
+ src/app/ui/login_window.py                         |  61 ++++++-
+ src/app/ui/main_window.py                          |  86 ++++++++++
+ src/app/ui/reports_view.py                         | 164 +++++++++++++++++++
+ src/app/ui/style_.py                               |  28 ++++
+ src/app/ui/support.py                              |  98 ++++++++++++
+ src/app/ui/voucher_dialog.py                       | 136 ++++++++++++++++
+ src/app/ui/voucher_view.py                         | 150 ++++++++++++++++++
+ tests/integration/test_voucher_flow.py             | 102 ++++++++++++
+ tests/unit/test_journal.py                         |  57 +++++++
+ tools/build_exe.ps1                                |  39 +++++
+ tools/check_schema.py                              |  52 ++++++
+ tools/seed_accounts.py                             |  30 ++++
+ 42 files changed, 2185 insertions(+), 103 deletions(-)
+
+commit e612d071e820cde0120e37e8c29244f08600318b
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 14:01:01 2026 +0500
+
+    Add journal and audit schema
+
+ .../database/migrations/0005_journal.sql           | 40 ++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+commit 669928917677193f636cb3ed38b7f76075919c90
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 13:57:09 2026 +0500
+
+    Add voucher repository skeleton
+
+ .../repositories/voucher_repository.py             | 30 ++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+commit 5dadf0394d160acf30e4f3f34dd67a14740a2f63
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 13:54:06 2026 +0500
+
+    Recover missing migration files
+
+ .../infrastructure/database/migrations/0002_hr.sql | 18 ++++++++++++++++
+ .../database/migrations/0003_administration.sql    | 18 ++++++++++++++++
+ .../database/migrations/0004_vouchers.sql          | 25 ++++++++++++++++++++++
+ 3 files changed, 61 insertions(+)
+
+commit c227786477887fda048431fb9fbbec90941a2ab2
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 13:39:09 2026 +0500
+
+    Add posting validation rules
+
+ src/app/application/services/posting_service.py | 18 ++++++++++
+ tests/test_posting.py                           | 45 +++++++++++++++++++++++--
+ 2 files changed, 61 insertions(+), 2 deletions(-)
+
+commit 3c36b35ab59e75d250c4ee373f9136dce11c1376
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 13:29:59 2026 +0500
+
+    Create posting service with posting tests
+
+ src/app/application/services/posting_service.py | 28 ++++++++++++++++++++++
+ tests/test_posting.py                           | 32 +++++++++++++++++++++++++
+ 2 files changed, 60 insertions(+)
+
+commit 670b7929abc254181d33083b49e580341d6397b4
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Sat Nov 14 12:43:40 2026 +0500
+
+    Clean startup configuration and environment setup
+
+ .gitignore       |  2 ++
+ archive/.gitkeep | 10 +++++++++-
+ requirements.txt |  8 ++++----
+ run.py           |  5 ++---
+ 4 files changed, 17 insertions(+), 8 deletions(-)
+
+commit 0d089ea39a9e2c554cc03bfd021916eb242e6f58
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Fri Nov 13 15:15:33 2026 +0500
+
+    Weeks 5-6 start: permission service, workflow, voucher service skeleton, project report script
+
+ .gitignore                                         |   1 +
+ src/app/application/services/permission_service.py |  17 +++
+ src/app/application/services/posting_service.py    |   0
+ src/app/application/services/voucher_service.py    |  28 +++++
+ src/app/domain/workflow.py                         |  35 ++++++
+ tests/unit/test_workflow.py                        |  20 ++++
+ tools/project_report.ps1                           | 127 +++++++++++++++++++++
+ 7 files changed, 228 insertions(+)
+
+commit 0314e848de3ae2dfaefe8c7f252ce2ade993b4cc
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Thu Nov 12 17:35:05 2026 +0500
+
+    Authentication milestone complete
+
+ src/app/__init__.py                                |  27 ++
+ src/app/application/services/auth_service.py       |  46 +++
+ .../infrastructure/database/migrations/__init__.py | 317 +++++++++++++++++++++
+ .../infrastructure/repositories/user_repository.py |  37 +++
+ src/app/main.py                                    |  20 +-
+ src/app/ui/login_window.py                         |  34 +++
+ 6 files changed, 475 insertions(+), 6 deletions(-)
+
+commit 86388b753151d83f2703078429a02f17c11b8043
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Tue Nov 10 16:02:46 2026 +0500
+
+    ADR-001: environment verified and approved
+
+ docs/decisions/ADR-001-canonical-technology-stack.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 167610631ac5caa46e16204519cc2768b53d45db
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Tue Nov 10 15:19:04 2026 +0500
+
+    Add money helpers with tests
+
+ pyproject.toml                     |  9 +++++++++
+ src/__init__.py                    |  0
+ src/app/domain/accounting/money.py | 20 ++++++++++++++++++++
+ tests/unit/test_money.py           | 25 +++++++++++++++++++++++++
+ 4 files changed, 54 insertions(+)
+
+commit 6f9b9e228689c9c8b3abefd98830242ba3e1d107
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Tue Nov 10 15:08:51 2026 +0500
+
+    Ignore local database backup
+
+ .gitignore | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit bdf3c7598695e1641943c0b6bd00b6f17647ee92
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Tue Nov 10 15:06:43 2026 +0500
+
+    Ignore local database backup
+
+ src/app/infrastructure/database/connection.py      | 19 ++++++
+ .../database/migrations/0001_core.sql              | 69 ++++++++++++++++++++++
+ src/app/infrastructure/database/migrator.py        | 43 ++++++++++++++
+ tools/check_db.py                                  | 30 ++++++++++
+ tools/migrate.py                                   |  5 ++
+ 5 files changed, 166 insertions(+)
+
+commit 1617c9dea20ed9c7c6c0621c50f4feb5597cdf8f
+Author: Mohsin <moh7in2raza@gmail.com>
+Date:   Mon Nov 9 21:20:04 2026 +0500
+
+    Phase 3 foundation database setup completed
+
+ Mohsin_Vsh_News.tv.code-workspace | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+commit c4f837e900781281036d5c3878e6633ddb53a066
+Author: moh7in2raza-arch <moh7in2raza@gmail.com>
+Date:   Mon Nov 9 20:24:35 2026 +0500
+
+    Initial project skeleton per ADR-001
+
+ .env.example                                       |  5 +++
+ .gitignore                                         |  7 ++++
+ README.md                                          |  1 +
+ archive/.gitkeep                                   |  1 +
+ .../ADR-001-canonical-technology-stack.md          | 43 ++++++++++++++++++++++
+ installer/inno_setup/.gitkeep                      |  1 +
+ requirements.lock.txt                              | 17 +++++++++
+ requirements.txt                                   |  4 ++
+ run.py                                             |  6 +++
+ src/app/__init__.py                                |  0
+ src/app/application/__init__.py                    |  0
+ src/app/application/commands/__init__.py           |  0
+ src/app/application/queries/__init__.py            |  0
+ src/app/application/security/__init__.py           |  0
+ src/app/application/services/__init__.py           |  0
+ src/app/domain/__init__.py                         |  0
+ src/app/domain/accounting/__init__.py              |  0
+ src/app/domain/audit/__init__.py                   |  0
+ src/app/domain/hr/__init__.py                      |  0
+ src/app/domain/inventory/__init__.py               |  0
+ src/app/domain/payroll/__init__.py                 |  0
+ src/app/infrastructure/__init__.py                 |  0
+ src/app/infrastructure/backup/__init__.py          |  0
+ src/app/infrastructure/database/__init__.py        |  0
+ .../infrastructure/database/migrations/__init__.py |  0
+ src/app/infrastructure/logging/__init__.py         |  0
+ src/app/infrastructure/reports/__init__.py         |  0
+ src/app/infrastructure/repositories/__init__.py    |  0
+ src/app/main.py                                    | 11 ++++++
+ src/app/ui/__init__.py                             |  0
+ tests/accounting/.gitkeep                          |  1 +
+ tests/integration/.gitkeep                         |  1 +
+ tests/unit/.gitkeep                                |  1 +
+ 33 files changed, 99 insertions(+)
