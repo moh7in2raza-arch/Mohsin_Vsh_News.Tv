@@ -1,0 +1,725 @@
+============================================================
+          COMPLETE PYTHON PROJECT STATUS REPORT
+============================================================
+
+
+============================================================
+ 1. PROJECT INFORMATION
+============================================================
+Project Root: C:\Mohsin_Vsh_News.tv
+
+Audit Date: 11/17/2026 20:35:43
+
+Computer: DESKTOP-32HV88K
+
+User: MohsinDev
+
+PowerShell: 7.7.0
+
+
+
+============================================================
+ 2. COMPLETE PROJECT STRUCTURE
+============================================================
+[DIR]  .vscode
+[DIR]  archive
+[DIR]  assets
+[DIR]  AUDIT_RECORDS
+[DIR]  docs
+[DIR]  installer
+[DIR]  media
+[DIR]  src
+[DIR]  static
+[DIR]  tests
+[FILE] .env (85 bytes)
+[FILE] .env.example (89 bytes)
+[FILE] .gitignore (69 bytes)
+[FILE] create_first_admin.py (1702 bytes)
+[FILE] PROJECT_COMPLETE_STATUS_REPORT.txt (625 bytes)
+[FILE] pyproject.toml (209 bytes)
+[FILE] README.md (25 bytes)
+[FILE] requirements.txt (177 bytes)
+[FILE] run.py (97 bytes)
+[FILE] .vscode\settings.json (107 bytes)
+[DIR]  archive\old_prototypes
+[DIR]  archive\sql_drafts
+[FILE] archive\.gitkeep (1443 bytes)
+[DIR]  archive\old_prototypes\Decisions_adr_postgres
+[DIR]  archive\old_prototypes\src
+[DIR]  archive\old_prototypes\tests
+[DIR]  archive\old_prototypes\tools
+[DIR]  archive\old_prototypes\ui
+[FILE] archive\old_prototypes\backup_before_0006.sql (20104 bytes)
+[FILE] archive\old_prototypes\erp_office_phase3.sql (1388 bytes)
+[FILE] archive\old_prototypes\git_report.txt (10992 bytes)
+[FILE] archive\old_prototypes\PROJECT_COMPLETE_STATUS_REPORT.txt (21992 bytes)
+[FILE] archive\old_prototypes\PROJECT_DIAGNOSTIC_REPORT.txt (2672872 bytes)
+[FILE] archive\old_prototypes\project_structure.txt (1016981 bytes)
+[FILE] archive\old_prototypes\project_summary.txt (15651 bytes)
+[FILE] archive\old_prototypes\requirements.lock.txt (348 bytes)
+[FILE] archive\old_prototypes\src_structure.txt (8289 bytes)
+[FILE] archive\old_prototypes\voucher_service.py.backup_20261117_163748 (9046 bytes)
+[FILE] archive\old_prototypes\Decisions_adr_postgres\ADR-0001-canonical-technology-stack.md (1381 bytes)
+[DIR]  archive\old_prototypes\src\app
+[FILE] archive\old_prototypes\src\__init__.py (0 bytes)
+[DIR]  archive\old_prototypes\src\app\application
+[DIR]  archive\old_prototypes\src\app\domain
+[DIR]  archive\old_prototypes\src\app\infrastructure
+[DIR]  archive\old_prototypes\src\app\resources
+[DIR]  archive\old_prototypes\src\app\ui
+[FILE] archive\old_prototypes\src\app\__init__.py (492 bytes)
+[FILE] archive\old_prototypes\src\app\bootstrap.py (744 bytes)
+[FILE] archive\old_prototypes\src\app\main.py (1444 bytes)
+[DIR]  archive\old_prototypes\src\app\application\commands
+[DIR]  archive\old_prototypes\src\app\application\queries
+[DIR]  archive\old_prototypes\src\app\application\security
+[DIR]  archive\old_prototypes\src\app\application\services
+[FILE] archive\old_prototypes\src\app\application\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\application\context.py (689 bytes)
+[FILE] archive\old_prototypes\src\app\application\dto.py (1151 bytes)
+[FILE] archive\old_prototypes\src\app\application\session.py (267 bytes)
+[FILE] archive\old_prototypes\src\app\application\commands\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\application\queries\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\application\security\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\account_service.py (1939 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\auth_service.py (2652 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\employee_service.py (1069 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\permission_service.py (363 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\posting_service.py (1055 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\report_service.py (1731 bytes)
+[FILE] archive\old_prototypes\src\app\application\services\voucher_service.py (8515 bytes)
+[DIR]  archive\old_prototypes\src\app\domain\accounting
+[DIR]  archive\old_prototypes\src\app\domain\audit
+[DIR]  archive\old_prototypes\src\app\domain\hr
+[DIR]  archive\old_prototypes\src\app\domain\inventory
+[DIR]  archive\old_prototypes\src\app\domain\payroll
+[DIR]  archive\old_prototypes\src\app\domain\security
+[FILE] archive\old_prototypes\src\app\domain\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\domain\workflow.py (473 bytes)
+[FILE] archive\old_prototypes\src\app\domain\accounting\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\domain\accounting\chart.py (453 bytes)
+[FILE] archive\old_prototypes\src\app\domain\accounting\journal.py (1507 bytes)
+[FILE] archive\old_prototypes\src\app\domain\accounting\money.py (677 bytes)
+[FILE] archive\old_prototypes\src\app\domain\audit\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\domain\hr\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\domain\hr\employee.py (1091 bytes)
+[FILE] archive\old_prototypes\src\app\domain\inventory\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\domain\payroll\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\domain\security\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\domain\security\permissions.py (542 bytes)
+[DIR]  archive\old_prototypes\src\app\infrastructure\backup
+[DIR]  archive\old_prototypes\src\app\infrastructure\database
+[DIR]  archive\old_prototypes\src\app\infrastructure\logging
+[DIR]  archive\old_prototypes\src\app\infrastructure\reports
+[DIR]  archive\old_prototypes\src\app\infrastructure\repositories
+[FILE] archive\old_prototypes\src\app\infrastructure\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\backup\__init__.py (0 bytes)
+[DIR]  archive\old_prototypes\src\app\infrastructure\database\migrations
+[FILE] archive\old_prototypes\src\app\infrastructure\database\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\connection.py (854 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrator.py (1428 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\unit_of_work.py (1631 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrations\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrations\0001_core.sql (2717 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrations\0002_hr.sql (572 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrations\0003_administration.sql (549 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrations\0004_vouchers.sql (527 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrations\0005_journal.sql (870 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\database\migrations\0006_accounting_integrity.sql (2530 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\logging\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\logging\setup.py (623 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\reports\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\_sql.py (375 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\account_repository.py (1210 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\audit_repository.py (347 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\employee_repository.py (743 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\permission_repository.py (524 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\report_repository.py (1651 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\user_repository.py (1035 bytes)
+[FILE] archive\old_prototypes\src\app\infrastructure\repositories\voucher_repository.py (4098 bytes)
+[FILE] archive\old_prototypes\src\app\ui\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\src\app\ui\accounts_view.py (2948 bytes)
+[FILE] archive\old_prototypes\src\app\ui\employees_view.py (1759 bytes)
+[FILE] archive\old_prototypes\src\app\ui\login_window_backup.py (2498 bytes)
+[FILE] archive\old_prototypes\src\app\ui\login_window.py (2498 bytes)
+[FILE] archive\old_prototypes\src\app\ui\main_window.py (2708 bytes)
+[FILE] archive\old_prototypes\src\app\ui\reports_view.py (5752 bytes)
+[FILE] archive\old_prototypes\src\app\ui\style.py (1808 bytes)
+[FILE] archive\old_prototypes\src\app\ui\support.py (3899 bytes)
+[FILE] archive\old_prototypes\src\app\ui\voucher_dialog.py (4728 bytes)
+[FILE] archive\old_prototypes\src\app\ui\vouchers_view.py (6000 bytes)
+[DIR]  archive\old_prototypes\tests\accounting
+[DIR]  archive\old_prototypes\tests\integration
+[DIR]  archive\old_prototypes\tests\unit
+[FILE] archive\old_prototypes\tests\test_posting.py (1402 bytes)
+[FILE] archive\old_prototypes\tests\accounting\.gitkeep (2 bytes)
+[FILE] archive\old_prototypes\tests\integration\.gitkeep (2 bytes)
+[FILE] archive\old_prototypes\tests\integration\test_voucher_flow.py (4265 bytes)
+[FILE] archive\old_prototypes\tests\unit\.gitkeep (2 bytes)
+[FILE] archive\old_prototypes\tests\unit\test_journal.py (1751 bytes)
+[FILE] archive\old_prototypes\tests\unit\test_money.py (572 bytes)
+[FILE] archive\old_prototypes\tests\unit\test_workflow.py (291 bytes)
+[FILE] archive\old_prototypes\tools\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\tools\build_exe.ps1 (1917 bytes)
+[FILE] archive\old_prototypes\tools\check_db.py (865 bytes)
+[FILE] archive\old_prototypes\tools\check_schema.py (2397 bytes)
+[FILE] archive\old_prototypes\tools\migrate.py (183 bytes)
+[FILE] archive\old_prototypes\tools\project_report.ps1 (5423 bytes)
+[FILE] archive\old_prototypes\tools\seed_accounts.py (1262 bytes)
+[FILE] archive\old_prototypes\ui\__init__.py (0 bytes)
+[FILE] archive\old_prototypes\ui\dashboard.py (16478 bytes)
+[DIR]  archive\sql_drafts\database
+[FILE] archive\sql_drafts\database\0001_core_draft.sql (8057 bytes)
+[FILE] assets\vsh_logo.png.png (29254 bytes)
+[DIR]  AUDIT_RECORDS\backup_before_employee_module
+[FILE] AUDIT_RECORDS\ERP_ARCHITECTURE_REVIEW_2026-11-17_18-53-15.txt (3290 bytes)
+[FILE] AUDIT_RECORDS\ERP_BRANCH_COMPARISON_2026-11-17_18-57-54.txt (10261 bytes)
+[FILE] AUDIT_RECORDS\ERP_GIT_RECOVERY_CHECK_2026-11-17_18-55-31.txt (5453 bytes)
+[FILE] AUDIT_RECORDS\ERP_MODULE_FORMS_TEMPLATES_AUDIT_2026-11-17_19-17-34.txt (15332 bytes)
+[FILE] AUDIT_RECORDS\ERP_PATH_DISCOVERY_2026-11-17_18-54-35.txt (3799 bytes)
+[FILE] AUDIT_RECORDS\ERP_PROJECT_AUDIT_2026-11-17_18-46-56.txt (5555 bytes)
+[FILE] AUDIT_RECORDS\ERP_UI_FUNCTIONAL_GAP_REVIEW.txt (45759 bytes)
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\migrations
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\application
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\domain
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\infrastructure
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\ui
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\bootstrap.py (744 bytes)
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\application\services
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\application\context.py (689 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\application\services\employee_service.py (1069 bytes)
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\domain\security
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\domain\security\permissions.py (542 bytes)
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\database
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\repositories
+[DIR]  AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\database\migrations
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\database\unit_of_work.py (1631 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\database\migrations\0007_employee_profile.sql (992 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\repositories\employee_repository.py (743 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\ui\employees_view.py (1759 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\app\ui\main_window.py (2708 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\migrations\__init__.py (0 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\migrations\0001_core.sql (2786 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\migrations\0002_hr.sql (572 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\migrations\0003_administration.sql (549 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\migrations\0004_vouchers.sql (527 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\migrations\0005_journal.sql (870 bytes)
+[FILE] AUDIT_RECORDS\backup_before_employee_module\migrations\0006_accounting_integrity.sql (2530 bytes)
+[DIR]  docs\decisions
+[FILE] docs\project_status_report.md (8523 bytes)
+[FILE] docs\decisions\ADR-0001 (1381 bytes)
+[DIR]  installer\inno_setup
+[FILE] installer\inno_setup\.gitkeep (2 bytes)
+[DIR]  src\app
+[DIR]  src\app\application
+[DIR]  src\app\db
+[DIR]  src\app\domain
+[DIR]  src\app\infrastructure
+[DIR]  src\app\migrations
+[DIR]  src\app\services
+[DIR]  src\app\ui
+[FILE] src\app\__init__.py (492 bytes)
+[FILE] src\app\bootstrap.py (835 bytes)
+[FILE] src\app\main.py (1444 bytes)
+[DIR]  src\app\application\commands
+[DIR]  src\app\application\queries
+[DIR]  src\app\application\security
+[DIR]  src\app\application\services
+[FILE] src\app\application\__init__.py (0 bytes)
+[FILE] src\app\application\context.py (696 bytes)
+[FILE] src\app\application\dto.py (1151 bytes)
+[FILE] src\app\application\session.py (267 bytes)
+[FILE] src\app\application\commands\__init__.py (0 bytes)
+[FILE] src\app\application\queries\__init__.py (0 bytes)
+[FILE] src\app\application\security\__init__.py (0 bytes)
+[FILE] src\app\application\services\__init__.py (0 bytes)
+[FILE] src\app\application\services\account_service.py (1939 bytes)
+[FILE] src\app\application\services\auth_service.py (2652 bytes)
+[FILE] src\app\application\services\employee_service.py (3396 bytes)
+[FILE] src\app\application\services\permission_service.py (363 bytes)
+[FILE] src\app\application\services\posting_service.py (1055 bytes)
+[FILE] src\app\application\services\report_service.py (1731 bytes)
+[FILE] src\app\application\services\voucher_service.py (7081 bytes)
+[DIR]  src\app\db\migrations
+[DIR]  src\app\domain\accounting
+[DIR]  src\app\domain\audit
+[DIR]  src\app\domain\hr
+[DIR]  src\app\domain\inventory
+[DIR]  src\app\domain\payroll
+[DIR]  src\app\domain\security
+[FILE] src\app\domain\__init__.py (0 bytes)
+[FILE] src\app\domain\workflow.py (473 bytes)
+[FILE] src\app\domain\accounting\__init__.py (0 bytes)
+[FILE] src\app\domain\accounting\chart.py (453 bytes)
+[FILE] src\app\domain\accounting\journal.py (1507 bytes)
+[FILE] src\app\domain\accounting\money.py (677 bytes)
+[FILE] src\app\domain\audit\__init__.py (0 bytes)
+[FILE] src\app\domain\hr\__init__.py (0 bytes)
+[FILE] src\app\domain\hr\employee.py (1091 bytes)
+[FILE] src\app\domain\inventory\__init__.py (0 bytes)
+[FILE] src\app\domain\payroll\__init__.py (0 bytes)
+[FILE] src\app\domain\security\__init__.py (0 bytes)
+[FILE] src\app\domain\security\permissions.py (631 bytes)
+[DIR]  src\app\infrastructure\backup
+[DIR]  src\app\infrastructure\database
+[DIR]  src\app\infrastructure\logging
+[DIR]  src\app\infrastructure\reports
+[DIR]  src\app\infrastructure\repositories
+[FILE] src\app\infrastructure\__init__.py (0 bytes)
+[FILE] src\app\infrastructure\backup\__init__.py (0 bytes)
+[DIR]  src\app\infrastructure\database\migrations
+[FILE] src\app\infrastructure\database\__init__.py (0 bytes)
+[FILE] src\app\infrastructure\database\connection.py (854 bytes)
+[FILE] src\app\infrastructure\database\migrator.py (1470 bytes)
+[FILE] src\app\infrastructure\database\unit_of_work.py (1561 bytes)
+[FILE] src\app\infrastructure\database\migrations\__init__.py (0 bytes)
+[FILE] src\app\infrastructure\database\migrations\0001_core.sql (2786 bytes)
+[FILE] src\app\infrastructure\database\migrations\0002_hr.sql (572 bytes)
+[FILE] src\app\infrastructure\database\migrations\0003_administration.sql (549 bytes)
+[FILE] src\app\infrastructure\database\migrations\0004_vouchers.sql (527 bytes)
+[FILE] src\app\infrastructure\database\migrations\0005_journal.sql (870 bytes)
+[FILE] src\app\infrastructure\database\migrations\0006_accounting_integrity.sql (2530 bytes)
+[FILE] src\app\infrastructure\database\migrations\0007_employee_profile.sql (992 bytes)
+[FILE] src\app\infrastructure\logging\__init__.py (0 bytes)
+[FILE] src\app\infrastructure\logging\setup.py (623 bytes)
+[FILE] src\app\infrastructure\reports\__init__.py (0 bytes)
+[FILE] src\app\infrastructure\repositories\__init__.py (0 bytes)
+[FILE] src\app\infrastructure\repositories\_sql.py (375 bytes)
+[FILE] src\app\infrastructure\repositories\account_repository.py (1210 bytes)
+[FILE] src\app\infrastructure\repositories\audit_repository.py (347 bytes)
+[FILE] src\app\infrastructure\repositories\employee_repository.py (4379 bytes)
+[FILE] src\app\infrastructure\repositories\permission_repository.py (524 bytes)
+[FILE] src\app\infrastructure\repositories\report_repository.py (1651 bytes)
+[FILE] src\app\infrastructure\repositories\user_repository.py (1035 bytes)
+[FILE] src\app\infrastructure\repositories\voucher_repository.py (4098 bytes)
+[FILE] src\app\ui\__init__.py (0 bytes)
+[FILE] src\app\ui\accounts_view.py (2948 bytes)
+[FILE] src\app\ui\dashboard_view.py (6722 bytes)
+[FILE] src\app\ui\employees_view.py (9051 bytes)
+[FILE] src\app\ui\login_window_backup.py (2498 bytes)
+[FILE] src\app\ui\login_window.py (2498 bytes)
+[FILE] src\app\ui\main_window.py (3343 bytes)
+[FILE] src\app\ui\reports_view.py (5752 bytes)
+[FILE] src\app\ui\style.py (1808 bytes)
+[FILE] src\app\ui\support.py (3899 bytes)
+[FILE] src\app\ui\voucher_dialog.py (4728 bytes)
+[FILE] src\app\ui\vouchers_view.py (6000 bytes)
+
+
+============================================================
+ 3. PYTHON ENVIRONMENT
+============================================================
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Application     python.exe                                         3.12.1015… C:\Mohsin_Vsh_News.tv\.venv\Scripts\python.exe
+
+
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Application     py.exe                                             3.13.1615… C:\Users\MohsinDev\AppData\Local\Programs\Python\Launcher\py.exe
+
+
+Python 3.12.10
+
+pip 26.3 from C:\Mohsin_Vsh_News.tv\.venv\Lib\site-packages\pip (python 3.12)
+
+
+Executable: C:\Mohsin_Vsh_News.tv\.venv\Scripts\python.exe
+Prefix: C:\Mohsin_Vsh_News.tv\.venv
+Base Prefix: C:\Users\MohsinDev\AppData\Local\Programs\Python\Python312
+Virtual Environment: True
+
+
+
+============================================================
+ 4. INSTALLED PYTHON PACKAGES
+============================================================
+Package                   Version
+------------------------- ----------
+altgraph                  0.17.5
+argon2-cffi               25.1.0
+argon2-cffi-bindings      26.2.0
+asgiref                   3.13.0
+cffi                      2.1.1
+colorama                  0.4.6
+customtkinter             6.0.0
+darkdetect                0.8.0
+Django                    6.1.3
+iniconfig                 2.3.1
+packaging                 26.3
+pefile                    2024.8.26
+pip                       26.3
+pluggy                    1.7.0
+psycopg                   3.3.9
+psycopg-binary            3.3.9
+pycparser                 3.12
+Pygments                  2.21.0
+pyinstaller               6.22.3
+pyinstaller-hooks-contrib 2026.10
+PySide6                   6.12.0
+PySide6_Addons            6.12.0
+PySide6_Essentials        6.12.0
+PySide6_Pdf               6.12.0.140
+PySide6_WebEngine         6.12.0.140
+pytest                    9.2.0
+python-dotenv             1.2.4
+pywin32-ctypes            0.2.3
+setuptools                84.2.1
+shiboken6                 6.12.0
+sqlparse                  0.6.1
+typing_extensions         4.16.0
+tzdata                    2026.6
+
+
+
+============================================================
+ 5. DEPENDENCY FILES
+============================================================
+FOUND: requirements.txt
+@'
+PySide6==6.12.0
+psycopg[binary]>=3.2
+python-dotenv>=1.0
+argon2-cffi==25.1.0
+pytest==9.2.0
+pyinstaller==6.22.3
+'@ | Set-Content -Path requirements.txt -Encoding ASCII
+FOUND: pyproject.toml
+[project]
+name = "erp-office-management"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["archive", ".venv", "build", "dist"]
+pythonpath = ["."]
+
+
+============================================================
+ 6. GIT REPOSITORY STATUS
+============================================================
+C:/Mohsin_Vsh_News.tv
+
+## master...origin/master [ahead 2]
+?? AUDIT_RECORDS/
+?? PROJECT_COMPLETE_STATUS_REPORT.txt
+?? create_first_admin.py
+?? docs/decisions/
+?? src/
+
+* master       0d10389 [origin/master: ahead 2] Week 1: archive prototypes to archive/, remove Django and HR prototype
+  rescue       e15df7d Add installer.iss, update requirements and build script
+  rescue-week6 670b792 Clean startup configuration and environment setup
+
+origin	https://github.com/moh7in2raza-arch/Mohsin_Vsh_News.Tv.git (fetch)
+origin	https://github.com/moh7in2raza-arch/Mohsin_Vsh_News.Tv.git (push)
+
+0d10389 (HEAD -> master) Week 1: archive prototypes to archive/, remove Django and HR prototype
+1dae8ca (tag: prototype-sqlite-start) Prototype snapshot before SQLite restructure
+3db5e68 (origin/master) Phase 18: Professional employee management UI
+03c2e22 Phase 18: Employee UI redesign and style system
+a20272b Connect employee screen to dashboard
+63416dc Fix dashboard runtime errors and welcome banner
+2ce7cc8 Phase 15: Add employee management UI
+25aa382 Phase 14: Add employee domain, service and repository
+e4c137f Phase 12: Configure PostgreSQL backend and Django server
+eaf2124 Phase 11: Add Django framework integration and initial migrations
+
+
+
+?? AUDIT_RECORDS/
+?? PROJECT_COMPLETE_STATUS_REPORT.txt
+?? create_first_admin.py
+?? docs/decisions/
+?? src/
+
+
+
+============================================================
+ 7. PYTHON SOURCE FILES
+============================================================
+create_first_admin.py | 1702 bytes | 44 lines
+run.py | 97 bytes | 5 lines
+archive\old_prototypes\src\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\__init__.py | 492 bytes | 20 lines
+archive\old_prototypes\src\app\bootstrap.py | 744 bytes | 16 lines
+archive\old_prototypes\src\app\main.py | 1444 bytes | 37 lines
+archive\old_prototypes\src\app\application\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\application\context.py | 689 bytes | 16 lines
+archive\old_prototypes\src\app\application\dto.py | 1151 bytes | 46 lines
+archive\old_prototypes\src\app\application\session.py | 267 bytes | 9 lines
+archive\old_prototypes\src\app\application\commands\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\application\queries\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\application\security\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\application\services\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\application\services\account_service.py | 1939 bytes | 35 lines
+archive\old_prototypes\src\app\application\services\auth_service.py | 2652 bytes | 58 lines
+archive\old_prototypes\src\app\application\services\employee_service.py | 1069 bytes | 23 lines
+archive\old_prototypes\src\app\application\services\permission_service.py | 363 bytes | 13 lines
+archive\old_prototypes\src\app\application\services\posting_service.py | 1055 bytes | 35 lines
+archive\old_prototypes\src\app\application\services\report_service.py | 1731 bytes | 30 lines
+archive\old_prototypes\src\app\application\services\voucher_service.py | 8515 bytes | 239 lines
+archive\old_prototypes\src\app\domain\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\domain\workflow.py | 473 bytes | 27 lines
+archive\old_prototypes\src\app\domain\accounting\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\domain\accounting\chart.py | 453 bytes | 14 lines
+archive\old_prototypes\src\app\domain\accounting\journal.py | 1507 bytes | 37 lines
+archive\old_prototypes\src\app\domain\accounting\money.py | 677 bytes | 13 lines
+archive\old_prototypes\src\app\domain\audit\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\domain\hr\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\domain\hr\employee.py | 1091 bytes | 33 lines
+archive\old_prototypes\src\app\domain\inventory\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\domain\payroll\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\domain\security\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\domain\security\permissions.py | 542 bytes | 14 lines
+archive\old_prototypes\src\app\infrastructure\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\infrastructure\backup\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\infrastructure\database\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\infrastructure\database\connection.py | 854 bytes | 23 lines
+archive\old_prototypes\src\app\infrastructure\database\migrator.py | 1428 bytes | 37 lines
+archive\old_prototypes\src\app\infrastructure\database\unit_of_work.py | 1631 bytes | 31 lines
+archive\old_prototypes\src\app\infrastructure\database\migrations\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\infrastructure\logging\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\infrastructure\logging\setup.py | 623 bytes | 17 lines
+archive\old_prototypes\src\app\infrastructure\reports\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\infrastructure\repositories\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\infrastructure\repositories\_sql.py | 375 bytes | 10 lines
+archive\old_prototypes\src\app\infrastructure\repositories\account_repository.py | 1210 bytes | 28 lines
+archive\old_prototypes\src\app\infrastructure\repositories\audit_repository.py | 347 bytes | 8 lines
+archive\old_prototypes\src\app\infrastructure\repositories\employee_repository.py | 743 bytes | 17 lines
+archive\old_prototypes\src\app\infrastructure\repositories\permission_repository.py | 524 bytes | 14 lines
+archive\old_prototypes\src\app\infrastructure\repositories\report_repository.py | 1651 bytes | 39 lines
+archive\old_prototypes\src\app\infrastructure\repositories\user_repository.py | 1035 bytes | 29 lines
+archive\old_prototypes\src\app\infrastructure\repositories\voucher_repository.py | 4098 bytes | 90 lines
+archive\old_prototypes\src\app\ui\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\src\app\ui\accounts_view.py | 2948 bytes | 72 lines
+archive\old_prototypes\src\app\ui\employees_view.py | 1759 bytes | 53 lines
+archive\old_prototypes\src\app\ui\login_window_backup.py | 2498 bytes | 63 lines
+archive\old_prototypes\src\app\ui\login_window.py | 2498 bytes | 63 lines
+archive\old_prototypes\src\app\ui\main_window.py | 2708 bytes | 74 lines
+archive\old_prototypes\src\app\ui\reports_view.py | 5752 bytes | 140 lines
+archive\old_prototypes\src\app\ui\style.py | 1808 bytes | 91 lines
+archive\old_prototypes\src\app\ui\support.py | 3899 bytes | 85 lines
+archive\old_prototypes\src\app\ui\voucher_dialog.py | 4728 bytes | 118 lines
+archive\old_prototypes\src\app\ui\vouchers_view.py | 6000 bytes | 128 lines
+archive\old_prototypes\tests\test_posting.py | 1402 bytes | 52 lines
+archive\old_prototypes\tests\integration\test_voucher_flow.py | 4265 bytes | 85 lines
+archive\old_prototypes\tests\unit\test_journal.py | 1751 bytes | 41 lines
+archive\old_prototypes\tests\unit\test_money.py | 572 bytes | 15 lines
+archive\old_prototypes\tests\unit\test_workflow.py | 291 bytes | 14 lines
+archive\old_prototypes\tools\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\tools\check_db.py | 865 bytes | 27 lines
+archive\old_prototypes\tools\check_schema.py | 2397 bytes | 44 lines
+archive\old_prototypes\tools\migrate.py | 183 bytes | 4 lines
+archive\old_prototypes\tools\seed_accounts.py | 1262 bytes | 28 lines
+archive\old_prototypes\ui\__init__.py | 0 bytes | 0 lines
+archive\old_prototypes\ui\dashboard.py | 16478 bytes | 404 lines
+AUDIT_RECORDS\backup_before_employee_module\app\bootstrap.py | 744 bytes | 16 lines
+AUDIT_RECORDS\backup_before_employee_module\app\application\context.py | 689 bytes | 16 lines
+AUDIT_RECORDS\backup_before_employee_module\app\application\services\employee_service.py | 1069 bytes | 23 lines
+AUDIT_RECORDS\backup_before_employee_module\app\domain\security\permissions.py | 542 bytes | 14 lines
+AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\database\unit_of_work.py | 1631 bytes | 31 lines
+AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\repositories\employee_repository.py | 743 bytes | 17 lines
+AUDIT_RECORDS\backup_before_employee_module\app\ui\employees_view.py | 1759 bytes | 53 lines
+AUDIT_RECORDS\backup_before_employee_module\app\ui\main_window.py | 2708 bytes | 74 lines
+AUDIT_RECORDS\backup_before_employee_module\migrations\__init__.py | 0 bytes | 0 lines
+src\app\__init__.py | 492 bytes | 20 lines
+src\app\bootstrap.py | 835 bytes | 18 lines
+src\app\main.py | 1444 bytes | 37 lines
+src\app\application\__init__.py | 0 bytes | 0 lines
+src\app\application\context.py | 696 bytes | 16 lines
+src\app\application\dto.py | 1151 bytes | 46 lines
+src\app\application\session.py | 267 bytes | 9 lines
+src\app\application\commands\__init__.py | 0 bytes | 0 lines
+src\app\application\queries\__init__.py | 0 bytes | 0 lines
+src\app\application\security\__init__.py | 0 bytes | 0 lines
+src\app\application\services\__init__.py | 0 bytes | 0 lines
+src\app\application\services\account_service.py | 1939 bytes | 35 lines
+src\app\application\services\auth_service.py | 2652 bytes | 58 lines
+src\app\application\services\employee_service.py | 3396 bytes | 70 lines
+src\app\application\services\permission_service.py | 363 bytes | 13 lines
+src\app\application\services\posting_service.py | 1055 bytes | 35 lines
+src\app\application\services\report_service.py | 1731 bytes | 30 lines
+src\app\application\services\voucher_service.py | 7081 bytes | 126 lines
+src\app\domain\__init__.py | 0 bytes | 0 lines
+src\app\domain\workflow.py | 473 bytes | 27 lines
+src\app\domain\accounting\__init__.py | 0 bytes | 0 lines
+src\app\domain\accounting\chart.py | 453 bytes | 14 lines
+src\app\domain\accounting\journal.py | 1507 bytes | 37 lines
+src\app\domain\accounting\money.py | 677 bytes | 13 lines
+src\app\domain\audit\__init__.py | 0 bytes | 0 lines
+src\app\domain\hr\__init__.py | 0 bytes | 0 lines
+src\app\domain\hr\employee.py | 1091 bytes | 33 lines
+src\app\domain\inventory\__init__.py | 0 bytes | 0 lines
+src\app\domain\payroll\__init__.py | 0 bytes | 0 lines
+src\app\domain\security\__init__.py | 0 bytes | 0 lines
+src\app\domain\security\permissions.py | 631 bytes | 17 lines
+src\app\infrastructure\__init__.py | 0 bytes | 0 lines
+src\app\infrastructure\backup\__init__.py | 0 bytes | 0 lines
+src\app\infrastructure\database\__init__.py | 0 bytes | 0 lines
+src\app\infrastructure\database\connection.py | 854 bytes | 23 lines
+src\app\infrastructure\database\migrator.py | 1470 bytes | 37 lines
+src\app\infrastructure\database\unit_of_work.py | 1561 bytes | 30 lines
+src\app\infrastructure\database\migrations\__init__.py | 0 bytes | 0 lines
+src\app\infrastructure\logging\__init__.py | 0 bytes | 0 lines
+src\app\infrastructure\logging\setup.py | 623 bytes | 17 lines
+src\app\infrastructure\reports\__init__.py | 0 bytes | 0 lines
+src\app\infrastructure\repositories\__init__.py | 0 bytes | 0 lines
+src\app\infrastructure\repositories\_sql.py | 375 bytes | 10 lines
+src\app\infrastructure\repositories\account_repository.py | 1210 bytes | 28 lines
+src\app\infrastructure\repositories\audit_repository.py | 347 bytes | 8 lines
+src\app\infrastructure\repositories\employee_repository.py | 4379 bytes | 105 lines
+src\app\infrastructure\repositories\permission_repository.py | 524 bytes | 14 lines
+src\app\infrastructure\repositories\report_repository.py | 1651 bytes | 39 lines
+src\app\infrastructure\repositories\user_repository.py | 1035 bytes | 29 lines
+src\app\infrastructure\repositories\voucher_repository.py | 4098 bytes | 90 lines
+src\app\ui\__init__.py | 0 bytes | 0 lines
+src\app\ui\accounts_view.py | 2948 bytes | 72 lines
+src\app\ui\dashboard_view.py | 6722 bytes | 180 lines
+src\app\ui\employees_view.py | 9051 bytes | 198 lines
+src\app\ui\login_window_backup.py | 2498 bytes | 63 lines
+src\app\ui\login_window.py | 2498 bytes | 63 lines
+src\app\ui\main_window.py | 3343 bytes | 86 lines
+src\app\ui\reports_view.py | 5752 bytes | 140 lines
+src\app\ui\style.py | 1808 bytes | 91 lines
+src\app\ui\support.py | 3899 bytes | 85 lines
+src\app\ui\voucher_dialog.py | 4728 bytes | 118 lines
+src\app\ui\vouchers_view.py | 6000 bytes | 128 lines
+Total Python Files: 147
+
+
+
+============================================================
+ 8. ARCHITECTURE DIRECTORIES
+============================================================
+FOUND: src
+FOUND: src/app
+FOUND: src/app/domain
+FOUND: src/app/application
+FOUND: src/app/infrastructure
+NOT FOUND: src/app/presentation
+NOT FOUND: src/app/interfaces
+FOUND: tests
+NOT FOUND: migrations
+NOT FOUND: alembic
+FOUND: docs
+NOT FOUND: scripts
+NOT FOUND: config
+FOUND: assets
+
+
+============================================================
+ 9. TESTS AND TEST CONFIGURATION
+============================================================
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\test_posting.py
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\accounting\.gitkeep
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\integration\.gitkeep
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\integration\test_voucher_flow.py
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\unit\.gitkeep
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\unit\test_journal.py
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\unit\test_money.py
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\tests\unit\test_workflow.py
+
+Test Files Found: 8
+
+
+
+============================================================
+ 10. TODO / FIXME / PASS / NOT IMPLEMENTED
+============================================================
+\archive\old_prototypes\src\app\application\services\account_service.py : Line 13 : pass
+\archive\old_prototypes\src\app\application\services\auth_service.py : Line 14 : pass
+\archive\old_prototypes\src\app\application\services\permission_service.py : Line 2 : pass
+\archive\old_prototypes\src\app\application\services\posting_service.py : Line 7 : pass
+\archive\old_prototypes\src\app\application\services\voucher_service.py : Line 25 : pass
+\archive\old_prototypes\src\app\domain\accounting\journal.py : Line 11 : pass
+\archive\old_prototypes\src\app\ui\employees_view.py : Line 66 : pass
+\AUDIT_RECORDS\backup_before_employee_module\app\ui\employees_view.py : Line 66 : pass
+\src\app\application\services\account_service.py : Line 13 : pass
+\src\app\application\services\auth_service.py : Line 14 : pass
+\src\app\application\services\employee_service.py : Line 8 : pass
+\src\app\application\services\permission_service.py : Line 2 : pass
+\src\app\application\services\posting_service.py : Line 7 : pass
+\src\app\application\services\voucher_service.py : Line 22 : pass
+\src\app\domain\accounting\journal.py : Line 11 : pass
+
+
+============================================================
+ 11. PROJECT CONFIGURATION
+============================================================
+FOUND: .gitignore
+FOUND: .env.example
+FOUND: README.md
+FOUND: pyproject.toml
+MISSING: pytest.ini
+MISSING: tox.ini
+MISSING: .python-version
+MISSING: alembic.ini
+MISSING: Dockerfile
+MISSING: docker-compose.yml
+FOUND: .vscode/settings.json
+MISSING: .vscode/launch.json
+MISSING: .vscode/tasks.json
+
+
+============================================================
+ 12. DATABASE FILES
+============================================================
+
+FullName                                                                                                                           Length
+--------                                                                                                                           ------
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\backup_before_0006.sql                                                                 20104
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\erp_office_phase3.sql                                                                   1388
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\src\app\infrastructure\database\migrations\0001_core.sql                                2717
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\src\app\infrastructure\database\migrations\0002_hr.sql                                   572
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\src\app\infrastructure\database\migrations\0003_administration.sql                       549
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\src\app\infrastructure\database\migrations\0004_vouchers.sql                             527
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\src\app\infrastructure\database\migrations\0005_journal.sql                              870
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\src\app\infrastructure\database\migrations\0006_accounting_integrity.sql                2530
+C:\Mohsin_Vsh_News.tv\archive\sql_drafts\database\0001_core_draft.sql                                                                8057
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\database\migrations\0007_employee_profile.sql    992
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employee_module\migrations\0001_core.sql                                           2786
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employee_module\migrations\0002_hr.sql                                              572
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employee_module\migrations\0003_administration.sql                                  549
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employee_module\migrations\0004_vouchers.sql                                        527
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employee_module\migrations\0005_journal.sql                                         870
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employee_module\migrations\0006_accounting_integrity.sql                           2530
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\0001_core.sql                                                       2786
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\0002_hr.sql                                                          572
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\0003_administration.sql                                              549
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\0004_vouchers.sql                                                    527
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\0005_journal.sql                                                     870
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\0006_accounting_integrity.sql                                       2530
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\0007_employee_profile.sql                                            992
+
+
+
+
+============================================================
+ 13. ENVIRONMENT FILES (NAMES ONLY)
+============================================================
+C:\Mohsin_Vsh_News.tv\.env
+C:\Mohsin_Vsh_News.tv\.env.example
+
+
+============================================================
+ 14. FINAL AUDIT SUMMARY
+============================================================
+Project Root: C:\Mohsin_Vsh_News.tv
+
+Python Files: 147
+
+Test Files: 8
+
+Git Repository: True
+
+Virtual Environment: True
+
+Report Generated: C:\Mohsin_Vsh_News.tv\PROJECT_COMPLETE_STATUS_REPORT.txt
+

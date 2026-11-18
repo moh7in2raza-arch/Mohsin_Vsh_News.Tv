@@ -1,216 +1,67 @@
-Folder PATH listing
-Volume serial number is 00000085 B08F:8615
-C:\MOHSIN_VSH_NEWS.TV\SRC
-³   __init__.py
-³   
-ÃÄÄÄapp
-³   ³   bootstrap.py
-³   ³   main.py
-³   ³   __init__.py
-³   ³   
-³   ÃÄÄÄapplication
-³   ³   ³   context.py
-³   ³   ³   dto.py
-³   ³   ³   session.py
-³   ³   ³   __init__.py
-³   ³   ³   
-³   ³   ÃÄÄÄcommands
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄqueries
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄsecurity
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄservices
-³   ³   ³   ³   account_service.py
-³   ³   ³   ³   auth_service.py
-³   ³   ³   ³   permission_service.py
-³   ³   ³   ³   posting_service.py
-³   ³   ³   ³   report_service.py
-³   ³   ³   ³   voucher_service.py
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           account_service.cpython-312.pyc
-³   ³   ³           auth_service.cpython-312.pyc
-³   ³   ³           permission_service.cpython-312.pyc
-³   ³   ³           posting_service.cpython-312.pyc
-³   ³   ³           report_service.cpython-312.pyc
-³   ³   ³           voucher_service.cpython-312.pyc
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÀÄÄÄ__pycache__
-³   ³           context.cpython-312.pyc
-³   ³           dto.cpython-312.pyc
-³   ³           session.cpython-312.pyc
-³   ³           __init__.cpython-312.pyc
-³   ³           
-³   ÃÄÄÄdomain
-³   ³   ³   workflow.py
-³   ³   ³   __init__.py
-³   ³   ³   
-³   ³   ÃÄÄÄaccounting
-³   ³   ³   ³   chart.py
-³   ³   ³   ³   journal.py
-³   ³   ³   ³   money.py
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           chart.cpython-312.pyc
-³   ³   ³           journal.cpython-312.pyc
-³   ³   ³           money.cpython-312.pyc
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄaudit
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄhr
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄinventory
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄpayroll
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄsecurity
-³   ³   ³   ³   permissions.py
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           permissions.cpython-312.pyc
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÀÄÄÄ__pycache__
-³   ³           workflow.cpython-312.pyc
-³   ³           __init__.cpython-312.pyc
-³   ³           
-³   ÃÄÄÄinfrastructure
-³   ³   ³   __init__.py
-³   ³   ³   
-³   ³   ÃÄÄÄbackup
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄdatabase
-³   ³   ³   ³   connection.py
-³   ³   ³   ³   migrator.py
-³   ³   ³   ³   unit_of_work.py
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÃÄÄÄmigrations
-³   ³   ³   ³   ³   0001_core.sql
-³   ³   ³   ³   ³   0002_hr.sql
-³   ³   ³   ³   ³   0003_administration.sql
-³   ³   ³   ³   ³   0004_vouchers.sql
-³   ³   ³   ³   ³   0005_journal.sql
-³   ³   ³   ³   ³   0006_accounting_integrity.sql
-³   ³   ³   ³   ³   __init__.py
-³   ³   ³   ³   ³   
-³   ³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³   ³           
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           connection.cpython-312.pyc
-³   ³   ³           migrator.cpython-312.pyc
-³   ³   ³           unit_of_work.cpython-312.pyc
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄlogging
-³   ³   ³   ³   setup.py
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           setup.cpython-312.pyc
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄreports
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÃÄÄÄrepositories
-³   ³   ³   ³   account_repository.py
-³   ³   ³   ³   audit_repository.py
-³   ³   ³   ³   permission_repository.py
-³   ³   ³   ³   report_repository.py
-³   ³   ³   ³   user_repository.py
-³   ³   ³   ³   voucher_repository.py
-³   ³   ³   ³   _sql.py
-³   ³   ³   ³   __init__.py
-³   ³   ³   ³   
-³   ³   ³   ÀÄÄÄ__pycache__
-³   ³   ³           account_repository.cpython-312.pyc
-³   ³   ³           audit_repository.cpython-312.pyc
-³   ³   ³           permission_repository.cpython-312.pyc
-³   ³   ³           report_repository.cpython-312.pyc
-³   ³   ³           user_repository.cpython-312.pyc
-³   ³   ³           voucher_repository.cpython-312.pyc
-³   ³   ³           _sql.cpython-312.pyc
-³   ³   ³           __init__.cpython-312.pyc
-³   ³   ³           
-³   ³   ÀÄÄÄ__pycache__
-³   ³           __init__.cpython-312.pyc
-³   ³           
-³   ÃÄÄÄresources
-³   ÃÄÄÄui
-³   ³   ³   accounts_view.py
-³   ³   ³   login_window.py
-³   ³   ³   main_window.py
-³   ³   ³   reports_view.py
-³   ³   ³   style.py
-³   ³   ³   support.py
-³   ³   ³   vouchers_view.py
-³   ³   ³   voucher_dialog.py
-³   ³   ³   __init__.py
-³   ³   ³   
-³   ³   ÀÄÄÄ__pycache__
-³   ³           accounts_view.cpython-312.pyc
-³   ³           login_window.cpython-312.pyc
-³   ³           login_window.cpython-314.pyc
-³   ³           main_window.cpython-312.pyc
-³   ³           reports_view.cpython-312.pyc
-³   ³           style.cpython-312.pyc
-³   ³           support.cpython-312.pyc
-³   ³           vouchers_view.cpython-312.pyc
-³   ³           voucher_dialog.cpython-312.pyc
-³   ³           __init__.cpython-312.pyc
-³   ³           __init__.cpython-314.pyc
-³   ³           
-³   ÀÄÄÄ__pycache__
-³           bootstrap.cpython-312.pyc
-³           main.cpython-312.pyc
-³           main.cpython-314.pyc
-³           __init__.cpython-312.pyc
-³           __init__.cpython-314.pyc
-³           
-ÀÄÄÄ__pycache__
-        __init__.cpython-312.pyc
-        __init__.cpython-314.pyc
-        
+
+FullName                                                                           Length
+--------                                                                           ------
+C:\Mohsin_Vsh_News.tv\src\app\application\commands\__init__.py                          0
+C:\Mohsin_Vsh_News.tv\src\app\application\queries\__init__.py                           0
+C:\Mohsin_Vsh_News.tv\src\app\application\security\__init__.py                          0
+C:\Mohsin_Vsh_News.tv\src\app\application\services\__init__.py                          0
+C:\Mohsin_Vsh_News.tv\src\app\application\services\account_service.py                1939
+C:\Mohsin_Vsh_News.tv\src\app\application\services\auth_service.py                   2652
+C:\Mohsin_Vsh_News.tv\src\app\application\services\employee_service.py               1069
+C:\Mohsin_Vsh_News.tv\src\app\application\services\permission_service.py              363
+C:\Mohsin_Vsh_News.tv\src\app\application\services\posting_service.py                1055
+C:\Mohsin_Vsh_News.tv\src\app\application\services\report_service.py                 1731
+C:\Mohsin_Vsh_News.tv\src\app\application\services\voucher_service.py                7081
+C:\Mohsin_Vsh_News.tv\src\app\application\__init__.py                                   0
+C:\Mohsin_Vsh_News.tv\src\app\application\context.py                                  689
+C:\Mohsin_Vsh_News.tv\src\app\application\dto.py                                     1151
+C:\Mohsin_Vsh_News.tv\src\app\application\session.py                                  267
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\__init__.py                             0
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\chart.py                              453
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\journal.py                           1507
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\money.py                              677
+C:\Mohsin_Vsh_News.tv\src\app\domain\audit\__init__.py                                  0
+C:\Mohsin_Vsh_News.tv\src\app\domain\hr\__init__.py                                     0
+C:\Mohsin_Vsh_News.tv\src\app\domain\hr\employee.py                                  1091
+C:\Mohsin_Vsh_News.tv\src\app\domain\inventory\__init__.py                              0
+C:\Mohsin_Vsh_News.tv\src\app\domain\payroll\__init__.py                                0
+C:\Mohsin_Vsh_News.tv\src\app\domain\security\__init__.py                               0
+C:\Mohsin_Vsh_News.tv\src\app\domain\security\permissions.py                          542
+C:\Mohsin_Vsh_News.tv\src\app\domain\__init__.py                                        0
+C:\Mohsin_Vsh_News.tv\src\app\domain\workflow.py                                      473
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\backup\__init__.py                         0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations\__init__.py            0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\__init__.py                       0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\connection.py                   854
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrator.py                    1470
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\unit_of_work.py                1631
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\logging\__init__.py                        0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\logging\setup.py                         623
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\reports\__init__.py                        0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\__init__.py                   0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\_sql.py                     375
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\account_repository.py      1210
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\audit_repository.py         347
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\employee_repository.py      743
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\permission_repository.py    524
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\report_repository.py       1651
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\user_repository.py         1035
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories\voucher_repository.py      4098
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\__init__.py                                0
+C:\Mohsin_Vsh_News.tv\src\app\ui\__init__.py                                            0
+C:\Mohsin_Vsh_News.tv\src\app\ui\accounts_view.py                                    2948
+C:\Mohsin_Vsh_News.tv\src\app\ui\dashboard_view.py                                   6722
+C:\Mohsin_Vsh_News.tv\src\app\ui\employees_view.py                                   1759
+C:\Mohsin_Vsh_News.tv\src\app\ui\login_window_backup.py                              2498
+C:\Mohsin_Vsh_News.tv\src\app\ui\login_window.py                                     2498
+C:\Mohsin_Vsh_News.tv\src\app\ui\main_window.py                                      2708
+C:\Mohsin_Vsh_News.tv\src\app\ui\reports_view.py                                     5752
+C:\Mohsin_Vsh_News.tv\src\app\ui\style.py                                            1808
+C:\Mohsin_Vsh_News.tv\src\app\ui\support.py                                          3899
+C:\Mohsin_Vsh_News.tv\src\app\ui\voucher_dialog.py                                   4728
+C:\Mohsin_Vsh_News.tv\src\app\ui\vouchers_view.py                                    6000
+C:\Mohsin_Vsh_News.tv\src\app\__init__.py                                             492
+C:\Mohsin_Vsh_News.tv\src\app\bootstrap.py                                            744
+C:\Mohsin_Vsh_News.tv\src\app\main.py                                                1444
+C:\Mohsin_Vsh_News.tv\src\__init__.py                                                   0
+
