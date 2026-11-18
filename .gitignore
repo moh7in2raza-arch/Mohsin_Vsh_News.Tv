@@ -5,3 +5,4 @@ dist/
 build/work/
 __pycache__/
 backup_*.sql
+AUDIT_RECORDS/
