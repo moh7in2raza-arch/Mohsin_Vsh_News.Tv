@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 from src.app.application.dto import VoucherDetail, VoucherLineRow, VoucherRow
 from src.app.application.services.permission_service import PermissionService
-from src.app.application.services.posting_service import PostingService
+from src.app.application.services.posting_service import PostingError, PostingService
 from src.app.application.session import Session
 from src.app.domain.accounting.journal import (
     JournalError,
@@ -100,11 +100,14 @@ class VoucherService:
                 raise VoucherError(str(ex)) from None
             debits, credits = totals(lines)
             # PostingService holds the posting rules (status, balance, period)
-            PostingService.post_voucher(
-                SimpleNamespace(status=header["status"], period_closed=False,
-                                debits=debits, credits=credits),
-                session.permissions,
-            )
+            try:
+                PostingService.post_voucher(
+                    SimpleNamespace(status=header["status"], period_closed=False,
+                                    debits=debits, credits=credits),
+                    session.permissions,
+                )
+            except PostingError as ex:
+                raise VoucherError(str(ex)) from ex
             self.transition(header["status"], "Posted")
             entry_id = uow.vouchers.create_journal_entry(voucher_id, session.user_id)
             uow.vouchers.insert_journal_lines(entry_id, lines)
