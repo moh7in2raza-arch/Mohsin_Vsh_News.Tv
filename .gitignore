@@ -7,3 +7,7 @@ __pycache__/
 backup_*.sql
 AUDIT_RECORDS/
 AUDIT_RECORDS/
+
+*.zip
+db.sqlite3
+*.sqlite3
