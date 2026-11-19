@@ -434,14 +434,25 @@ class VSHDashboard(QMainWindow):
 
     def _request_module(self, module_name: str) -> None:
         self.status_label.setText(f"Selected: {module_name}")
-
-        if module_name == "Employees":
-            from src.app.ui.employees_view import EmployeesView
-
-        self.employee_window = EmployeesView()
-        self.employee_window.show()
         self.module_requested.emit(module_name)
 
+        # Standalone routing fallback when running dashboard directly
+        if module_name == "Employees":
+            from src.app.ui.employees_view import EmployeesView
+            self.active_window = EmployeesView()
+            self.active_window.show()
+        elif module_name == "Accounts":
+            from src.app.ui.accounts_view import AccountsView
+            self.active_window = AccountsView()
+            self.active_window.show()
+        elif module_name in {"Payment", "Receipt", "Journal", "Sales", "Transactions"}:
+            from src.app.ui.vouchers_view import VouchersView
+            self.active_window = VouchersView()
+            self.active_window.show()
+        elif module_name in {"Ledger", "Trial Balance", "P&L Statement", "Balance Sheet", "Reports"}:
+            from src.app.ui.reports_view import ReportsView
+            self.active_window = ReportsView()
+            self.active_window.show()
 
     def _on_navigation(self, item: str) -> None:
         if item == "Exit":

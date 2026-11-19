@@ -1,6 +1,6 @@
 """Verifies the tables/columns the new code relies on, and compares the
 permission codes in the database with src/app/domain/security/permissions.py.
-Run BEFORE migrate.py:  python tools\\check_schema.py"""
+Run BEFORE migrate.py:  python tools\\"""
 from src.app.domain.security import permissions as P
 from src.app.infrastructure.database.connection import get_connection
 
