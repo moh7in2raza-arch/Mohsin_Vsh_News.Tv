@@ -19,6 +19,8 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 
+from src.app.application.services.auth_service import AuthError
+
 
 WINE = "#4B1427"
 WINE_DARK = "#32101D"
@@ -50,6 +52,18 @@ class LoginWindow(QWidget):
 
         self._build_ui()
         self._load_preferences()
+
+    def reset(self) -> None:
+        self.pass_input.clear()
+        self.status_label.clear()
+        self.login_button.setEnabled(True)
+        self.login_button.setText("LOGIN")
+        self.pass_input.setEchoMode(QLineEdit.EchoMode.Password)
+        self.eye_button.setText("Show")
+        if self.user_input.text():
+            self.pass_input.setFocus()
+        else:
+            self.user_input.setFocus()
 
     # --------------------------------------------------
     # USER INTERFACE
@@ -448,33 +462,16 @@ class LoginWindow(QWidget):
 
         try:
 
-            session = self._auth.authenticate(
+            session = self._auth.login(
                 username,
                 password
             )
 
-            if session:
+        except AuthError as ex:
 
-                self._save_preferences(username)
-
-                self.status_label.setText(
-                    "Authentication successful."
-                )
-
-                self.authenticated.emit(session)
-
-            else:
-
-                self.status_label.setText("")
-
-                QMessageBox.critical(
-                    self,
-                    "Authentication Failed",
-                    "Invalid username or password."
-                )
-
-                self.pass_input.clear()
-                self.pass_input.setFocus()
+            self.status_label.setText(str(ex))
+            self.pass_input.clear()
+            self.pass_input.setFocus()
 
         except Exception:
 
@@ -486,6 +483,17 @@ class LoginWindow(QWidget):
                 "An unexpected authentication error occurred. "
                 "Please contact your system administrator."
             )
+
+        else:
+
+            self._save_preferences(username)
+
+            self.status_label.setText(
+                "Authentication successful."
+            )
+
+            self.pass_input.clear()
+            self.authenticated.emit(session)
 
         finally:
 

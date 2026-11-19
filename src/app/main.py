@@ -18,7 +18,7 @@ class Shell:
         self._services = services
         self._main = None
         self.login = LoginWindow(services.auth)
-        self.login.login_succeeded.connect(self._open_main)
+        self.login.authenticated.connect(self._open_main)
 
     def start(self) -> None:
         self.login.reset()
