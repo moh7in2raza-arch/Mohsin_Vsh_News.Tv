@@ -1,0 +1,321 @@
+﻿========== M.R_VSH_NEWS PROJECT AUDIT ==========
+DATE: 11/20/2026 13:55:29
+
+========== WINDOWS ==========
+
+
+Caption        : Microsoft Windows 10 Pro
+Version        : 10.0.19045
+BuildNumber    : 19045
+OSArchitecture : 64-bit
+
+
+
+
+========== WSL AND HYPER-V ==========
+Get-WindowsOptionalFeature : The requested operation requires elevation.
+
+At line:14 char:1
++ Get-WindowsOptionalFeature -Online |
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Get-WindowsOptionalFeature], COMException
+    + FullyQualifiedErrorId : Microsoft.Dism.Commands.GetWindowsOptionalFeatureCommand
+ 
+D e f a u l t   D i s t r i b u t i o n :   U b u n t u 
+ 
+ D e f a u l t   V e r s i o n :   2 
+ 
+ 
+    N A M E             S T A T E                       V E R S I O N 
+ 
+ *   U b u n t u         S t o p p e d                   2 
+ 
+ 
+
+========== PYTHON ==========
+Python 3.13.7
+D:\_PendingDelete\M.R_Vsh_News_20261031_163414\_verification\M.R_VSH_NEWS_20261024_174651\M.R_VSH_NEWS\.venv\Scripts\python.exe
+C:\Users\HP\AppData\Local\Programs\Python\Python313\python.exe
+C:\Users\HP\AppData\Local\Programs\Python\Python315\python.exe
+python.exe : No Python at '"C:\Users\MohsinDev\AppData\Local\Programs\Python\Python312\python.exe'
+At line:24 char:1
++ & "$P\.venv\Scripts\python.exe" --version
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (No Python at '"...312\python.exe':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+python.exe : No Python at '"C:\Users\MohsinDev\AppData\Local\Programs\Python\Python312\python.exe'
+At line:25 char:1
++ & "$P\.venv\Scripts\python.exe" -m pip check
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (No Python at '"...312\python.exe':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+python.exe : No Python at '"C:\Users\MohsinDev\AppData\Local\Programs\Python\Python312\python.exe'
+At line:26 char:1
++ & "$P\.venv\Scripts\python.exe" -m pip list
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (No Python at '"...312\python.exe':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+========== VS CODE ==========
+1.147.0
+8a14f0cc1b08d531eb83255ea3764ae22aa932b5
+x64
+charliermarsh.ruff
+eamodio.gitlens
+mechatroner.rainbow-csv
+ms-azure-load-testing.microsoft-testing
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance
+ms-python.vscode-python-envs
+ms-vscode-remote.remote-containers
+ms-vscode-remote.remote-ssh
+ms-vscode-remote.remote-ssh-edit
+ms-vscode-remote.remote-wsl
+ms-vscode.cmake-tools
+ms-vscode.cpp-devtools
+ms-vscode.cpptools
+ms-vscode.cpptools-extension-pack
+ms-vscode.cpptools-themes
+ms-vscode.powershell
+ms-vscode.remote-explorer
+ms-vscode.remote-server
+ms-vscode.vscode-chat-customizations-evaluations
+qwtel.sqlite-viewer
+tomoki1207.pdf
+usernamehw.errorlens
+visualdebugger.visualdebugger
+
+========== POSTGRESQL ==========
+
+Name               Status StartType
+----               ------ ---------
+postgresql-x64-18 Running Automatic
+
+
+
+========== GIT ==========
+git : fatal: detected dubious ownership in repository at 'C:/Mohsin_Vsh_News.tv'
+At line:38 char:1
++ git -C $P status --short --branch
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: detected...in_Vsh_News.tv':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+'C:/Mohsin_Vsh_News.tv' is owned by:
+	DESKTOP-32HV88K/MohsinDev (S-1-5-21-4071981596-3365244960-4111816521-1007)
+but the current user is:
+	DESKTOP-32HV88K/HP (S-1-5-21-4071981596-3365244960-4111816521-1001)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Mohsin_Vsh_News.tv
+git : fatal: detected dubious ownership in repository at 'C:/Mohsin_Vsh_News.tv'
+At line:39 char:1
++ git -C $P log -10 --oneline
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (fatal: detected...in_Vsh_News.tv':String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+'C:/Mohsin_Vsh_News.tv' is owned by:
+	DESKTOP-32HV88K/MohsinDev (S-1-5-21-4071981596-3365244960-4111816521-1007)
+but the current user is:
+	DESKTOP-32HV88K/HP (S-1-5-21-4071981596-3365244960-4111816521-1001)
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Mohsin_Vsh_News.tv
+
+========== INNO SETUP ==========
+True
+
+========== PROJECT STRUCTURE ==========
+
+FullName                                                      Length
+--------                                                      ------
+C:\Mohsin_Vsh_News.tv\.env                                        85
+C:\Mohsin_Vsh_News.tv\.env.example                                89
+C:\Mohsin_Vsh_News.tv\.gitignore                                 130
+C:\Mohsin_Vsh_News.tv\Balochistan ERP Finance Dashboard.png  2063497
+C:\Mohsin_Vsh_News.tv\create_first_admin.py                     1702
+C:\Mohsin_Vsh_News.tv\db.sqlite3                              131072
+C:\Mohsin_Vsh_News.tv\erp_office_phase3.sql                     1388
+C:\Mohsin_Vsh_News.tv\git-report-latest.txt                      941
+C:\Mohsin_Vsh_News.tv\git_report.txt                           11195
+C:\Mohsin_Vsh_News.tv\M.R_VSH_NEWS_PROJECT_SETUP_AUDIT.txt         0
+C:\Mohsin_Vsh_News.tv\main_window.py                            3693
+C:\Mohsin_Vsh_News.tv\manage.py                                  684
+C:\Mohsin_Vsh_News.tv\navigation.py                             3957
+C:\Mohsin_Vsh_News.tv\PROJECT_COMPLETE_STATUS_REPORT.txt       41528
+C:\Mohsin_Vsh_News.tv\project_report.txt                        8390
+C:\Mohsin_Vsh_News.tv\PROJECT_SETUP_AUDIT.txt                  21534
+C:\Mohsin_Vsh_News.tv\project_structure.txt                  1016981
+C:\Mohsin_Vsh_News.tv\pyproject.toml                             208
+C:\Mohsin_Vsh_News.tv\README.md                                 6568
+C:\Mohsin_Vsh_News.tv\requirements.lock.txt                      348
+C:\Mohsin_Vsh_News.tv\requirements.txt                           115
+C:\Mohsin_Vsh_News.tv\run.py                                      97
+C:\Mohsin_Vsh_News.tv\screens.py                                 828
+C:\Mohsin_Vsh_News.tv\src_structure.txt                         5919
+C:\Mohsin_Vsh_News.tv\theme.py                                  4128
+C:\Mohsin_Vsh_News.tv\VSH NEWS ERP Dashboard Showcase.png    2010567
+C:\Mohsin_Vsh_News.tv\VSH_ERP_Dashboard_Addon_Integrated.zip   16737
+C:\Mohsin_Vsh_News.tv\VSH_ERP_Dashboard_Integration.zip         5740
+C:\Mohsin_Vsh_News.tv\widgets.py                               13912
+C:\Mohsin_Vsh_News.tv\.vscode\settings.json                       44
+C:\Mohsin_Vsh_News.tv\archive\.gitkeep                          1443
+C:\Mohsin_Vsh_News.tv\archive\old_prototypes\backup_befor...   20104
+C:\Mohsin_Vsh_News.tv\assets\vsh_logo.png.png                  29254
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ERP_ARCHITECTURE_REVI...    3290
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ERP_BRANCH_COMPARISON...   10261
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ERP_GIT_RECOVERY_CHEC...    5453
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ERP_MODULE_FORMS_TEMP...   15332
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ERP_PATH_DISCOVERY_20...    3799
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ERP_PROJECT_AUDIT_202...    5555
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ERP_UI_FUNCTIONAL_GAP...   45759
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\git_branches.txt             158
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\git_history.txt             1547
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\git_status.txt               253
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\git_tags.txt                  99
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\incomplete_code.txt         5314
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\phase19_recovery_hist...    1002
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\phase19_recovery_stat...      65
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\project_structure.txt    1036988
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\project_tree.txt         1035305
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\python_files.txt            5919
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\repositories_report.txt      367
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\services_report.txt          304
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\ui_report.txt                438
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     744
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     689
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...    1069
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     542
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...    1631
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     992
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     743
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...    1759
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...    2708
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...    2786
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     572
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     549
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     527
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...     870
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...    2530
+C:\Mohsin_Vsh_News.tv\AUDIT_RECORDS\backup_before_employe...       0
+C:\Mohsin_Vsh_News.tv\build\installer.iss                        826
+C:\Mohsin_Vsh_News.tv\build\vsh_erp.spec                         564
+C:\Mohsin_Vsh_News.tv\config\asgi.py                             405
+C:\Mohsin_Vsh_News.tv\config\settings.py                        4533
+C:\Mohsin_Vsh_News.tv\config\urls.py                             784
+C:\Mohsin_Vsh_News.tv\config\wsgi.py                             405
+C:\Mohsin_Vsh_News.tv\config\__init__.py                           0
+C:\Mohsin_Vsh_News.tv\DASHBOARD_ADDON\README-INSTALL.txt        1470
+C:\Mohsin_Vsh_News.tv\DASHBOARD_ADDON\src\app\ui\dashboar...    8479
+C:\Mohsin_Vsh_News.tv\DASHBOARD_ADDON\src\app\ui\main_win...    5484
+C:\Mohsin_Vsh_News.tv\DASHBOARD_INTEGRATED\README-INSTALL...    1584
+C:\Mohsin_Vsh_News.tv\DASHBOARD_INTEGRATED\src\app\ui\das...    8479
+C:\Mohsin_Vsh_News.tv\DASHBOARD_INTEGRATED\src\app\ui\mai...    6190
+C:\Mohsin_Vsh_News.tv\docs\project_status_report.md            13332
+C:\Mohsin_Vsh_News.tv\docs\database\0001_core_draft.sql         8057
+C:\Mohsin_Vsh_News.tv\docs\decisions\ADR-0001-canonical-t...    1381
+C:\Mohsin_Vsh_News.tv\docs\hr_prototype\index.html                 0
+C:\Mohsin_Vsh_News.tv\docs\hr_prototype\README.txt                 0
+C:\Mohsin_Vsh_News.tv\docs\hr_prototype\reference-templat...       0
+C:\Mohsin_Vsh_News.tv\installer\inno_setup\.gitkeep                2
+C:\Mohsin_Vsh_News.tv\src\__init__.py                              0
+C:\Mohsin_Vsh_News.tv\src\app\bootstrap.py                      1132
+C:\Mohsin_Vsh_News.tv\src\app\main.py                           1442
+C:\Mohsin_Vsh_News.tv\src\app\__init__.py                        492
+C:\Mohsin_Vsh_News.tv\src\app\application\context.py             803
+C:\Mohsin_Vsh_News.tv\src\app\application\dto.py                1151
+C:\Mohsin_Vsh_News.tv\src\app\application\session.py             267
+C:\Mohsin_Vsh_News.tv\src\app\application\__init__.py              0
+C:\Mohsin_Vsh_News.tv\src\app\application\commands\__init...       0
+C:\Mohsin_Vsh_News.tv\src\app\application\queries\__init_...       0
+C:\Mohsin_Vsh_News.tv\src\app\application\security\__init...       0
+C:\Mohsin_Vsh_News.tv\src\app\application\services\accoun...    1939
+C:\Mohsin_Vsh_News.tv\src\app\application\services\auth_s...    2652
+C:\Mohsin_Vsh_News.tv\src\app\application\services\employ...    1069
+C:\Mohsin_Vsh_News.tv\src\app\application\services\permis...     363
+C:\Mohsin_Vsh_News.tv\src\app\application\services\postin...    1055
+C:\Mohsin_Vsh_News.tv\src\app\application\services\report...    1731
+C:\Mohsin_Vsh_News.tv\src\app\application\services\vouche...    7226
+C:\Mohsin_Vsh_News.tv\src\app\application\services\__init...       0
+C:\Mohsin_Vsh_News.tv\src\app\domain\workflow.py                 473
+C:\Mohsin_Vsh_News.tv\src\app\domain\__init__.py                   0
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\chart.py         453
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\journal.py      1507
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\money.py         677
+C:\Mohsin_Vsh_News.tv\src\app\domain\accounting\__init__.py        0
+C:\Mohsin_Vsh_News.tv\src\app\domain\audit\__init__.py             0
+C:\Mohsin_Vsh_News.tv\src\app\domain\hr\employee.py             1091
+C:\Mohsin_Vsh_News.tv\src\app\domain\hr\__init__.py                0
+C:\Mohsin_Vsh_News.tv\src\app\domain\inventory\__init__.py         0
+C:\Mohsin_Vsh_News.tv\src\app\domain\payroll\__init__.py           0
+C:\Mohsin_Vsh_News.tv\src\app\domain\security\permissions.py     542
+C:\Mohsin_Vsh_News.tv\src\app\domain\security\__init__.py          0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\__init__.py           0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\backup\__ini...       0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\con...     854
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...    1470
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\uni...    1820
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\__i...       0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...    2786
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...     572
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...     549
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...     527
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...     870
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...    2530
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...     992
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...    1035
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...     260
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\mig...       0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\logging\setu...     623
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\logging\__in...       0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\reports\__in...       0
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...    1210
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...     347
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...    3696
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...     524
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...    1651
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...    1035
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...    4098
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...     375
+C:\Mohsin_Vsh_News.tv\src\app\infrastructure\repositories...       0
+C:\Mohsin_Vsh_News.tv\src\app\ui\accounts_view.py               2948
+C:\Mohsin_Vsh_News.tv\src\app\ui\dashboard_view.py              8479
+C:\Mohsin_Vsh_News.tv\src\app\ui\employees_view.py              1759
+C:\Mohsin_Vsh_News.tv\src\app\ui\login_window.py               13548
+C:\Mohsin_Vsh_News.tv\src\app\ui\login_window_backup.py         2498
+C:\Mohsin_Vsh_News.tv\src\app\ui\main_window.py                 6190
+C:\Mohsin_Vsh_News.tv\src\app\ui\main_window.py.backup          2708
+C:\Mohsin_Vsh_News.tv\src\app\ui\reports_view.py                5752
+C:\Mohsin_Vsh_News.tv\src\app\ui\style.py                       1808
+C:\Mohsin_Vsh_News.tv\src\app\ui\support.py                     3899
+C:\Mohsin_Vsh_News.tv\src\app\ui\vouchers_view.py               6000
+C:\Mohsin_Vsh_News.tv\src\app\ui\voucher_dialog.py              4728
+C:\Mohsin_Vsh_News.tv\src\app\ui\__init__.py                       0
+C:\Mohsin_Vsh_News.tv\tests\test_posting.py                     1402
+C:\Mohsin_Vsh_News.tv\tests\accounting\.gitkeep                    2
+C:\Mohsin_Vsh_News.tv\tests\integration\.gitkeep                   2
+C:\Mohsin_Vsh_News.tv\tests\integration\test_voucher_flow.py    4265
+C:\Mohsin_Vsh_News.tv\tests\unit\.gitkeep                          2
+C:\Mohsin_Vsh_News.tv\tests\unit\test_journal.py                1751
+C:\Mohsin_Vsh_News.tv\tests\unit\test_money.py                   596
+C:\Mohsin_Vsh_News.tv\tests\unit\test_shell_smoke.py             781
+C:\Mohsin_Vsh_News.tv\tests\unit\test_voucher_service.py        1232
+C:\Mohsin_Vsh_News.tv\tests\unit\test_workflow.py                291
+C:\Mohsin_Vsh_News.tv\tools\build_exe.ps1                       1917
+C:\Mohsin_Vsh_News.tv\tools\check_db.py                          894
+C:\Mohsin_Vsh_News.tv\tools\check_schema.py                     2382
+C:\Mohsin_Vsh_News.tv\tools\migrate.py                           187
+C:\Mohsin_Vsh_News.tv\tools\project_report.ps1                  5423
+C:\Mohsin_Vsh_News.tv\tools\seed_accounts.py                    1262
+C:\Mohsin_Vsh_News.tv\tools\__init__.py                            0
+C:\Mohsin_Vsh_News.tv\ui\dashboard.py                          17232
+C:\Mohsin_Vsh_News.tv\ui\__init__.py                               0
+
+========== END OF AUDIT ==========
+
+

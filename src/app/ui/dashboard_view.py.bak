@@ -1,0 +1,167 @@
+"""Role-aware VSH NEWS TV ERP dashboard (Theme 2: Newsroom Red & Obsidian Dark)."""
+from future import annotations
+from datetime import datetime
+from PySide6.QtCore import Qt, QTimer, Signal
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import (
+QFrame, QGridLayout, QHBoxLayout, QLabel, QPushButton,
+QScrollArea, QSizePolicy, QVBoxLayout, QWidget,
+)
+from src.app.ui.module_shell import resolve_vsh_logo, session_role_label
+OBSIDIAN_BG = "#1E293B"
+OBSIDIAN_CARD = "#0F172A"
+OBSIDIAN_HEADER = "#111827"
+VSH_RED = "#DC2626"
+VSH_RED_DARK = "#991B1B"
+GOLD = "#FACC15"
+TEXT_WHITE = "#F8FAFC"
+TEXT_MUTED = "#94A3B8"
+class DashboardView(QWidget):
+module_requested = Signal(str)
+MODULES = [
+{"title": "Master Data", "color": "#2563EB", "icon": "▦", "items": ["Accounts", "Employees", "Customers", "Suppliers"]},
+{"title": "Transactions", "color": "#16A34A", "icon": "⇄", "items": ["Payment", "Receipt", "Journal", "Sales"]},
+{"title": "Financial Reports", "color": "#7C3AED", "icon": "▤", "items": ["Ledger", "Trial Balance", "P&L Statement", "Balance Sheet"]},
+{"title": "Statements & Reconcile", "color": "#EA580C", "icon": "▧", "items": ["Statements", "Reconcile"]},
+{"title": "Attendance & Payroll", "color": "#0891B2", "icon": "♟", "items": ["Attendance", "Payroll", "Salary Reports"]},
+{"title": "Settings", "color": "#475569", "icon": "⚙", "items": ["Users & Roles", "System Settings", "Company Profile"]},
+{"title": "Backup & Restore", "color": "#DC2626", "icon": "▣", "items": ["Backup Database", "Restore Database"]},
+{"title": "Media & Broadcast", "color": "#0D9488", "icon": "▣", "items": ["Ad Schedules", "Program Logs", "Client Billing"]},
+]
+def init(self, session, parent=None) -> None:
+super().init(parent)
+self.session = session
+self.user_name = getattr(session, "username", "admin")
+self.user_role = session_role_label(session)
+self.setObjectName("dashboardPage")
+self.setStyleSheet(f"QWidget#dashboardPage {{ background-color: {OBSIDIAN_BG}; }}")
+outer = QVBoxLayout(self)
+outer.setContentsMargins(0, 0, 0, 0)
+scroll = QScrollArea()
+scroll.setWidgetResizable(True)
+scroll.setFrameShape(QFrame.Shape.NoFrame)
+scroll.setStyleSheet(
+f"QScrollArea {{ background: {OBSIDIAN_BG}; border: none; }}"
+"QScrollBar:vertical { width: 10px; background: #0F172A; }"
+f"QScrollBar::handle:vertical {{ background: {VSH_RED}; border-radius: 5px; }}"
+)
+scroll.setWidget(self._build_dashboard_content())
+outer.addWidget(scroll)
+self._clock_timer = QTimer(self)
+self._clock_timer.timeout.connect(self._update_clock)
+self._clock_timer.start(1000)
+self._update_clock()
+def _build_dashboard_content(self) -> QWidget:
+page = QWidget()
+page.setStyleSheet(f"background-color: {OBSIDIAN_BG};")
+layout = QVBoxLayout(page)
+layout.setContentsMargins(18, 18, 18, 18)
+layout.setSpacing(16)
+layout.addWidget(self._build_welcome_banner())
+cards_grid = QGridLayout()
+cards_grid.setHorizontalSpacing(14)
+cards_grid.setVerticalSpacing(14)
+for index, module in enumerate(self.MODULES):
+row, column = divmod(index, 4)
+cards_grid.addWidget(self._build_module_card(module), row, column)
+for column in range(4):
+cards_grid.setColumnStretch(column, 1)
+layout.addLayout(cards_grid)
+layout.addStretch(1)
+return page
+def _build_welcome_banner(self) -> QWidget:
+banner = QFrame()
+banner.setObjectName("welcomeBanner")
+banner.setMinimumHeight(140)
+banner.setStyleSheet(
+f"QFrame#welcomeBanner {{ background: qlineargradient(x1:0, y1:0, x2:1, y2:0,"
+f"stop:0 {OBSIDIAN_HEADER}, stop:0.65 #1F1218, stop:1 {VSH_RED_DARK});"
+f"border: 2px solid {VSH_RED}; border-radius: 12px; }}"
+)
+layout = QHBoxLayout(banner)
+layout.setContentsMargins(22, 16, 22, 16)
+layout.setSpacing(20)
+logo = QLabel("VSH\nNEWS")
+logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
+logo.setFixedSize(98, 98)
+logo.setStyleSheet(
+f"QLabel {{ background: #FFFFFF; color: {VSH_RED}; border: 2px solid {GOLD};"
+"border-radius: 10px; font-family: Arial; font-size: 22px; font-weight: bold; }"
+)
+logo_path = resolve_vsh_logo()
+if logo_path:
+pix = QPixmap(str(logo_path))
+if not pix.isNull():
+logo.setPixmap(pix.scaled(92, 92, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+layout.addWidget(logo)
+text_box = QVBoxLayout()
+text_box.setSpacing(5)
+welcome = QLabel("Welcome to VSH NEWS TV ERP Office Management System")
+welcome.setWordWrap(True)
+welcome.setStyleSheet(f"font-size: 20px; font-weight: bold; color: {TEXT_WHITE}; background: transparent;")
+text_box.addWidget(welcome)
+company = QLabel("Visionary Baluchistan Media Corporation (Pvt) Ltd   •   Efficient  •  Transparent  •  Reliable")
+company.setWordWrap(True)
+company.setStyleSheet(f"font-size: 12px; font-weight: 600; color: {GOLD}; background: transparent;")
+text_box.addWidget(company)
+sub = QLabel(f"Signed in as {self.user_name} ({self.user_role}). Select a module below to open its functional workspace.")
+sub.setWordWrap(True)
+sub.setStyleSheet(f"font-size: 11px; color: {TEXT_MUTED}; background: transparent;")
+text_box.addWidget(sub)
+layout.addLayout(text_box, 1)
+right = QVBoxLayout()
+right.setSpacing(4)
+self.time_label = QLabel()
+self.time_label.setAlignment(Qt.AlignmentFlag.AlignRight)
+self.time_label.setStyleSheet(f"color: {TEXT_WHITE}; font-size: 16px; font-weight: bold; background: transparent;")
+self.date_label = QLabel()
+self.date_label.setAlignment(Qt.AlignmentFlag.AlignRight)
+self.date_label.setStyleSheet(f"color: {GOLD}; font-size: 11px; font-weight: 600; background: transparent;")
+right.addWidget(self.time_label)
+right.addWidget(self.date_label)
+layout.addLayout(right)
+return banner
+def _build_module_card(self, data: dict) -> QWidget:
+card = QFrame()
+card.setObjectName("moduleCard")
+card.setStyleSheet(f"QFrame#moduleCard {{ background: {OBSIDIAN_CARD}; border: 1px solid {data['color']}; border-radius: 10px; }}")
+card_layout = QVBoxLayout(card)
+card_layout.setContentsMargins(14, 14, 14, 12)
+card_layout.setSpacing(6)
+heading = QHBoxLayout()
+heading.setSpacing(10)
+icon = QLabel(data["icon"])
+icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+icon.setFixedSize(40, 40)
+icon.setStyleSheet(f"background: {data['color']}; color: white; border-radius: 20px; font-size: 19px; font-weight: bold;")
+heading.addWidget(icon)
+title = QLabel(data["title"])
+title.setWordWrap(True)
+title.setStyleSheet(f"color: {TEXT_WHITE}; font-size: 13px; font-weight: bold; background: transparent;")
+heading.addWidget(title, 1)
+card_layout.addLayout(heading)
+line = QFrame()
+line.setFrameShape(QFrame.Shape.HLine)
+line.setStyleSheet("color: #334155; background: transparent;")
+card_layout.addWidget(line)
+for item_name in data["items"]:
+item_button = QPushButton(f"›  {item_name}")
+item_button.setCursor(Qt.CursorShape.PointingHandCursor)
+item_button.setMinimumHeight(28)
+item_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+item_button.setStyleSheet(
+f"QPushButton {{ background: transparent; color: {TEXT_WHITE}; border: none; text-align: left; padding: 3px 6px; font-size: 12px; font-weight: 600; }}"
+f"QPushButton:hover {{ background: {VSH_RED}; color: #FFFFFF; border-radius: 5px; }}"
+)
+item_button.clicked.connect(lambda checked=False, name=item_name: self.module_requested.emit(name))
+card_layout.addWidget(item_button)
+card_layout.addStretch(1)
+return card
+def _update_clock(self) -> None:
+now = datetime.now()
+self.time_label.setText(now.strftime("%I:%M:%S %p"))
+self.date_label.setText(now.strftime("%d-%b-%Y"))
+def refresh(self) -> None:
+self._update_clock()
+
+
