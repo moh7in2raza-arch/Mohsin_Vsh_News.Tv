@@ -1,0 +1,230 @@
+Folder PATH listing
+Volume serial number is 000000EE B08F:8615
+C:\MOHSIN_VSH_NEWS.TV\SRC\APP
+³   bootstrap.py
+³   main.py
+³   __init__.py
+³   
+ÃÄÄÄapplication
+³   ³   context.py
+³   ³   dto.py
+³   ³   session.py
+³   ³   __init__.py
+³   ³   
+³   ÃÄÄÄcommands
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄqueries
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄsecurity
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄservices
+³   ³   ³   account_service.py
+³   ³   ³   auth_service.py
+³   ³   ³   employee_service.py
+³   ³   ³   permission_service.py
+³   ³   ³   posting_service.py
+³   ³   ³   report_service.py
+³   ³   ³   voucher_service.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           account_service.cpython-312.pyc
+³   ³           auth_service.cpython-312.pyc
+³   ³           employee_service.cpython-312.pyc
+³   ³           permission_service.cpython-312.pyc
+³   ³           posting_service.cpython-312.pyc
+³   ³           report_service.cpython-312.pyc
+³   ³           voucher_service.cpython-312.pyc
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÀÄÄÄ__pycache__
+³           context.cpython-312.pyc
+³           dto.cpython-312.pyc
+³           session.cpython-312.pyc
+³           __init__.cpython-312.pyc
+³           
+ÃÄÄÄdomain
+³   ³   workflow.py
+³   ³   __init__.py
+³   ³   
+³   ÃÄÄÄaccounting
+³   ³   ³   chart.py
+³   ³   ³   journal.py
+³   ³   ³   money.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           chart.cpython-312.pyc
+³   ³           journal.cpython-312.pyc
+³   ³           money.cpython-312.pyc
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄaudit
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄhr
+³   ³   ³   employee.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           employee.cpython-312.pyc
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄinventory
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄpayroll
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄsecurity
+³   ³   ³   permissions.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           permissions.cpython-312.pyc
+³   ³           permissions.cpython-313.pyc
+³   ³           __init__.cpython-312.pyc
+³   ³           __init__.cpython-313.pyc
+³   ³           
+³   ÀÄÄÄ__pycache__
+³           workflow.cpython-312.pyc
+³           __init__.cpython-312.pyc
+³           __init__.cpython-313.pyc
+³           
+ÃÄÄÄinfrastructure
+³   ³   __init__.py
+³   ³   
+³   ÃÄÄÄbackup
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄdatabase
+³   ³   ³   connection.py
+³   ³   ³   migrator.py
+³   ³   ³   unit_of_work.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÃÄÄÄmigrations
+³   ³   ³   ³   0001_core.sql
+³   ³   ³   ³   0002_hr.sql
+³   ³   ³   ³   0003_administration.sql
+³   ³   ³   ³   0004_vouchers.sql
+³   ³   ³   ³   0005_journal.sql
+³   ³   ³   ³   0006_accounting_integrity.sql
+³   ³   ³   ³   0007_employee_profile.sql
+³   ³   ³   ³   0008_company_settings_fiscal_periods.sql
+³   ³   ³   ³   0009_restrict_account_manage.sql
+³   ³   ³   ³   __init__.py
+³   ³   ³   ³   
+³   ³   ³   ÀÄÄÄ__pycache__
+³   ³   ³           __init__.cpython-312.pyc
+³   ³   ³           
+³   ³   ÀÄÄÄ__pycache__
+³   ³           connection.cpython-312.pyc
+³   ³           connection.cpython-313.pyc
+³   ³           migrator.cpython-312.pyc
+³   ³           unit_of_work.cpython-312.pyc
+³   ³           __init__.cpython-312.pyc
+³   ³           __init__.cpython-313.pyc
+³   ³           
+³   ÃÄÄÄlogging
+³   ³   ³   setup.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           setup.cpython-312.pyc
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄreports
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÃÄÄÄrepositories
+³   ³   ³   account_repository.py
+³   ³   ³   audit_repository.py
+³   ³   ³   employee_repository.py
+³   ³   ³   permission_repository.py
+³   ³   ³   report_repository.py
+³   ³   ³   user_repository.py
+³   ³   ³   voucher_repository.py
+³   ³   ³   _sql.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           account_repository.cpython-312.pyc
+³   ³           audit_repository.cpython-312.pyc
+³   ³           employee_repository.cpython-312.pyc
+³   ³           permission_repository.cpython-312.pyc
+³   ³           report_repository.cpython-312.pyc
+³   ³           user_repository.cpython-312.pyc
+³   ³           voucher_repository.cpython-312.pyc
+³   ³           _sql.cpython-312.pyc
+³   ³           __init__.cpython-312.pyc
+³   ³           
+³   ÀÄÄÄ__pycache__
+³           __init__.cpython-312.pyc
+³           __init__.cpython-313.pyc
+³           
+ÃÄÄÄui
+³   ³   accounts_view.py
+³   ³   dashboard_view.py
+³   ³   dashboard_view.py.bak
+³   ³   employees_view.py
+³   ³   login_window.py
+³   ³   login_window_backup.py
+³   ³   main_window.py
+³   ³   main_window.py.backup
+³   ³   module_shell.py
+³   ³   reports_view.py
+³   ³   style.py
+³   ³   support.py
+³   ³   vouchers_view.py
+³   ³   voucher_dialog.py
+³   ³   __init__.py
+³   ³   
+³   ÀÄÄÄ__pycache__
+³           accounts_view.cpython-312.pyc
+³           dashboard_view.cpython-312.pyc
+³           employees_view.cpython-312.pyc
+³           login_window.cpython-312.pyc
+³           login_window_backup.cpython-312.pyc
+³           main_window.cpython-312.pyc
+³           module_shell.cpython-312.pyc
+³           reports_view.cpython-312.pyc
+³           style.cpython-312.pyc
+³           support.cpython-312.pyc
+³           vouchers_view.cpython-312.pyc
+³           voucher_dialog.cpython-312.pyc
+³           __init__.cpython-312.pyc
+³           
+ÀÄÄÄ__pycache__
+        bootstrap.cpython-312.pyc
+        main.cpython-312.pyc
+        __init__.cpython-312.pyc
+        __init__.cpython-313.pyc
+        
