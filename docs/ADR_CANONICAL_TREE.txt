@@ -1,5 +1,5 @@
 Folder PATH listing
-Volume serial number is 000000EE B08F:8615
+Volume serial number is 000000EB B08F:8615
 C:\MOHSIN_VSH_NEWS.TV\SRC\APP
 ³   bootstrap.py
 ³   main.py
@@ -193,7 +193,6 @@ C:\MOHSIN_VSH_NEWS.TV\SRC\APP
 ÃÄÄÄui
 ³   ³   accounts_view.py
 ³   ³   dashboard_view.py
-³   ³   dashboard_view.py.bak
 ³   ³   employees_view.py
 ³   ³   login_window.py
 ³   ³   login_window_backup.py
