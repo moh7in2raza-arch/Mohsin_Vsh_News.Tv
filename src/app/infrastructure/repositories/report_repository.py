@@ -36,10 +36,16 @@ class ReportRepository:
     def ledger_rows(self, account_id, date_from, date_to) -> list[dict]:
         return fetch_all(
             self.conn,
-            """SELECT vh.voucher_date AS entry_date, vh.voucher_no, je.kind,
-                      vh.narration, jl.debit, jl.credit""" + _FROM
+            """SELECT vh.voucher_date AS entry_date,
+                      vh.voucher_no,
+                      COALESCE(vh.cheque_no, '') AS cheque_no,
+                      vh.cheque_date,
+                      COALESCE(vh.party_name, '') AS party_name,
+                      je.kind,
+                      vh.narration,
+                      jl.debit,
+                      jl.credit""" + _FROM
             + """ WHERE jl.account_id = %s AND vh.voucher_date BETWEEN %s AND %s
                   ORDER BY vh.voucher_date, je.id, jl.id""",
             (account_id, date_from, date_to),
         )
-    

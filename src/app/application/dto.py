@@ -5,6 +5,17 @@ from decimal import Decimal
 
 
 @dataclass(frozen=True)
+class CompanyProfile:
+    company_name: str
+    address: str
+    phone: str
+    email: str = ""
+    website: str = ""
+    logo_path: str | None = None
+    tax_number: str | None = None
+
+
+@dataclass(frozen=True)
 class VoucherRow:
     id: int
     voucher_no: str
@@ -55,4 +66,7 @@ class LedgerRow:
     narration: str
     debit: Decimal
     credit: Decimal
-    balance: Decimal          # signed: positive = debit balance
+    balance: Decimal
+    cheque_no: str = ""
+    cheque_date: date | None = None
+    party_name: str = ""

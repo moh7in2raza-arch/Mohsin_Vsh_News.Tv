@@ -5,6 +5,7 @@ business rows and audit rows commit or roll back together.
 
 from src.app.infrastructure.database.connection import get_connection
 
+from src.app.infrastructure.repositories.company_repository import CompanyRepository
 from src.app.infrastructure.repositories.account_repository import (
     AccountRepository,
 )
@@ -46,6 +47,7 @@ class UnitOfWork:
         self.audit = AuditRepository(self._conn)
         self.permissions = PermissionRepository(self._conn)
         self.reports = ReportRepository(self._conn)
+        self.company = CompanyRepository(self._conn)
 
         # HR
         self.employees = EmployeeRepository(self._conn)

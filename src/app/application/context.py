@@ -22,4 +22,5 @@ class Services:
     accounts: "AccountService"
     reports: "ReportService"
     employees: "EmployeeService"
-    
+    company: "CompanyService | None" = None
+

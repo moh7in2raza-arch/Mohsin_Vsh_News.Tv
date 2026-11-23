@@ -25,12 +25,33 @@ class ReportService:
             opening = uow.reports.ledger_opening(account_id, date_from)
             rows = uow.reports.ledger_rows(account_id, date_from, date_to)
         balance = Decimal(opening)
-        result = [LedgerRow(None, "", "Opening balance", Decimal("0.00"),
-                            Decimal("0.00"), balance)]
+        result = [
+            LedgerRow(
+                entry_date=None,
+                voucher_no="",
+                narration="Opening balance",
+                debit=Decimal("0.00"),
+                credit=Decimal("0.00"),
+                balance=balance,
+                cheque_no="",
+                cheque_date=None,
+                party_name="",
+            )
+        ]
         for r in rows:
             balance += r["debit"] - r["credit"]
             prefix = "Reversal of: " if r["kind"] == "Reversal" else ""
-            result.append(LedgerRow(r["entry_date"], r["voucher_no"],
-                                    prefix + (r["narration"] or ""),
-                                    r["debit"], r["credit"], balance))
+            result.append(
+                LedgerRow(
+                    entry_date=r["entry_date"],
+                    voucher_no=r["voucher_no"],
+                    narration=prefix + (r["narration"] or ""),
+                    debit=r["debit"],
+                    credit=r["credit"],
+                    balance=balance,
+                    cheque_no=r.get("cheque_no") or "",
+                    cheque_date=r.get("cheque_date"),
+                    party_name=r.get("party_name") or "",
+                )
+            )
         return result
