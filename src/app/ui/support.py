@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QTableWidgetItem,
 )
 
+from src.app.application.dto import CompanyProfile
 from src.app.application.services.account_service import AccountError
 from src.app.application.services.permission_service import PermissionDenied
 from src.app.application.services.posting_service import PostingError
@@ -27,6 +28,13 @@ from src.app.application.services.voucher_service import VoucherError
 log = logging.getLogger(__name__)
 USER_ERRORS = (VoucherError, PermissionDenied, PostingError, AccountError)
 _RIGHT = Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter
+
+
+def active_company_profile(services) -> CompanyProfile:
+    company_service = getattr(services, "company", None)
+    if company_service is None:
+        raise RuntimeError("Company profile service is not configured")
+    return company_service.get_profile()
 
 
 def _logo_data_uri() -> str:

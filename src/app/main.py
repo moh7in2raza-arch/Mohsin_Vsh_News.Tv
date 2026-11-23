@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox
 
 from src.app.bootstrap import build_services, start_logging
 from src.app.ui.login_window import LoginWindow
-from src.app.ui.main_window import MainWindow
+from src.app.ui.main_window import VshNewsMainWindow
 from src.app.ui.style import apply_style
 
 log = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ class Shell:
         self.login.show()
 
     def _open_main(self, session) -> None:
-        self._main = MainWindow(self._services, session)
+        self._main = VshNewsMainWindow(self._services, session)
         self._main.logged_out.connect(self.start)
         self._main.show()
         self.login.hide()

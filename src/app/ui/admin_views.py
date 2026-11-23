@@ -257,31 +257,30 @@ class DatabaseBackupView(QWidget):
         tool = "psql" if self._restore_mode else "pg_dump"
         args = [tool, "-h", db_host, "-p", db_port, "-U", db_user, "-d", db_name, "-f", target]
         self.log_box.append(f"[{datetime.now():%H:%M:%S}] Running: {' '.join(args)}")
-try:
-    res = subprocess.run(args, capture_output=True, text=True, timeout=30)
+        try:
+            res = subprocess.run(args, capture_output=True, text=True, timeout=30)
+        except FileNotFoundError:
+            self.log_box.append(
+                f"NOTE: '{tool}' not found in PATH. Add C:\\Program Files\\PostgreSQL\\18\\bin to Windows PATH."
+            )
+            QMessageBox.information(
+                self,
+                "Tool Missing",
+                f"{tool} was not found in PATH.",
+            )
+            return
 
-    if res.returncode == 0:
-        self.log_box.append("SUCCESS: Operation completed cleanly.")
-        QMessageBox.information(
-            self,
-            "Completed",
-            f"Database operation succeeded:\n{target}"
-        )
-    else:
-        self.log_box.append(f"ERROR: {res.stderr.strip()}")
-        QMessageBox.warning(
-            self,
-            "CLI Notice",
-            f"PostgreSQL tool returned:\n{res.stderr.strip()}"
-        )
-
-except FileNotFoundError:
-    self.log_box.append(
-        f"NOTE: '{tool}' not found in PATH. Add C:\\Program Files\\PostgreSQL\\18\\bin to Windows PATH."
-    )
-
-    QMessageBox.information(
-        self,
-        "Tool Missing",
-        f"{tool} was not found in PATH."
-    )     
+        if res.returncode == 0:
+            self.log_box.append("SUCCESS: Operation completed cleanly.")
+            QMessageBox.information(
+                self,
+                "Completed",
+                f"Database operation succeeded:\n{target}",
+            )
+        else:
+            self.log_box.append(f"ERROR: {res.stderr.strip()}")
+            QMessageBox.warning(
+                self,
+                "CLI Notice",
+                f"PostgreSQL tool returned:\n{res.stderr.strip()}",
+            )

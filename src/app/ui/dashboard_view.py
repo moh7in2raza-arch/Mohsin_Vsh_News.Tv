@@ -120,7 +120,7 @@ class DashboardView(QWidget):
         text_box = QVBoxLayout()
         text_box.setSpacing(5)
 
-        welcome = QLabel("Welcome to VSH NEWS TV ERP Office Management System")
+        welcome = QLabel("Welcome to VSH NEWS TV Dashboard")
         welcome.setWordWrap(True)
         welcome.setStyleSheet(f"font-size: 20px; font-weight: bold; color: {TEXT_WHITE}; background: transparent;")
         text_box.addWidget(welcome)

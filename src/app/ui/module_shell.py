@@ -161,9 +161,9 @@ class VshModuleShellWindow(QMainWindow):
         self._clock.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         self._clock.setStyleSheet("color: #FFFFFF; font-size: 11px; font-weight: 700;")
         self._tick()
-        timer = QTimer(self)
-        timer.timeout.connect(self._tick)
-        timer.start(1000)
+        self._clock_timer = QTimer(self)
+        self._clock_timer.timeout.connect(self._tick)
+        self._clock_timer.start(1000)
 
         h_row.addWidget(logo)
         h_row.addLayout(title_col, 1)
