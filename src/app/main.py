@@ -21,15 +21,8 @@ class Shell:
         self.login.authenticated.connect(self._open_main)
 
     def start(self) -> None:
-        if self._main is not None:
-            self._main.hide()
-            self._main.close()
-            self._main.deleteLater()
-            self._main = None
         self.login.reset()
         self.login.show()
-        self.login.raise_()
-        self.login.activateWindow()
 
     def _open_main(self, session) -> None:
         self._main = MainWindow(self._services, session)
@@ -56,3 +49,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
