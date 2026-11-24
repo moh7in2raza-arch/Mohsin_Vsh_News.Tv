@@ -1,301 +1,101 @@
-﻿# Mohsin_Vsh_News.tv - project status report
+# VSH NEWS TV ERP Project Audit
 
-Generated: 2026-11-23 17:59  |  Folder: C:\Mohsin_Vsh_News.tv
+**Audit date:** 2026-11-23
+**Repository:** `moh7in2raza-arch/Mohsin_Vsh_News.Tv`
+**Branch / revision:** `main` / `67a6561` (`stable-vsh-dashboard`)
+**Scope:** source architecture, ADR alignment, UI modules, PostgreSQL, tests, and current Git state. Database checks were read-only; no credentials or password hashes are included here.
 
-## 1. Tools
+## 1. Executive Summary
 
-```
-python : Python 3.12.10
-python path : C:\Mohsin_Vsh_News.tv\.venv\Scripts\python.exe
-psql   : psql (PostgreSQL) 18.6
-ISCC.exe at default path : True
-wsl:
-    NAME      STATE           VERSION
-  * Ubuntu    Stopped         2
-```
+The project has a working Python/PySide6/PostgreSQL foundation, a login flow, a VSH NEWS TV dashboard, and a tested accounting workflow for vouchers, posting, reversal, and core reports. The live PostgreSQL database is reachable as `erp_app`; migrations are at version 10, and the schema checker accepts the required core schema and permission codes.
 
-Key packages in the active environment:
-```
-argon2-cffi==25.1.0
-argon2-cffi-bindings==26.2.0
-psycopg==3.3.9
-psycopg-binary==3.3.9
-pyinstaller==6.22.3
-pyinstaller-hooks-contrib==2026.10
-PySide6==6.12.0
-pytest==9.2.0
-python-dotenv==1.2.4
-```
+The application is **not production-ready**. Several screens imply functionality that is not implemented: employee save reports success without persisting, the user service is empty, the user/role screen is effectively read-only, and multiple report and broadcast cards route to generic views. Fiscal-period closure is not enforced by voucher posting. One active database user has a placeholder password hash. All 23 pytest tests pass their assertions, but the full test process exits with Windows status `-1073741819` (`0xC0000005`, access violation); the isolated Qt shell smoke test reproduces this process-exit failure.
 
-## 2. Git
+## 2. Current Completion Percentage
 
-```
-branch : main
-tags   : backup-feature-employee-postgresql, backup-feature-next-step, backup-phase19-recovery, backup-recovery-backup, backup-rescue, backup-rescue-week6, checkpoint-before-cleanup, login-interface-fix-2026-11-19, phase19-recovery-stable, phase20-start, phase21-adr-consolidation, prototype-sqlite-start, prototype-sqlite-start3, prototype-v0, week6-complete
-.venv ignored : .venv
+**Estimated completion: approximately 52%.** This is a feature-readiness estimate, not a LOC or test-coverage metric. Core database/authentication and accounting workflows are weighted more heavily than placeholder screens. The estimate reflects the functional dashboard and core financial workflow, offset by incomplete HR and user administration, limited reporting, missing period controls, and the unresolved Qt process crash.
 
-last commits:
-  ab7338a Step 2: move reports, SQL draft and backup files out of root and ui
-  8c60259 Checkpoint before structure cleanup
-  16753a3 Start dashboard service and users module ADR route
-  5fc11b9 Generate ADR canonical tree
-  90f0f03 ADR cleanup phase 2 remove duplicate UI routes
-  c924d47 ADR consolidation: archive duplicate dashboards UI and SQLite route
-  0160220 Fix requirements.txt formatting
-  d47bd59 Stop tracking zips and SQLite prototype database
-  54ae204 Expand README with project scope and architecture
-  2ae07c7 Translate posting errors in voucher service, add tests
+## 3. Completed Modules
 
-uncommitted changes (git status --short):
-   D config/__init__.py
-   D config/asgi.py
-   D config/settings.py
-   D config/urls.py
-   D config/wsgi.py
-   D create_first_admin.py
-   M docs/project_status_report.md
-   D manage.py
-   M src/app/application/context.py
-   M src/app/application/dto.py
-   M src/app/application/services/report_service.py
-   M src/app/bootstrap.py
-   M src/app/infrastructure/database/unit_of_work.py
-   M src/app/infrastructure/repositories/report_repository.py
-  ?? archive/obsolete_django/
-  ?? src/app/application/services/company_service.py
-  ?? src/app/infrastructure/database/migrations/0010_company_and_statement_fields.sql
-  ?? src/app/infrastructure/repositories/company_repository.py
-  ?? src/app/ui/admin_views.py
-  ?? tools/create_first_admin.py
-  ?? tools/wire_company_and_ledger.py
-```
+- **Architecture foundation:** `src/app/` is separated into UI, application services, domain, and infrastructure. SQL is primarily in repositories; `UnitOfWork` provides shared transaction scope for voucher/account/report/company operations.
+- **PostgreSQL foundation:** `.env`-based connection works against `erp_office` as `erp_app`. The database is at schema version 10; `python -m tools.check_schema` passes its required table/column and permission checks.
+- **Authentication:** Argon2 password verification, active-account check, permission loading, login/logout audit attempts, and a session object are implemented. The login signal currently connects to the VSH NEWS TV startup window.
+- **Dashboard:** `VshNewsMainWindow` loads `DashboardView` after login. Dashboard buttons connect to module routes; all 25 visible card items have a route entry. VSH NEWS TV and company branding are present.
+- **Accounts:** account listing and account creation are service/repository-backed and permission-checked. The view supports CSV/PDF export and optional Excel export.
+- **Voucher/accounting core:** services cover draft creation, submit, approve, post, and reversal. Journal domain rules validate balanced debit/credit lines. Database migrations add constraints and append-only triggers for posted journal and audit data.
+- **Company profile backend:** profile reads and updates have a service/repository path; updates record an audit event in the same unit of work.
+- **Build-time syntax:** `python -m compileall -q src` passes.
 
-## 3. Files (src, tests, tools, docs)
+## 4. Partially Completed Modules
 
-```
-src\__init__.py                                                                0 bytes  EMPTY
-src\app\bootstrap.py                                                        1197 bytes  has content
-src\app\main.py                                                             1674 bytes  has content
-src\app\__init__.py                                                          492 bytes  has content
-src\app\application\context.py                                               846 bytes  has content
-src\app\application\dto.py                                                  1417 bytes  has content
-src\app\application\session.py                                               267 bytes  has content
-src\app\application\__init__.py                                                0 bytes  EMPTY
-src\app\application\commands\__init__.py                                       0 bytes  EMPTY
-src\app\application\queries\__init__.py                                        0 bytes  EMPTY
-src\app\application\security\__init__.py                                       0 bytes  EMPTY
-src\app\application\services\account_service.py                             1939 bytes  has content
-src\app\application\services\auth_service.py                                2652 bytes  has content
-src\app\application\services\company_service.py                             2222 bytes  has content
-src\app\application\services\dashboard_service.py                            652 bytes  has content
-src\app\application\services\employee_service.py                            1069 bytes  has content
-src\app\application\services\permission_service.py                           363 bytes  has content
-src\app\application\services\posting_service.py                             1055 bytes  has content
-src\app\application\services\report_service.py                              2267 bytes  has content
-src\app\application\services\user_service.py                                   0 bytes  EMPTY
-src\app\application\services\voucher_service.py                             7226 bytes  has content
-src\app\application\services\__init__.py                                       0 bytes  EMPTY
-src\app\domain\workflow.py                                                   473 bytes  has content
-src\app\domain\__init__.py                                                     0 bytes  EMPTY
-src\app\domain\accounting\chart.py                                           453 bytes  has content
-src\app\domain\accounting\journal.py                                        1507 bytes  has content
-src\app\domain\accounting\money.py                                           677 bytes  has content
-src\app\domain\accounting\__init__.py                                          0 bytes  EMPTY
-src\app\domain\audit\__init__.py                                               0 bytes  EMPTY
-src\app\domain\hr\employee.py                                               1091 bytes  has content
-src\app\domain\hr\__init__.py                                                  0 bytes  EMPTY
-src\app\domain\inventory\__init__.py                                           0 bytes  EMPTY
-src\app\domain\payroll\__init__.py                                             0 bytes  EMPTY
-src\app\domain\security\permissions.py                                       542 bytes  has content
-src\app\domain\security\user.py                                                0 bytes  EMPTY
-src\app\domain\security\__init__.py                                            0 bytes  EMPTY
-src\app\infrastructure\__init__.py                                             0 bytes  EMPTY
-src\app\infrastructure\backup\__init__.py                                      0 bytes  EMPTY
-src\app\infrastructure\database\connection.py                                854 bytes  has content
-src\app\infrastructure\database\migrator.py                                 1470 bytes  has content
-src\app\infrastructure\database\unit_of_work.py                             1960 bytes  has content
-src\app\infrastructure\database\__init__.py                                    0 bytes  EMPTY
-src\app\infrastructure\database\migrations\0001_core.sql                    2786 bytes  has content
-src\app\infrastructure\database\migrations\0002_hr.sql                       572 bytes  has content
-src\app\infrastructure\database\migrations\0003_administration.sql           549 bytes  has content
-src\app\infrastructure\database\migrations\0004_vouchers.sql                 527 bytes  has content
-src\app\infrastructure\database\migrations\0005_journal.sql                  870 bytes  has content
-src\app\infrastructure\database\migrations\0006_accounting_integrity.sql    2530 bytes  has content
-src\app\infrastructure\database\migrations\0007_employee_profile.sql         992 bytes  has content
-src\app\infrastructure\database\migrations\0008_company_settings_fiscal_periods.sql    1035 bytes  has content
-src\app\infrastructure\database\migrations\0009_restrict_account_manage.sql     260 bytes  has content
-src\app\infrastructure\database\migrations\0010_company_and_statement_fields.sql     798 bytes  has content
-src\app\infrastructure\database\migrations\__init__.py                         0 bytes  EMPTY
-src\app\infrastructure\logging\setup.py                                      623 bytes  has content
-src\app\infrastructure\logging\__init__.py                                     0 bytes  EMPTY
-src\app\infrastructure\reports\__init__.py                                     0 bytes  EMPTY
-src\app\infrastructure\repositories\account_repository.py                   1210 bytes  has content
-src\app\infrastructure\repositories\audit_repository.py                      347 bytes  has content
-src\app\infrastructure\repositories\company_repository.py                   1568 bytes  has content
-src\app\infrastructure\repositories\employee_repository.py                  3696 bytes  has content
-src\app\infrastructure\repositories\permission_repository.py                 524 bytes  has content
-src\app\infrastructure\repositories\report_repository.py                    1908 bytes  has content
-src\app\infrastructure\repositories\user_repository.py                      1035 bytes  has content
-src\app\infrastructure\repositories\voucher_repository.py                   4098 bytes  has content
-src\app\infrastructure\repositories\_sql.py                                  375 bytes  has content
-src\app\infrastructure\repositories\__init__.py                                0 bytes  EMPTY
-src\app\ui\accounts_view.py                                                 6346 bytes  has content
-src\app\ui\admin_views.py                                                  10672 bytes  has content
-src\app\ui\dashboard_view.py                                                9084 bytes  has content
-src\app\ui\employees_view.py                                                1759 bytes  has content
-src\app\ui\login_window.py                                                 10734 bytes  has content
-src\app\ui\main_window.py                                                  11386 bytes  has content
-src\app\ui\module_shell.py                                                  7446 bytes  has content
-src\app\ui\reports_view.py                                                  5752 bytes  has content
-src\app\ui\style.py                                                         1808 bytes  has content
-src\app\ui\support.py                                                       5315 bytes  has content
-src\app\ui\users_view.py                                                    7975 bytes  has content
-src\app\ui\vouchers_view.py                                                 6000 bytes  has content
-src\app\ui\voucher_dialog.py                                                4728 bytes  has content
-src\app\ui\__init__.py                                                         0 bytes  EMPTY
-tests\test_posting.py                                                       1402 bytes  has content
-tests\accounting\.gitkeep                                                      2 bytes  has content
-tests\integration\.gitkeep                                                     2 bytes  has content
-tests\integration\test_voucher_flow.py                                      4265 bytes  has content
-tests\unit\.gitkeep                                                            2 bytes  has content
-tests\unit\test_journal.py                                                  1751 bytes  has content
-tests\unit\test_money.py                                                     596 bytes  has content
-tests\unit\test_shell_smoke.py                                               781 bytes  has content
-tests\unit\test_voucher_service.py                                          1232 bytes  has content
-tests\unit\test_workflow.py                                                  291 bytes  has content
-tools\apply_updates.py                                                     12148 bytes  has content
-tools\build_exe.ps1                                                         1917 bytes  has content
-tools\check_db.py                                                            894 bytes  has content
-tools\check_schema.py                                                       2382 bytes  has content
-tools\create_first_admin.py                                                 1702 bytes  has content
-tools\migrate.py                                                             187 bytes  has content
-tools\project_report.ps1                                                    5423 bytes  has content
-tools\seed_accounts.py                                                      1262 bytes  has content
-tools\wire_company_and_ledger.py                                           11677 bytes  has content
-tools\__init__.py                                                              0 bytes  EMPTY
-docs\ADR_CANONICAL_TREE.txt                                                 6583 bytes  has content
-docs\Balochistan ERP Finance Dashboard.png                               2063497 bytes  has content
-docs\project_status_report.md                                              19283 bytes  has content
-docs\src_structure.txt                                                      5919 bytes  has content
-docs\database\0001_core_draft.sql                                           8057 bytes  has content
-docs\database\erp_office_phase3.sql                                         1388 bytes  has content
-docs\decisions\ADR-0001-canonical-technology-stack.md                       1381 bytes  has content
-docs\hr_prototype\index.html                                                   0 bytes  EMPTY
-docs\hr_prototype\README.txt                                                   0 bytes  EMPTY
-docs\hr_prototype\reference-template.docx                                      0 bytes  EMPTY
-docs\reports\git-report-latest.txt                                           944 bytes  has content
-docs\reports\git_report.txt                                                11195 bytes  has content
-docs\reports\M.R_VSH_NEWS_PROJECT_SETUP_AUDIT.txt                          17500 bytes  has content
-docs\reports\PROJECT_COMPLETE_STATUS_REPORT.txt                            41528 bytes  has content
-docs\reports\PROJECT_PYTHON_FILES.txt                                     232823 bytes  has content
-docs\reports\project_report.txt                                             8390 bytes  has content
-docs\reports\PROJECT_SETUP_AUDIT.txt                                       21534 bytes  has content
-docs\reports\project_structure.txt                                       1016981 bytes  has content
-docs\reports\PROJECT_STRUCTURE_FULL.txt                                   615962 bytes  has content
-```
+| Module | Current state |
+|---|---|
+| **Employees / HR** | Employee domain, service, and repository expose CRUD-like operations, but `EmployeesView.save_employee()` only shows “Employee saved successfully” and never calls the service; `refresh()` is empty. The dashboard routes Attendance, Payroll, and Salary Reports to this same employee form. No attendance, payroll, lifecycle documents, letters, or exit workflow is implemented. |
+| **Accounts** | List/create and export are wired. Customer/Supplier cards are aliases to the chart of accounts; there are no separate customer or supplier ledgers. |
+| **Reports** | Trial balance and account ledger have service/repository implementations. P&L, Balance Sheet, statements, and reconciliation cards reuse `ReportsView`; that view only has Trial Balance and Account Ledger tabs. |
+| **Vouchers** | Core workflow is implemented and integration-tested. Payment, Receipt, Journal, Sales, Client Billing, and Ad Schedules route to the generic voucher view without separate voucher-type filtering or media billing behavior. |
+| **Company profile** | Company settings are stored and update through the company service. `get_profile()` catches every exception and silently returns defaults, which can hide connection/schema failures. |
+| **Users & Roles** | The dashboard’s `UsersRolesView` displays current-session data when no user service is present. `src/app/application/services/user_service.py` is empty, `Services` has no users service, and the separate `UsersView` is not wired into the application. User creation, role assignment, disablement, and password reset are not operational. |
+| **System settings** | The UI displays hard-coded settings and reports “saved” without persisting them. |
+| **Backup / restore** | A UI invokes `pg_dump`/`psql` directly via `subprocess`; there is no automated backup/restore test or verified recovery procedure. Credentials may require external PostgreSQL client configuration. |
 
-Total files: 119  |  empty: 27  |  with content: 92
+## 5. Missing Features
 
-## 4. SQL files
+- Employee UI persistence, service-level authorization, transactional writes, audit records, full HR lifecycle, attendance, payroll, employee documents, and letters.
+- User/role/permission administration, password reset and forced password-change flow. The login “Forgot Password?” and “Remember Session” controls have no completed workflow.
+- P&L, Balance Sheet, bank reconciliation, and dedicated statement/report implementations.
+- Fiscal-period enforcement during posting. `VoucherService.post()` currently passes `period_closed=False` to posting rules, so persisted fiscal-period closure is not consulted.
+- Dedicated implementations for the dashboard’s broadcast/media cards; they currently alias accounting screens.
+- Tested backup-and-restore, installer validation on a clean Windows machine, and a clean shutdown test for the native Qt application.
+- Production credential/bootstrap process that rejects or replaces placeholder password hashes.
 
-```
-AUDIT_RECORDS\backup_before_employee_module\app\infrastructure\database\migrations\0007_employee_profile.sql     992 bytes
-AUDIT_RECORDS\backup_before_employee_module\migrations\0001_core.sql                2786 bytes
-AUDIT_RECORDS\backup_before_employee_module\migrations\0002_hr.sql                   572 bytes
-AUDIT_RECORDS\backup_before_employee_module\migrations\0003_administration.sql       549 bytes
-AUDIT_RECORDS\backup_before_employee_module\migrations\0004_vouchers.sql             527 bytes
-AUDIT_RECORDS\backup_before_employee_module\migrations\0005_journal.sql              870 bytes
-AUDIT_RECORDS\backup_before_employee_module\migrations\0006_accounting_integrity.sql    2530 bytes
-docs\database\0001_core_draft.sql                                                   8057 bytes
-docs\database\erp_office_phase3.sql                                                 1388 bytes
-src\app\infrastructure\database\migrations\0001_core.sql                            2786 bytes
-src\app\infrastructure\database\migrations\0002_hr.sql                               572 bytes
-src\app\infrastructure\database\migrations\0003_administration.sql                   549 bytes
-src\app\infrastructure\database\migrations\0004_vouchers.sql                         527 bytes
-src\app\infrastructure\database\migrations\0005_journal.sql                          870 bytes
-src\app\infrastructure\database\migrations\0006_accounting_integrity.sql            2530 bytes
-src\app\infrastructure\database\migrations\0007_employee_profile.sql                 992 bytes
-src\app\infrastructure\database\migrations\0008_company_settings_fiscal_periods.sql    1035 bytes
-src\app\infrastructure\database\migrations\0009_restrict_account_manage.sql          260 bytes
-src\app\infrastructure\database\migrations\0010_company_and_statement_fields.sql     798 bytes
-```
+## 6. Technical Debt
 
-## 5. Tests (pytest -q)
+- **Employee connection/transaction lifecycle:** `build_services()` opens a PostgreSQL connection and injects it into `EmployeeRepository`. The repository treats an injected connection as external and does not create its own transaction or close it. Employee writes therefore lack the transaction/audit guarantees used by the other services, and the injected connection remains open for the service lifetime.
+- **False-success UI:** Employee save and some settings actions show success without performing or persisting the advertised operation.
+- **Broad silent fallback:** `CompanyService.get_profile()` catches every exception and returns `DEFAULT_COMPANY`, masking database errors as normal data.
+- **UI/infrastructure coupling:** `DatabaseBackupView` launches PostgreSQL command-line tools directly, rather than delegating backup/restore to an infrastructure service.
+- **Permission drift:** the database has 20 permission codes, while `permissions.py` defines only the core 9 in `P.ALL`; dashboard routing uses string fallbacks for employee, user, and backup permissions.
+- **Schema-check drift:** `tools/check_schema.py` reports schema version 10 but still tells operators to migrate only until version 6. Its direct-file invocation can also fail to import `src`; use the documented `python -m tools.check_schema`.
+- **Documentation drift:** README links to `ADR-001-canonical-technology-stack.md`, but the checked-in ADR is `ADR-0001-canonical-technology-stack.md`. README roadmap/status text predates the current dashboard and module routes.
+- **Qt test teardown:** `tests/unit/test_shell_smoke.py` closes windows but does not explicitly dispose of the `QApplication` lifecycle. This is the only test isolated to the access-violation exit; the cause is not yet proven, but it must be resolved before treating the test run as clean.
 
-```
-.......................                                                  [100%]
-23 passed in 1.07s
-```
+## 7. Database Status
 
-## 6. Database erp_office (read-only queries, as erp_app)
+- **Connectivity:** verified read-only connection to database `erp_office` as role `erp_app`.
+- **Schema:** latest applied migration is **10**; the documented schema checker exits successfully. No migration was applied during this audit.
+- **Current row counts:** 2 users, 1 employee, 14 accounts, 0 voucher headers, 0 journal entries, and 1 company settings row.
+- **Credential readiness:** one active user row has a placeholder password hash. It cannot authenticate with a valid Argon2 password until reset; the account and hash are intentionally not identified in this report.
+- **Permission data:** 20 permission rows exist; the schema checker found no missing codes from the application’s current `P.ALL` set.
+- **Operational consequence:** the database is structurally reachable, but it contains no accounting transactions, and the active placeholder credential requires remediation before release.
 
-```
---- schema_version
- version |                   name                   |          applied_at           
----------+------------------------------------------+-------------------------------
-       1 | 0001_core.sql                            | 2026-11-10 15:15:43.198791+05
-       2 | 0002_hr.sql                              | 2026-11-12 15:23:46.980471+05
-       3 | 0003_administration.sql                  | 2026-11-12 15:29:01.861586+05
-       4 | 0004_vouchers.sql                        | 2026-11-12 15:32:33.408087+05
-       5 | 0005_journal.sql                         | 2026-11-14 20:59:22.081332+05
-       6 | 0006_accounting_integrity.sql            | 2026-11-14 20:59:22.081332+05
-       7 | 0007_employee_profile.sql                | 2026-11-17 19:50:40.765857+05
-       8 | 0008_company_settings_fiscal_periods.sql | 2026-11-19 15:28:25.716312+05
-       9 | 0009_restrict_account_manage.sql         | 2026-11-19 15:31:42.749699+05
-      10 | 0010_company_and_statement_fields.sql    | 2026-11-21 19:58:54.727368+05
-(10 rows)
+## 8. Git Status
 
---- tables and owners
-         tablename          | tableowner 
-----------------------------+------------
- accounts                   | erp_app
- assets                     | erp_app
- audit_log                  | erp_app
- auth_group                 | postgres
- auth_group_permissions     | postgres
- auth_permission            | postgres
- auth_user                  | postgres
- auth_user_groups           | postgres
- auth_user_user_permissions | postgres
- company_settings           | erp_app
- departments                | erp_app
- django_admin_log           | postgres
- django_content_type        | postgres
- django_migrations          | postgres
- django_session             | postgres
- employees                  | erp_app
- fiscal_periods             | erp_app
- inventory_items            | erp_app
- journal_entries            | erp_app
- journal_lines              | erp_app
- permissions                | erp_app
- role_permissions           | erp_app
- roles                      | erp_app
- schema_version             | erp_app
- user_roles                 | erp_app
- users                      | erp_app
- voucher_headers            | erp_app
- voucher_lines              | erp_app
-(28 rows)
+- **Branch:** `main`
+- **HEAD:** `67a6561` (`stable-vsh-dashboard`), aligned with `origin/main` at audit time.
+- Before writing this report, the only reported working-tree item was an unrelated untracked root file, `ProjectReport.md`. No source modifications were pending.
+- This audit updates `docs/project_status_report.md`; that report file is therefore the intended tracked change. The pre-existing `ProjectReport.md` is not modified.
 
---- accounts columns
-  column_name   | data_type 
-----------------+-----------
- id             | bigint
- code           | text
- name           | text
- type           | text
- normal_balance | character
- is_active      | boolean
-(6 rows)
+## 9. Production Readiness
 
---- row counts
- table_name  | count 
--------------+-------
- accounts    |    14
- users       |     2
- roles       |     5
- permissions |    20
-(4 rows)
+**Not ready for production (no-go).** The database and main accounting flow have meaningful implementation and test coverage, but current evidence includes:
 
-```
+1. A reproducible Windows access violation after the Qt shell smoke test passes.
+2. An active placeholder credential.
+3. Employee and user-management screens that are incomplete or report success without persistence.
+4. No fiscal-period enforcement in voucher posting.
+5. Incomplete financial statements and unimplemented HR/reporting/dashboard aliases.
+6. No verified backup restore or clean-machine installer acceptance.
+
+The latest full test run reported **23 passed**, but pytest exited with `-1073741819` (`0xC0000005`). Isolating `tests/unit/test_shell_smoke.py` produced **1 passed** and the same fatal process exit. The other 22 unit/integration tests completed with exit code 0. `compileall` and `python -m tools.check_schema` also completed successfully.
+
+## 10. Recommended Next Steps
+
+1. **Resolve the Qt access violation:** make QApplication and test-widget teardown deterministic; rerun the isolated smoke test and full suite on Windows until both exit cleanly.
+2. **Remove the placeholder credential:** reset or disable the affected active account using a controlled admin/bootstrap process; verify no placeholder hashes remain.
+3. **Implement employee CRUD end-to-end:** inject the employee service into the view, use a per-operation unit of work, enforce permissions, validate input, and audit writes; remove false-success messages.
+4. **Implement user administration:** add a real user service/repository workflow and connect it to `UsersView`/`UsersRolesView`; define all permission constants centrally and test authorization.
+5. **Finish accounting controls and reports:** consult fiscal-period state on posting and implement/report-test P&L, Balance Sheet, reconciliation, and statement routes.
+6. **Make dashboard scope truthful:** implement dedicated attendance/payroll/media modules or mark those routes clearly unavailable instead of routing to generic screens.
+7. **Harden company and backup operations:** surface profile-read failures; move `pg_dump`/restore into infrastructure services and test a restore in a disposable database.
+8. **Refresh operator documentation and release gates:** fix the ADR link and schema-version message, update the README roadmap, and validate the installer on a clean Windows system with a tested backup/restore plan.
