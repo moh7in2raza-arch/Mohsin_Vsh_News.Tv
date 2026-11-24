@@ -10,11 +10,11 @@ from pathlib import Path
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPageSize, QTextDocument
-from PySide6.QtPrintSupport import QPrintDialog, QPrinter
+from PySide6.QtPrintSupport import QPrintPreviewDialog, QPrinter
 from PySide6.QtWidgets import (
-    QDialog,
     QFileDialog,
     QMessageBox,
+    QMenu,
     QTableWidget,
     QTableWidgetItem,
 )
@@ -77,6 +77,29 @@ def fill_table(table: QTableWidget, headers, rows, right_cols=()) -> None:
     table.horizontalHeader().setStretchLastSection(True)
 
 
+def render_text_table(headers, rows) -> str:
+    lines = ["\t".join(str(header) for header in headers)]
+    lines.extend(
+        "\t".join(fmt(value).replace("\t", " ").replace("\r", " ").replace("\n", " ")
+                  for value in row)
+        for row in rows
+    )
+    return "\n".join(lines)
+
+
+def render_markdown_table(headers, rows) -> str:
+    def cell(value) -> str:
+        return fmt(value).replace("|", r"\|").replace("\r\n", "<br>").replace("\n", "<br>")
+
+    header_row = "| " + " | ".join(cell(header) for header in headers) + " |"
+    separator = "| " + " | ".join("---" for _ in headers) + " |"
+    body = [
+        "| " + " | ".join(cell(value) for value in row) + " |"
+        for row in rows
+    ]
+    return "\n".join([header_row, separator, *body])
+
+
 def _html(title, subtitle, headers, rows, right_cols):
     logo_uri = _logo_data_uri()
     logo_cell = (
@@ -116,11 +139,60 @@ def print_table(parent, title, headers, rows, subtitle="", right_cols=(), to_pdf
             return
         printer.setOutputFormat(QPrinter.OutputFormat.PdfFormat)
         printer.setOutputFileName(path)
-    elif QPrintDialog(printer, parent).exec() != QDialog.DialogCode.Accepted:
-        return
     doc = QTextDocument()
     doc.setHtml(_html(title, subtitle, headers, rows, right_cols))
-    doc.print_(printer)
+    if to_pdf:
+        doc.print_(printer)
+        return
+    preview = QPrintPreviewDialog(printer, parent)
+    preview.paintRequested.connect(doc.print_)
+    preview.exec()
+
+
+def export_table(parent, title, headers, rows, file_format, subtitle="", right_cols=()) -> None:
+    if file_format in {"pdf", "print"}:
+        print_table(
+            parent, title, headers, rows, subtitle, right_cols,
+            to_pdf=file_format == "pdf",
+        )
+        return
+    if file_format not in {"txt", "md"}:
+        raise ValueError(f"Unsupported report format: {file_format}")
+
+    extension = "md" if file_format == "md" else "txt"
+    file_filter = "Markdown (*.md)" if extension == "md" else "Text (*.txt)"
+    path, _ = QFileDialog.getSaveFileName(
+        parent,
+        "Export report",
+        f"{title}.{extension}",
+        file_filter,
+    )
+    if not path:
+        return
+    content = (
+        render_markdown_table(headers, rows)
+        if extension == "md"
+        else render_text_table(headers, rows)
+    )
+    with open(path, "w", encoding="utf-8", newline="\n") as report_file:
+        report_file.write(content)
+    QMessageBox.information(parent, "Export complete", f"Report saved to:\n{path}")
+
+
+def create_export_menu(owner, export_callback):
+    menu = QMenu(owner)
+    for label, file_format in (
+        ("Print Preview", "print"),
+        ("PDF", "pdf"),
+        ("TXT", "txt"),
+        ("Markdown", "md"),
+    ):
+        action = menu.addAction(label)
+        action.triggered.connect(
+            lambda _checked=False, selected_format=file_format:
+                export_callback(selected_format)
+        )
+    return menu
 
 
 def call_service(parent, fn, *args, **kwargs):

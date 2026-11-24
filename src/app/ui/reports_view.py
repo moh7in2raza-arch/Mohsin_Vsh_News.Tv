@@ -10,14 +10,22 @@ from PySide6.QtWidgets import (
     QPushButton,
     QTableWidget,
     QTabWidget,
+    QToolButton,
     QVBoxLayout,
     QWidget,
 )
 
-from src.app.ui.support import call_service, fill_table, print_table
+from src.app.ui.report_headings import GENERAL_LEDGER_HEADINGS, TRIAL_BALANCE_HEADINGS
+from src.app.ui.support import (
+    call_service,
+    create_export_menu,
+    export_table,
+    fill_table,
+    print_table,
+)
 
-_TB_HEADERS = ["Code", "Account", "Debit", "Credit"]
-_LG_HEADERS = ["Date", "Voucher", "Narration", "Debit", "Credit", "Balance"]
+_TB_HEADERS = TRIAL_BALANCE_HEADINGS
+_LG_HEADERS = GENERAL_LEDGER_HEADINGS
 
 
 def _date_edit(qdate: QDate) -> QDateEdit:
@@ -36,10 +44,6 @@ def _table() -> QTableWidget:
     t = QTableWidget()
     t.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
     return t
-
-
-def _balance_text(value) -> str:
-    return f"{abs(value):,.2f} {'Dr' if value >= 0 else 'Cr'}"
 
 
 class ReportsView(QWidget):
@@ -64,8 +68,10 @@ class ReportsView(QWidget):
         run = QPushButton("Run")
         run.setObjectName("primary")
         run.clicked.connect(self._run_tb)
-        pdf = QPushButton("PDF")
-        pdf.clicked.connect(lambda: self._print_tb(True))
+        export = QToolButton()
+        export.setText("Export")
+        export.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        export.setMenu(create_export_menu(export, self._export_tb))
         prn = QPushButton("Print")
         prn.clicked.connect(lambda: self._print_tb(False))
         bar = QHBoxLayout()
@@ -73,9 +79,10 @@ class ReportsView(QWidget):
         bar.addWidget(self.tb_date)
         bar.addWidget(run)
         bar.addStretch()
-        bar.addWidget(pdf)
+        bar.addWidget(export)
         bar.addWidget(prn)
         self.tb_table = _table()
+        fill_table(self.tb_table, _TB_HEADERS, [])
         self.tb_total = QLabel()
         w = QWidget()
         lay = QVBoxLayout(w)
@@ -85,10 +92,14 @@ class ReportsView(QWidget):
         return w
 
     def _tb_data(self):
-        data = [(r.code, r.name, r.debit, r.credit) for r in self._tb_rows]
+        data = [
+            (r.code, r.name, "", r.total_debit, r.total_credit, r.debit - r.credit)
+            for r in self._tb_rows
+        ]
         if self._tb_rows:
-            data.append(("", "TOTAL", sum(r.debit for r in self._tb_rows),
-                         sum(r.credit for r in self._tb_rows)))
+            total_debit = sum(r.total_debit for r in self._tb_rows)
+            total_credit = sum(r.total_credit for r in self._tb_rows)
+            data.append(("", "TOTAL", "", total_debit, total_credit, total_debit - total_credit))
         return data
 
     def _run_tb(self) -> None:
@@ -97,17 +108,27 @@ class ReportsView(QWidget):
         if ok:
             self._tb_rows = rows
             data = self._tb_data()
-            fill_table(self.tb_table, _TB_HEADERS, data)
+            fill_table(self.tb_table, _TB_HEADERS, data, right_cols=(2, 3, 4, 5))
             if rows:
-                d, c = data[-1][2], data[-1][3]
+                d, c = data[-1][3], data[-1][4]
                 self.tb_total.setText(f"Total debit {d:,.2f}   Total credit {c:,.2f}")
             else:
                 self.tb_total.setText("No posted entries up to this date.")
 
     def _print_tb(self, to_pdf: bool) -> None:
-        print_table(self, "Trial balance", _TB_HEADERS, self._tb_data(),
-                    subtitle=f"As of {_py(self.tb_date):%d-%b-%Y}", right_cols=(2, 3),
-                    to_pdf=to_pdf)
+        if to_pdf:
+            self._export_tb("pdf")
+        else:
+            print_table(self, "Trial balance", _TB_HEADERS, self._tb_data(),
+                        subtitle=f"As of {_py(self.tb_date):%d-%b-%Y}",
+                        right_cols=(2, 3, 4, 5))
+
+    def _export_tb(self, file_format: str) -> None:
+        export_table(
+            self, "Trial balance", _TB_HEADERS, self._tb_data(),
+            file_format, subtitle=f"As of {_py(self.tb_date):%d-%b-%Y}",
+            right_cols=(2, 3, 4, 5),
+        )
 
     # ---- ledger ----
     def _build_ledger(self) -> QWidget:
@@ -118,8 +139,10 @@ class ReportsView(QWidget):
         run = QPushButton("Run")
         run.setObjectName("primary")
         run.clicked.connect(self._run_ledger)
-        pdf = QPushButton("PDF")
-        pdf.clicked.connect(lambda: self._print_ledger(True))
+        export = QToolButton()
+        export.setText("Export")
+        export.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        export.setMenu(create_export_menu(export, self._export_ledger))
         prn = QPushButton("Print")
         prn.clicked.connect(lambda: self._print_ledger(False))
         bar = QHBoxLayout()
@@ -127,9 +150,10 @@ class ReportsView(QWidget):
                        QLabel("To"), self.lg_to, run):
             bar.addWidget(widget)
         bar.addStretch()
-        bar.addWidget(pdf)
+        bar.addWidget(export)
         bar.addWidget(prn)
         self.lg_table = _table()
+        fill_table(self.lg_table, _LG_HEADERS, [])
         w = QWidget()
         lay = QVBoxLayout(w)
         lay.addLayout(bar)
@@ -137,8 +161,10 @@ class ReportsView(QWidget):
         return w
 
     def _lg_data(self):
-        return [(r.entry_date, r.voucher_no, r.narration, r.debit, r.credit,
-                 _balance_text(r.balance)) for r in self._lg_rows]
+        return [
+            (r.entry_date, r.voucher_no, "", r.narration, r.debit, r.credit, r.balance)
+            for r in self._lg_rows
+        ]
 
     def _run_ledger(self) -> None:
         account_id = self.lg_account.currentData()
@@ -148,13 +174,26 @@ class ReportsView(QWidget):
                                 account_id, _py(self.lg_from), _py(self.lg_to))
         if ok:
             self._lg_rows = rows
-            fill_table(self.lg_table, _LG_HEADERS, self._lg_data(), right_cols=(5,))
+            fill_table(self.lg_table, _LG_HEADERS, self._lg_data(), right_cols=(4, 5, 6))
 
     def _print_ledger(self, to_pdf: bool) -> None:
-        sub = (f"{self.lg_account.currentText()}  |  "
-               f"{_py(self.lg_from):%d-%b-%Y} to {_py(self.lg_to):%d-%b-%Y}")
-        print_table(self, "Account ledger", _LG_HEADERS, self._lg_data(), subtitle=sub,
-                    right_cols=(3, 4, 5), to_pdf=to_pdf)
+        if to_pdf:
+            self._export_ledger("pdf")
+        else:
+            print_table(
+                self, "Account ledger", _LG_HEADERS, self._lg_data(),
+                subtitle=self._ledger_subtitle(), right_cols=(4, 5, 6),
+            )
+
+    def _ledger_subtitle(self) -> str:
+        return (f"{self.lg_account.currentText()}  |  "
+                f"{_py(self.lg_from):%d-%b-%Y} to {_py(self.lg_to):%d-%b-%Y}")
+
+    def _export_ledger(self, file_format: str) -> None:
+        export_table(
+            self, "Account ledger", _LG_HEADERS, self._lg_data(),
+            file_format, subtitle=self._ledger_subtitle(), right_cols=(4, 5, 6),
+        )
 
     def refresh(self) -> None:
         ok, accounts = call_service(self, self._accounts.list_accounts, self._session)

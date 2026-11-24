@@ -1,6 +1,7 @@
 import logging
 import sys
 
+from PySide6.QtCore import QCoreApplication, QEvent
 from PySide6.QtWidgets import QApplication, QMessageBox
 
 from src.app.bootstrap import build_services, start_logging
@@ -30,6 +31,19 @@ class Shell:
         self._main.show()
         self.login.hide()
 
+    def shutdown(self) -> None:
+        main, self._main = self._main, None
+        if main is not None:
+            main.shutdown()
+            main.deleteLater()
+        self.login.close()
+        self.login.deleteLater()
+
+        app = QApplication.instance()
+        if app is not None:
+            QCoreApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
+            app.processEvents()
+
 
 def _excepthook(exc_type, exc, tb) -> None:
     log.critical("Unhandled error", exc_info=(exc_type, exc, tb))
@@ -44,7 +58,10 @@ def main() -> int:
     apply_style(app)
     shell = Shell(build_services())
     shell.start()
-    return app.exec()
+    try:
+        return app.exec()
+    finally:
+        shell.shutdown()
 
 
 if __name__ == "__main__":

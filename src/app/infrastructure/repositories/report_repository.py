@@ -16,7 +16,9 @@ class ReportRepository:
             self.conn,
             """SELECT a.code, a.name,
                       GREATEST(SUM(jl.debit) - SUM(jl.credit), 0)  AS debit,
-                      GREATEST(SUM(jl.credit) - SUM(jl.debit), 0)  AS credit"""
+                      GREATEST(SUM(jl.credit) - SUM(jl.debit), 0)  AS credit,
+                      SUM(jl.debit) AS total_debit,
+                      SUM(jl.credit) AS total_credit"""
             + _FROM
             + """ JOIN accounts a ON a.id = jl.account_id
                   WHERE vh.voucher_date <= %s

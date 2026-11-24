@@ -4,19 +4,27 @@ from PySide6.QtWidgets import (
     QDialog,
     QHBoxLayout,
     QLabel,
+    QListWidget,
     QMessageBox,
     QPushButton,
     QTableWidget,
+    QToolButton,
     QVBoxLayout,
     QWidget,
 )
 
 from src.app.domain.security import permissions as P
 from src.app.domain.workflow import TRANSITIONS, can_transition
-from src.app.ui.support import call_service, fill_table, print_table
+from src.app.ui.report_headings import VOUCHER_HEADINGS
+from src.app.ui.support import (
+    call_service,
+    create_export_menu,
+    export_table,
+    fill_table,
+)
 from src.app.ui.voucher_dialog import VoucherDialog
 
-_HEADERS = ["No.", "Date", "Narration", "Status", "Debit", "Credit"]
+_HEADERS = VOUCHER_HEADINGS
 
 
 def _table() -> QTableWidget:
@@ -46,7 +54,10 @@ class VouchersView(QWidget):
         self.btn_back = self._button("Return to draft", lambda: self._move("return_to_draft"))
         self.btn_post = self._button("Post", lambda: self._move("post", confirm=True))
         self.btn_reverse = self._button("Reverse", lambda: self._move("reverse", confirm=True))
-        self.btn_print = self._button("Print list", self._print)
+        self.btn_print = QToolButton()
+        self.btn_print.setText("Export voucher")
+        self.btn_print.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        self.btn_print.setMenu(create_export_menu(self.btn_print, self._export))
 
         bar = QHBoxLayout()
         bar.addWidget(QLabel("Status"))
@@ -56,14 +67,15 @@ class VouchersView(QWidget):
                   self.btn_post, self.btn_reverse, self.btn_print):
             bar.addWidget(b)
 
-        self.table = _table()
-        self.table.itemSelectionChanged.connect(self._on_select)
+        self.table = QListWidget()
+        self.table.currentRowChanged.connect(self._on_select)
         self.detail = _table()
+        self._selected_detail = []
+        fill_table(self.detail, _HEADERS, [])
 
         layout = QVBoxLayout(self)
         layout.addLayout(bar)
-        layout.addWidget(self.table, 3)
-        layout.addWidget(QLabel("Lines of the selected voucher"))
+        layout.addWidget(self.table, 1)
         layout.addWidget(self.detail, 2)
         self._update_buttons()
 
@@ -83,23 +95,44 @@ class VouchersView(QWidget):
         ok, rows = call_service(self, self._vouchers.list_vouchers, self._session,
                                 None if status == "All" else status)
         self._rows = rows if ok else []
-        fill_table(self.table, _HEADERS,
-                   [(v.voucher_no, v.voucher_date, v.narration or "", v.status,
-                     v.debit, v.credit) for v in self._rows])
+        self.table.blockSignals(True)
+        self.table.clear()
+        for voucher in self._rows:
+            self.table.addItem(
+                f"{voucher.voucher_no} | {voucher.voucher_date:%d-%b-%Y} | "
+                f"{voucher.narration or ''} | {voucher.status}"
+            )
+        self.table.setCurrentRow(-1)
+        self.table.blockSignals(False)
         self.detail.clear()
         self.detail.setRowCount(0)
-        self._update_buttons()
+        self._selected_detail = []
+        if self._rows:
+            self.table.setCurrentRow(0)
+        else:
+            self._update_buttons()
 
     def _on_select(self) -> None:
         self._update_buttons()
         v = self._selected()
         if v is None:
+            self._selected_detail = []
+            self.detail.clear()
+            self.detail.setRowCount(0)
             return
         ok, detail = call_service(self, self._vouchers.get_voucher, self._session, v.id)
         if ok:
-            fill_table(self.detail, ["Account code", "Account", "Debit", "Credit"],
-                       [(l.account_code, l.account_name, l.debit, l.credit)
-                        for l in detail.lines])
+            self._selected_detail = [
+                (line.account_code, line.account_name, detail.header.narration or "",
+                 line.debit, line.credit)
+                for line in detail.lines
+            ]
+            fill_table(self.detail, _HEADERS, self._selected_detail, right_cols=(3, 4))
+        else:
+            self._selected_detail = []
+            self.detail.clear()
+            self.detail.setRowCount(0)
+        self._update_buttons()
 
     def _update_buttons(self) -> None:
         s = self._session
@@ -115,7 +148,7 @@ class VouchersView(QWidget):
         self.btn_back.setEnabled(allowed("Draft", P.VOUCHER_APPROVE))
         self.btn_post.setEnabled(allowed("Posted", P.VOUCHER_POST))
         self.btn_reverse.setEnabled(allowed("Reversed", P.VOUCHER_REVERSE))
-        self.btn_print.setEnabled(bool(self._rows))
+        self.btn_print.setEnabled(bool(self._selected_detail))
 
     def _new(self) -> None:
         ok, accounts = call_service(self, self._accounts.list_accounts, self._session)
@@ -144,7 +177,11 @@ class VouchersView(QWidget):
         if ok:
             self.refresh()
 
-    def _print(self) -> None:
-        rows = [(v.voucher_no, v.voucher_date, v.narration or "", v.status, v.debit, v.credit)
-                for v in self._rows]
-        print_table(self, "Vouchers", _HEADERS, rows, right_cols=(4, 5))
+    def _export(self, file_format: str) -> None:
+        selected = self._selected()
+        title = f"Voucher {selected.voucher_no}" if selected is not None else "Voucher"
+        export_table(
+            self, title, _HEADERS, self._selected_detail, file_format,
+            subtitle=selected.narration or "" if selected is not None else "",
+            right_cols=(3, 4),
+        )

@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal, InvalidOperation
 
-from PySide6.QtCore import QDate, QRegularExpression
+from PySide6.QtCore import QDate, QRegularExpression, Qt
 from PySide6.QtGui import QRegularExpressionValidator
 from PySide6.QtWidgets import (
     QComboBox,
@@ -15,8 +15,11 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QTableWidget,
+    QTableWidgetItem,
     QVBoxLayout,
 )
+
+from src.app.ui.report_headings import VOUCHER_HEADINGS
 
 _ZERO = Decimal("0")
 
@@ -45,9 +48,10 @@ class VoucherDialog(QDialog):
         form.addRow("Date", self.date)
         form.addRow("Narration", self.narration)
 
-        self.table = QTableWidget(0, 3)
-        self.table.setHorizontalHeaderLabels(["Account", "Debit", "Credit"])
-        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        self.table = QTableWidget(0, len(VOUCHER_HEADINGS))
+        self.table.setHorizontalHeaderLabels(list(VOUCHER_HEADINGS))
+        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        self.narration.textChanged.connect(self._sync_particulars)
 
         add = QPushButton("Add line")
         add.clicked.connect(self.add_row)
@@ -79,19 +83,36 @@ class VoucherDialog(QDialog):
         row = self.table.rowCount()
         self.table.insertRow(row)
         combo = QComboBox()
-        combo.addItem("Select account...", None)
+        combo.addItem("", None)
+        account_names = {}
         for a in self._accounts:
-            combo.addItem(f"{a.code} - {a.name}", a.id)
-        combo.currentIndexChanged.connect(self._refresh)
+            combo.addItem(str(a.code), a.id)
+            account_names[a.id] = str(a.name)
         self.table.setCellWidget(row, 0, combo)
+        account_title = QTableWidgetItem()
+        account_title.setFlags(account_title.flags() & ~Qt.ItemFlag.ItemIsEditable)
+        self.table.setItem(row, 1, account_title)
+        particulars = QTableWidgetItem(self.narration.text())
+        particulars.setFlags(particulars.flags() & ~Qt.ItemFlag.ItemIsEditable)
+        self.table.setItem(row, 2, particulars)
+        combo.currentIndexChanged.connect(
+            lambda index, box=combo, title=account_title, names=account_names:
+                title.setText(names.get(box.itemData(index), ""))
+        )
         validator = QRegularExpressionValidator(QRegularExpression(r"^\d{0,12}(\.\d{0,2})?$"))
-        for col in (1, 2):
+        for col in (3, 4):
             edit = QLineEdit()
             edit.setValidator(validator)
             edit.setPlaceholderText("0.00")
             edit.textChanged.connect(self._refresh)
             self.table.setCellWidget(row, col, edit)
         self._refresh()
+
+    def _sync_particulars(self) -> None:
+        for row in range(self.table.rowCount()):
+            item = self.table.item(row, 2)
+            if item is not None:
+                item.setText(self.narration.text())
 
     def _remove_row(self) -> None:
         row = self.table.currentRow()
@@ -103,8 +124,8 @@ class VoucherDialog(QDialog):
         lines, ok = [], True
         for r in range(self.table.rowCount()):
             account_id = self.table.cellWidget(r, 0).currentData()
-            debit = _amount(self.table.cellWidget(r, 1))
-            credit = _amount(self.table.cellWidget(r, 2))
+            debit = _amount(self.table.cellWidget(r, 3))
+            credit = _amount(self.table.cellWidget(r, 4))
             if debit == 0 and credit == 0:
                 continue
             if account_id is None or (debit > 0) == (credit > 0):

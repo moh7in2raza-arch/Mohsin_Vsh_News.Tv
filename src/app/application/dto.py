@@ -57,6 +57,8 @@ class TrialBalanceRow:
     name: str
     debit: Decimal
     credit: Decimal
+    total_debit: Decimal = Decimal("0.00")
+    total_credit: Decimal = Decimal("0.00")
 
 
 @dataclass(frozen=True)

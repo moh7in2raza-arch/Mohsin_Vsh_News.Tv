@@ -20,9 +20,14 @@ from PySide6.QtWidgets import (
 
 from src.app.domain.accounting.chart import ACCOUNT_TYPES
 from src.app.domain.security import permissions as P
-from src.app.ui.support import call_service, fill_table, print_table
+from src.app.ui.report_headings import ACCOUNTS_HEADINGS
+from src.app.ui.support import (
+    call_service,
+    export_table,
+    fill_table,
+)
 
-_HEADERS = ["Code", "Name", "Type", "Normal balance"]
+_HEADERS = ACCOUNTS_HEADINGS
 
 
 class _AccountDialog(QDialog):
@@ -58,15 +63,24 @@ class AccountsView(QWidget):
         self.btn_new.setEnabled(session.has(P.ACCOUNT_MANAGE))
         self.btn_new.clicked.connect(self._new)
 
-        self.btn_save = QPushButton("Save")
+        self.btn_save = QPushButton("Export")
         save_menu = QMenu(self.btn_save)
+        act_preview = QAction("Print Preview", self)
         act_pdf = QAction("Save as PDF (*.pdf)", self)
+        act_txt = QAction("Save as TXT (*.txt)", self)
+        act_md = QAction("Save as Markdown (*.md)", self)
         act_csv = QAction("Save as CSV (*.csv)", self)
         act_xlsx = QAction("Save as Excel (*.xlsx)", self)
-        act_pdf.triggered.connect(self._save_pdf)
+        act_preview.triggered.connect(lambda: self._export("print"))
+        act_pdf.triggered.connect(lambda: self._export("pdf"))
+        act_txt.triggered.connect(lambda: self._export("txt"))
+        act_md.triggered.connect(lambda: self._export("md"))
         act_csv.triggered.connect(self._save_csv)
         act_xlsx.triggered.connect(self._save_excel)
+        save_menu.addAction(act_preview)
         save_menu.addAction(act_pdf)
+        save_menu.addAction(act_txt)
+        save_menu.addAction(act_md)
         save_menu.addAction(act_csv)
         save_menu.addAction(act_xlsx)
         self.btn_save.setMenu(save_menu)
@@ -79,6 +93,7 @@ class AccountsView(QWidget):
         self.table = QTableWidget()
         self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        fill_table(self.table, _HEADERS, [])
 
         layout = QVBoxLayout(self)
         layout.addLayout(bar)
@@ -96,7 +111,8 @@ class AccountsView(QWidget):
 
     def _data(self):
         return [
-            (a.code, f"{'    ' * self._indent_level(a.code)}{a.name}", a.type, a.normal_balance)
+            (a.code, f"{'    ' * self._indent_level(a.code)}{a.name}", a.type,
+             "", "", a.is_active)
             for a in self._rows
         ]
 
@@ -120,12 +136,12 @@ class AccountsView(QWidget):
                 self.refresh()
 
     def _save_pdf(self) -> None:
-        print_table(
-            self,
-            "Visionary Baluchistan Media Corporation (Pvt) Ltd — CHART OF ACCOUNTS",
-            _HEADERS,
-            self._data(),
-            to_pdf=True,
+        self._export("pdf")
+
+    def _export(self, file_format: str) -> None:
+        export_table(
+            self, "Chart of Accounts", _HEADERS, self._data(), file_format,
+            right_cols=(3, 4),
         )
 
     def _save_csv(self) -> None:
@@ -169,19 +185,17 @@ class AccountsView(QWidget):
         for cell in ws:
             cell.font = Font(bold=True)
 
-        for a in self._rows:
+        for a, data in zip(self._rows, self._data()):
             level = self._indent_level(a.code)
-            ws.append([a.code, a.name, a.type, a.normal_balance])
+            ws.append(list(data))
             r_idx = ws.max_row
             ws.cell(row=r_idx, column=2).alignment = Alignment(indent=level * 2)
             if level == 0:
-                for col in range(1, 5):
+                for col in range(1, len(_HEADERS) + 1):
                     ws.cell(row=r_idx, column=col).font = Font(bold=True)
 
-        ws.column_dimensions["A"].width = 16
-        ws.column_dimensions["B"].width = 55
-        ws.column_dimensions["C"].width = 18
-        ws.column_dimensions["D"].width = 18
+        for column, width in zip("ABCDEF", (16, 55, 18, 18, 18, 12)):
+            ws.column_dimensions[column].width = width
         wb.save(path)
         QMessageBox.information(self, "Saved", f"Chart of Accounts saved to:\n{path}")
 

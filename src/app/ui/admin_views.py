@@ -20,12 +20,20 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QTableWidget,
+    QToolButton,
     QTextEdit,
     QVBoxLayout,
     QWidget,
 )
 
-from src.app.ui.support import active_company_profile, call_service, fill_table
+from src.app.ui.report_headings import USERS_HEADINGS
+from src.app.ui.support import (
+    active_company_profile,
+    call_service,
+    create_export_menu,
+    export_table,
+    fill_table,
+)
 
 
 class UsersRolesView(QWidget):
@@ -40,13 +48,20 @@ class UsersRolesView(QWidget):
         btn_refresh = QPushButton("Refresh Users")
         btn_refresh.setObjectName("primary")
         btn_refresh.clicked.connect(self.refresh)
+        self.btn_export = QToolButton()
+        self.btn_export.setText("Export")
+        self.btn_export.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        self.btn_export.setMenu(create_export_menu(self.btn_export, self._export))
         bar.addWidget(lbl)
         bar.addStretch()
         bar.addWidget(btn_refresh)
+        bar.addWidget(self.btn_export)
 
         self.table = QTableWidget()
         self.table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        fill_table(self.table, USERS_HEADINGS, [])
+        fill_table(self.table, USERS_HEADINGS, [])
 
         self.perm_box = QTextEdit()
         self.perm_box.setReadOnly(True)
@@ -60,27 +75,44 @@ class UsersRolesView(QWidget):
 
     def refresh(self) -> None:
         user_svc = getattr(self._services, "users", None) or getattr(self._services, "auth", None)
-        rows = []
+        users = []
         if user_svc and hasattr(user_svc, "list_users"):
             ok, data = call_service(self, user_svc.list_users, self._session)
             if ok and data:
-                for u in data:
-                    rows.append((
-                        getattr(u, "id", ""),
-                        getattr(u, "username", ""),
-                        getattr(u, "full_name", getattr(u, "username", "")),
-                        "Active" if getattr(u, "is_active", True) else "Inactive",
-                    ))
-        if not rows:
-            rows = [(
-                getattr(self._session, "user_id", 1),
-                getattr(self._session, "username", "admin"),
-                "System Administrator",
-                "Active",
-            )]
-        fill_table(self.table, ["ID", "Username", "Display Name", "Status"], rows)
+                users = list(data)
+        if not users:
+            users = [{"username": getattr(self._session, "username", "admin")}]
+        rows = [
+            (
+                self._user_value(user, "username"),
+                self._user_value(user, "designation"),
+                self._user_value(user, "add_edit_rights"),
+                self._user_value(user, "delete_rights"),
+                self._user_value(user, "reports_access"),
+                self._user_value(user, "backup_restore"),
+            )
+            for user in users
+        ]
+        fill_table(self.table, USERS_HEADINGS, rows)
         perms = sorted(str(p) for p in getattr(self._session, "permissions", []))
         self.perm_box.setPlainText(", ".join(perms) if perms else "Standard session permissions loaded.")
+
+    @staticmethod
+    def _user_value(user, key):
+        if isinstance(user, dict):
+            return user.get(key, "")
+        return getattr(user, key, "")
+
+    def _export(self, file_format: str) -> None:
+        rows = [
+            tuple(
+                self.table.item(row, column).text()
+                if self.table.item(row, column) is not None else ""
+                for column in range(self.table.columnCount())
+            )
+            for row in range(self.table.rowCount())
+        ]
+        export_table(self, "Users", USERS_HEADINGS, rows, file_format)
 
 
 class CompanyProfileView(QWidget):

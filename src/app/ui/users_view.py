@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -10,9 +9,13 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QTableWidget,
     QTableWidgetItem,
+    QToolButton,
     QHeaderView,
     QMessageBox,
 )
+
+from src.app.ui.report_headings import USERS_HEADINGS
+from src.app.ui.support import create_export_menu, export_table
 
 
 class UsersView(QWidget):
@@ -95,6 +98,10 @@ class UsersView(QWidget):
         self.disable_button = QPushButton("Disable User")
         self.role_button = QPushButton("Assign Role")
         self.refresh_button = QPushButton("Refresh")
+        self.export_button = QToolButton()
+        self.export_button.setText("Export")
+        self.export_button.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        self.export_button.setMenu(create_export_menu(self.export_button, self._export))
 
         button_row.addWidget(self.add_button)
         button_row.addWidget(self.edit_button)
@@ -105,6 +112,7 @@ class UsersView(QWidget):
         button_row.addStretch()
 
         button_row.addWidget(self.refresh_button)
+        button_row.addWidget(self.export_button)
 
         layout.addLayout(button_row)
 
@@ -117,14 +125,7 @@ class UsersView(QWidget):
         self.table.setColumnCount(6)
 
         self.table.setHorizontalHeaderLabels(
-            [
-                "Username",
-                "Employee",
-                "Role",
-                "Status",
-                "Last Login",
-                "Must Change Password",
-            ]
+            list(USERS_HEADINGS)
         )
 
         self.table.horizontalHeader().setSectionResizeMode(
@@ -188,61 +189,35 @@ class UsersView(QWidget):
                 str(ex),
             )
 
+        rows = [
+            (
+                user.get("username", ""),
+                user.get("designation", ""),
+                user.get("add_edit_rights", ""),
+                user.get("delete_rights", ""),
+                user.get("reports_access", ""),
+                user.get("backup_restore", ""),
+            )
+            for user in users
+        ]
         self.table.setRowCount(len(users))
 
-        for row, user in enumerate(users):
+        for row_index, values in enumerate(rows):
+            for column, value in enumerate(values):
+                self.table.setItem(
+                    row_index, column, QTableWidgetItem(str(value or ""))
+                )
 
-            self.table.setItem(
-                row,
-                0,
-                QTableWidgetItem(
-                    str(user.get("username", ""))
-                ),
+    def _export(self, file_format: str) -> None:
+        rows = [
+            tuple(
+                self.table.item(row, column).text()
+                if self.table.item(row, column) is not None else ""
+                for column in range(self.table.columnCount())
             )
-
-            self.table.setItem(
-                row,
-                1,
-                QTableWidgetItem(
-                    str(user.get("employee_name", ""))
-                ),
-            )
-
-            self.table.setItem(
-                row,
-                2,
-                QTableWidgetItem(
-                    str(user.get("role_name", ""))
-                ),
-            )
-
-            self.table.setItem(
-                row,
-                3,
-                QTableWidgetItem(
-                    "Active"
-                    if user.get("is_active")
-                    else "Disabled"
-                ),
-            )
-
-            self.table.setItem(
-                row,
-                4,
-                QTableWidgetItem(
-                    str(user.get("last_login", ""))
-                ),
-            )
-
-            self.table.setItem(
-                row,
-                5,
-                QTableWidgetItem(
-                    "Yes"
-                    if user.get("must_change_password")
-                    else "No"
-                ),
-            )
+            for row in range(self.table.rowCount())
+        ]
+        export_table(self, "Users", USERS_HEADINGS, rows, file_format)
 
     def filter_users(self):
         text = self.search_edit.text().lower()

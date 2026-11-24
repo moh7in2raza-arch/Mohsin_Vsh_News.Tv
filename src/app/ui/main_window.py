@@ -229,12 +229,19 @@ class VshNewsMainWindow(QMainWindow):
         )
         self._open_windows[title] = window
 
-    def _logout(self) -> None:
-        self._services.auth.logout()
+    def _dispose_module_windows(self) -> None:
         for window in list(self._open_windows.values()):
             window.close()
             window.deleteLater()
         self._open_windows.clear()
+
+    def shutdown(self) -> None:
+        self._dispose_module_windows()
+        self.close()
+
+    def _logout(self) -> None:
+        self._services.auth.logout()
+        self._dispose_module_windows()
         self.logged_out.emit()
         self.close()
 

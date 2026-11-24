@@ -23,6 +23,7 @@ class EmployeeRepository:
 
     def add(self, employee: Employee) -> int:
         with self._connection() as conn:
+            department_id = self._department_id(conn, employee.department)
             row = conn.execute(
                 """
                 INSERT INTO employees (
@@ -30,6 +31,7 @@ class EmployeeRepository:
                     full_name,
                     email,
                     phone,
+                    department_id,
                     joining_date,
                     status,
                     cnic,
@@ -37,7 +39,7 @@ class EmployeeRepository:
                     salary
                 )
                 VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )
                 RETURNING id
                 """,
@@ -46,6 +48,7 @@ class EmployeeRepository:
                     employee.full_name,
                     employee.email,
                     employee.phone,
+                    department_id,
                     employee.joining_date,
                     employee.status,
                     employee.cnic,
@@ -57,6 +60,7 @@ class EmployeeRepository:
 
     def update(self, employee: Employee) -> None:
         with self._connection() as conn:
+            department_id = self._department_id(conn, employee.department)
             conn.execute(
                 """
                 UPDATE employees
@@ -64,6 +68,7 @@ class EmployeeRepository:
                     full_name = %s,
                     email = %s,
                     phone = %s,
+                    department_id = %s,
                     joining_date = %s,
                     status = %s,
                     cnic = %s,
@@ -75,6 +80,7 @@ class EmployeeRepository:
                     employee.full_name,
                     employee.email,
                     employee.phone,
+                    department_id,
                     employee.joining_date,
                     employee.status,
                     employee.cnic,
@@ -83,6 +89,24 @@ class EmployeeRepository:
                     employee.employee_id,
                 ),
             )
+
+    def _department_id(self, conn, department_name: str) -> int | None:
+        name = (department_name or "").strip()
+        if not name:
+            return None
+        row = conn.execute(
+            "SELECT id FROM departments WHERE name = %s",
+            (name,),
+        ).fetchone()
+        if row is not None:
+            return row[0]
+        row = conn.execute(
+            "INSERT INTO departments (code, name) VALUES (%s, %s) "
+            "ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name "
+            "RETURNING id",
+            (name[:50].upper().replace(" ", "_"), name),
+        ).fetchone()
+        return row[0]
 
     def delete(self, employee_id: str) -> None:
         with self._connection() as conn:
@@ -100,17 +124,19 @@ class EmployeeRepository:
                 conn,
                 """
                 SELECT
-                    employee_code,
-                    full_name,
-                    cnic,
-                    phone,
-                    email,
-                    designation,
-                    joining_date,
-                    salary,
-                    status
-                FROM employees
-                WHERE employee_code = %s
+                    e.employee_code,
+                    e.full_name,
+                    e.cnic,
+                    e.phone,
+                    e.email,
+                    d.name AS department,
+                    e.designation,
+                    e.joining_date,
+                    e.salary,
+                    e.status
+                FROM employees e
+                LEFT JOIN departments d ON d.id = e.department_id
+                WHERE e.employee_code = %s
                 """,
                 (employee_id,),
             )
@@ -124,7 +150,7 @@ class EmployeeRepository:
             cnic=row["cnic"] or "",
             phone=row["phone"] or "",
             email=row["email"] or "",
-            department="",
+            department=row["department"] or "",
             designation=row["designation"] or "",
             joining_date=row["joining_date"],
             salary=Decimal(str(row["salary"] or 0)),
@@ -137,16 +163,18 @@ class EmployeeRepository:
                 conn,
                 """
                 SELECT
-                    employee_code,
-                    full_name,
-                    email,
-                    phone,
-                    designation,
-                    salary,
-                    status,
-                    joining_date
-                FROM employees
-                ORDER BY full_name
+                    e.employee_code,
+                    e.full_name,
+                    d.name AS department,
+                    e.designation,
+                    e.cnic,
+                    e.phone,
+                    e.joining_date,
+                    e.salary,
+                    e.status
+                FROM employees e
+                LEFT JOIN departments d ON d.id = e.department_id
+                ORDER BY e.full_name
                 """,
             )
     

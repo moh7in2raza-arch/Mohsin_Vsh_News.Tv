@@ -22,5 +22,4 @@ def test_shell_shows_dashboard_with_fake_services():
         assert shell._main._stack.currentWidget() is shell._main._dashboard
         assert shell._main._dashboard.isVisible()
     finally:
-        shell._main.close()
-        shell.login.close()
+        shell.shutdown()
