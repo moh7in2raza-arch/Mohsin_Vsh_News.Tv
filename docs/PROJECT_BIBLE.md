@@ -64,3 +64,30 @@ Dashboard
 EXE
 Setup
 Release
+
+## Chart Of Accounts Source
+
+File:
+
+docs/decisions/source_data/Accounts.xls
+
+Source Type:
+
+Approved Business Data Source
+
+Used By:
+
+- Payment Voucher
+- Receipt Voucher
+- Journal Voucher
+- Contra Voucher
+- General Ledger
+- Account Ledger
+- Trial Balance
+- Financial Reports
+
+Rule:
+
+Do not manually create account heads.
+
+Use Account Code + Account Name from Accounts.xls.

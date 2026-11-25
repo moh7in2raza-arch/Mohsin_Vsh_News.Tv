@@ -3,7 +3,7 @@
 VOUCHER_HEADINGS = (
     "AcCode",
     "Account Head Title",
-    "Particulars",
+    "Description",
     "Debit",
     "Credit",
 )

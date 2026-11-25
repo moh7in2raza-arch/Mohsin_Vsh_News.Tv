@@ -5,6 +5,7 @@ from src.app.infrastructure.repositories._sql import fetch_all, fetch_one
 
 _HEADER_SQL = """
     SELECT h.id, h.voucher_no, h.voucher_date, h.narration, h.status,
+           h.party_name, h.cheque_no, h.cheque_date,
            COALESCE((SELECT SUM(debit)  FROM voucher_lines WHERE voucher_id = h.id), 0) AS debit,
            COALESCE((SELECT SUM(credit) FROM voucher_lines WHERE voucher_id = h.id), 0) AS credit
     FROM voucher_headers h
@@ -23,22 +24,58 @@ class VoucherRepository:
         n = self.conn.execute("SELECT nextval('voucher_no_seq')").fetchone()[0]
         return f"V-{year}-{n:06d}"
 
-    def insert_header(self, voucher_no, voucher_date, narration, created_by) -> int:
+    def insert_header(
+        self, voucher_no, voucher_date, narration, created_by,
+        party_name="", cheque_no="", cheque_date=None,
+    ) -> int:
         row = self.conn.execute(
             """INSERT INTO voucher_headers
-                   (voucher_no, voucher_date, narration, status, created_by)
-               VALUES (%s, %s, %s, 'Draft', %s) RETURNING id""",
-            (voucher_no, voucher_date, narration, created_by),
+                   (voucher_no, voucher_date, narration, status, created_by,
+                    party_name, cheque_no, cheque_date)
+               VALUES (%s, %s, %s, 'Draft', %s, %s, %s, %s) RETURNING id""",
+            (
+                voucher_no, voucher_date, narration, created_by,
+                party_name, cheque_no, cheque_date,
+            ),
         ).fetchone()
         return row[0]
 
     def insert_lines(self, voucher_id, lines) -> None:
         with self.conn.cursor() as cur:
             cur.executemany(
-                """INSERT INTO voucher_lines (voucher_id, account_id, debit, credit)
-                   VALUES (%s, %s, %s, %s)""",
-                [(voucher_id, l.account_id, l.debit, l.credit) for l in lines],
+                """INSERT INTO voucher_lines
+                       (voucher_id, account_id, debit, credit, description)
+                   VALUES (%s, %s, %s, %s, %s)""",
+                [
+                    (
+                        voucher_id,
+                        line["account_id"],
+                        line["debit"],
+                        line["credit"],
+                        line["description"],
+                    )
+                    for line in lines
+                ],
             )
+
+    def update_draft_header(
+        self, voucher_id, voucher_date, narration, party_name,
+        cheque_no, cheque_date,
+    ) -> None:
+        self.conn.execute(
+            """UPDATE voucher_headers
+               SET voucher_date = %s, narration = %s, party_name = %s,
+                   cheque_no = %s, cheque_date = %s
+               WHERE id = %s AND status = 'Draft'""",
+            (voucher_date, narration, party_name, cheque_no, cheque_date, voucher_id),
+        )
+
+    def replace_lines(self, voucher_id, lines) -> None:
+        self.conn.execute(
+            "DELETE FROM voucher_lines WHERE voucher_id = %s",
+            (voucher_id,),
+        )
+        self.insert_lines(voucher_id, lines)
 
     def get_header(self, voucher_id, lock=False):
         sql = _HEADER_SQL + " WHERE h.id = %s"
@@ -50,7 +87,7 @@ class VoucherRepository:
         return fetch_all(
             self.conn,
             """SELECT l.account_id, a.code AS account_code, a.name AS account_name,
-                      l.debit, l.credit
+                      l.debit, l.credit, COALESCE(l.description, '') AS description
                FROM voucher_lines l JOIN accounts a ON a.id = l.account_id
                WHERE l.voucher_id = %s ORDER BY l.id""",
             (voucher_id,),

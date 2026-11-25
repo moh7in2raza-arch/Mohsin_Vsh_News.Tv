@@ -52,15 +52,15 @@ class VoucherService:
 
     # ---- commands ----
     def create_draft(self, session: Session, voucher_date: date,
-                     narration: str, lines: list[dict]) -> int:
+                     narration: str, lines: list[dict], party_name: str = "",
+                     cheque_no: str = "", cheque_date: date | None = None) -> int:
         PermissionService.require(session.permissions, P.VOUCHER_CREATE)
         if not isinstance(voucher_date, date):
             raise VoucherError("Voucher date is required")
+        if cheque_date is not None and not isinstance(cheque_date, date):
+            raise VoucherError("Cheque date must be a valid date")
         try:
-            journal_lines = [
-                make_line(l["account_id"], l.get("debit", "0"), l.get("credit", "0"))
-                for l in lines
-            ]
+            journal_lines, persisted_lines = self._prepare_lines(lines)
             validate_balanced(journal_lines)
         except JournalError as ex:
             raise VoucherError(str(ex)) from None
@@ -73,11 +73,78 @@ class VoucherService:
                 raise VoucherError("A voucher line uses an unknown or inactive account")
             number = uow.vouchers.next_voucher_no(voucher_date.year)
             voucher_id = uow.vouchers.insert_header(
-                number, voucher_date, (narration or "").strip() or None, session.user_id
+                number,
+                voucher_date,
+                (narration or "").strip() or None,
+                session.user_id,
+                (party_name or "").strip(),
+                (cheque_no or "").strip(),
+                cheque_date,
             )
-            uow.vouchers.insert_lines(voucher_id, journal_lines)
+            uow.vouchers.insert_lines(voucher_id, persisted_lines)
             uow.audit.record(session.user_id, "voucher.create", "voucher", voucher_id)
         return voucher_id
+
+    def update_draft(
+        self, session: Session, voucher_id: int, voucher_date: date,
+        narration: str, lines: list[dict], party_name: str = "",
+        cheque_no: str = "", cheque_date: date | None = None,
+    ) -> None:
+        PermissionService.require(session.permissions, P.VOUCHER_EDIT_DRAFT)
+        if not isinstance(voucher_date, date):
+            raise VoucherError("Voucher date is required")
+        if cheque_date is not None and not isinstance(cheque_date, date):
+            raise VoucherError("Cheque date must be a valid date")
+        try:
+            journal_lines, persisted_lines = self._prepare_lines(lines)
+            validate_balanced(journal_lines)
+        except JournalError as ex:
+            raise VoucherError(str(ex)) from None
+        except (TypeError, KeyError, ArithmeticError):
+            raise VoucherError("Invalid account or amount on a voucher line") from None
+
+        with self._uow_factory() as uow:
+            header = uow.vouchers.get_header(voucher_id, lock=True)
+            if header is None:
+                raise VoucherError("Voucher not found")
+            if header["status"] != "Draft":
+                raise VoucherError("Only draft vouchers can be edited")
+            usable = uow.accounts.usable_ids({line.account_id for line in journal_lines})
+            if any(line.account_id not in usable for line in journal_lines):
+                raise VoucherError("A voucher line uses an unknown or inactive account")
+            uow.vouchers.update_draft_header(
+                voucher_id,
+                voucher_date,
+                (narration or "").strip() or None,
+                (party_name or "").strip(),
+                (cheque_no or "").strip(),
+                cheque_date,
+            )
+            uow.vouchers.replace_lines(voucher_id, persisted_lines)
+            uow.audit.record(
+                session.user_id, "voucher.update_draft", "voucher", voucher_id
+            )
+
+    @staticmethod
+    def _prepare_lines(lines):
+        journal_lines = []
+        persisted_lines = []
+        for line in lines:
+            journal_line = make_line(
+                line["account_id"],
+                line.get("debit", "0"),
+                line.get("credit", "0"),
+            )
+            journal_lines.append(journal_line)
+            persisted_lines.append(
+                {
+                    "account_id": journal_line.account_id,
+                    "debit": journal_line.debit,
+                    "credit": journal_line.credit,
+                    "description": str(line.get("description") or "").strip() or None,
+                }
+            )
+        return journal_lines, persisted_lines
 
     def submit(self, session: Session, voucher_id: int) -> None:
         self._move(session, voucher_id, "Submitted", P.VOUCHER_SUBMIT, "voucher.submit")

@@ -1,30 +1,22 @@
-ADR-041 Voucher Template Preservation
+ADR-042 Template Placeholder Rules
 Status: Approved
-
-Approved Template:
-
-docs/templates/vouchers/Voucher New (2026_09_25 07_06_34 UTC).pdf
 
 Decision:
 
-Approved voucher PDF is the source of truth.
+Any highlighted area, mark, comment, sample text, instruction note, or visual indicator in approved PDF templates is NOT part of the final printed voucher.
 
 Rules:
 
-Do not redesign voucher layout.
-Do not move header.
-Do not move footer.
-Do not move logo.
-Do not move signature blocks.
-Do not move payee area.
-Do not move cheque information area.
-Do not move particulars area.
-Allowed:
+Voucher Number = Auto Generate
+Voucher Date = Auto Generate
+User Name = Current Logged User
+Company Information = System Settings
+Account Heads = PostgreSQL Accounts Table
+Voucher Totals = Auto Calculate
+Posting Date = System Date
+Print Date = System Date
+Template marks are guidance only.
 
-Voucher Number Auto Generate
-Voucher Date Auto Generate
-Searchable Account Lookup
-PostgreSQL Integration
-Posting Workflow
-Validation Logic
-ERP screen must visually match the approved PDF.
+Do not print placeholder text.
+
+Only show actual data.

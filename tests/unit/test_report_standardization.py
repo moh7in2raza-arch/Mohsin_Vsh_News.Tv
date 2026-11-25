@@ -47,7 +47,7 @@ def _column_headers(table):
 
 def test_approved_heading_sets_and_text_formats():
     assert VOUCHER_HEADINGS == (
-        "AcCode", "Account Head Title", "Particulars", "Debit", "Credit",
+        "AcCode", "Account Head Title", "Description", "Debit", "Credit",
     )
     assert TRIAL_BALANCE_HEADINGS == (
         "AcCode", "Account Head Title", "Opening Bal", "Total Debit",
@@ -142,6 +142,7 @@ def test_active_grids_use_approved_headings():
         reports=FakeService(),
         employees=FakeService(),
         auth=FakeService(),
+        company=FakeService(),
     )
     widgets = [
         AccountsView(services, session),

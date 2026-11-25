@@ -51,9 +51,16 @@ def test_full_voucher_lifecycle(env):
     sales = accounts.create_account(session, "T-4001", "Test sales", "Income")
 
     vid = vouchers.create_draft(session, date.today(), "test sale", [
-        {"account_id": cash, "debit": "250.00", "credit": "0"},
-        {"account_id": sales, "debit": "0", "credit": "250.00"},
-    ])
+        {"account_id": cash, "debit": "250.00", "credit": "0",
+         "description": "Cash received"},
+        {"account_id": sales, "debit": "0", "credit": "250.00",
+         "description": "Sale"},
+    ], party_name="Test customer", cheque_no="C-01", cheque_date=date.today())
+    detail = vouchers.get_voucher(session, vid)
+    assert detail.header.party_name == "Test customer"
+    assert detail.header.cheque_no == "C-01"
+    assert detail.header.cheque_date == date.today()
+    assert [line.description for line in detail.lines] == ["Cash received", "Sale"]
     with pytest.raises(VoucherError):                      # cannot skip approval
         vouchers.post(session, vid)
 

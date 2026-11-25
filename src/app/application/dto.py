@@ -24,6 +24,9 @@ class VoucherRow:
     status: str
     debit: Decimal
     credit: Decimal
+    party_name: str = ""
+    cheque_no: str = ""
+    cheque_date: date | None = None
 
 
 @dataclass(frozen=True)
@@ -33,6 +36,7 @@ class VoucherLineRow:
     account_name: str
     debit: Decimal
     credit: Decimal
+    description: str = ""
 
 
 @dataclass(frozen=True)

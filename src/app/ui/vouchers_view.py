@@ -1,7 +1,10 @@
+from PySide6.QtCore import QTemporaryFile, QUrl
+from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QComboBox,
     QDialog,
+    QFileDialog,
     QHBoxLayout,
     QLabel,
     QListWidget,
@@ -23,6 +26,10 @@ from src.app.ui.support import (
     fill_table,
 )
 from src.app.ui.voucher_dialog import VoucherDialog
+from src.app.application.services.voucher_pdf_service import (
+    VoucherPdfError,
+    VoucherPdfService,
+)
 
 _HEADERS = VOUCHER_HEADINGS
 
@@ -41,14 +48,19 @@ class VouchersView(QWidget):
         super().__init__()
         self._vouchers = services.vouchers
         self._accounts = services.accounts
+        self._company = services.company
         self._session = session
         self._rows = []
+        self._voucher_pdf = VoucherPdfService()
+        self._selected_voucher_detail = None
+        self._preview_file = None
 
         self.status_filter = QComboBox()
         self.status_filter.addItems(["All", *TRANSITIONS])
         self.status_filter.currentIndexChanged.connect(self.refresh)
 
         self.btn_new = self._button("New voucher", self._new, primary=True)
+        self.btn_edit = self._button("Edit draft", self._edit_selected)
         self.btn_submit = self._button("Submit", lambda: self._move("submit"))
         self.btn_approve = self._button("Approve", lambda: self._move("approve"))
         self.btn_back = self._button("Return to draft", lambda: self._move("return_to_draft"))
@@ -63,7 +75,7 @@ class VouchersView(QWidget):
         bar.addWidget(QLabel("Status"))
         bar.addWidget(self.status_filter)
         bar.addStretch()
-        for b in (self.btn_new, self.btn_submit, self.btn_approve, self.btn_back,
+        for b in (self.btn_new, self.btn_edit, self.btn_submit, self.btn_approve, self.btn_back,
                   self.btn_post, self.btn_reverse, self.btn_print):
             bar.addWidget(b)
 
@@ -107,6 +119,7 @@ class VouchersView(QWidget):
         self.detail.clear()
         self.detail.setRowCount(0)
         self._selected_detail = []
+        self._selected_voucher_detail = None
         if self._rows:
             self.table.setCurrentRow(0)
         else:
@@ -117,19 +130,22 @@ class VouchersView(QWidget):
         v = self._selected()
         if v is None:
             self._selected_detail = []
+            self._selected_voucher_detail = None
             self.detail.clear()
             self.detail.setRowCount(0)
             return
         ok, detail = call_service(self, self._vouchers.get_voucher, self._session, v.id)
         if ok:
+            self._selected_voucher_detail = detail
             self._selected_detail = [
-                (line.account_code, line.account_name, detail.header.narration or "",
+                (line.account_code, line.account_name, line.description,
                  line.debit, line.credit)
                 for line in detail.lines
             ]
             fill_table(self.detail, _HEADERS, self._selected_detail, right_cols=(3, 4))
         else:
             self._selected_detail = []
+            self._selected_voucher_detail = None
             self.detail.clear()
             self.detail.setRowCount(0)
         self._update_buttons()
@@ -143,6 +159,9 @@ class VouchersView(QWidget):
             return bool(status) and s.has(perm) and can_transition(status, target)
 
         self.btn_new.setEnabled(s.has(P.VOUCHER_CREATE))
+        self.btn_edit.setEnabled(
+            bool(v and status == "Draft" and s.has(P.VOUCHER_EDIT_DRAFT))
+        )
         self.btn_submit.setEnabled(allowed("Submitted", P.VOUCHER_SUBMIT))
         self.btn_approve.setEnabled(allowed("Approved", P.VOUCHER_APPROVE))
         self.btn_back.setEnabled(allowed("Draft", P.VOUCHER_APPROVE))
@@ -156,12 +175,44 @@ class VouchersView(QWidget):
             return
         if not accounts:
             QMessageBox.information(self, "No accounts",
-                                    "Create at least two accounts before entering vouchers.")
+                                    "At least two active PostgreSQL account heads are required.")
             return
         dialog = VoucherDialog(accounts, self)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             ok, _ = call_service(self, self._vouchers.create_draft, self._session,
                                  **dialog.values())
+            if ok:
+                self.refresh()
+
+    def _edit_selected(self) -> None:
+        selected = self._selected()
+        if selected is None:
+            return
+        ok, accounts = call_service(
+            self, self._accounts.list_accounts, self._session
+        )
+        if not ok or not accounts:
+            if ok:
+                QMessageBox.information(
+                    self,
+                    "No accounts",
+                    "At least two active PostgreSQL account heads are required.",
+                )
+            return
+        ok, detail = call_service(
+            self, self._vouchers.get_voucher, self._session, selected.id
+        )
+        if not ok:
+            return
+        dialog = VoucherDialog(accounts, self, voucher=detail)
+        if dialog.exec() == QDialog.DialogCode.Accepted:
+            ok, _ = call_service(
+                self,
+                self._vouchers.update_draft,
+                self._session,
+                selected.id,
+                **dialog.values(),
+            )
             if ok:
                 self.refresh()
 
@@ -179,6 +230,64 @@ class VouchersView(QWidget):
 
     def _export(self, file_format: str) -> None:
         selected = self._selected()
+        if file_format in ("pdf", "print"):
+            if selected is None:
+                QMessageBox.information(self, "Voucher", "Select a voucher to export.")
+                return
+            preview_file = None
+            if file_format == "pdf":
+                path, _ = QFileDialog.getSaveFileName(
+                    self,
+                    "Save payment voucher",
+                    f"{selected.voucher_no}.pdf",
+                    "PDF (*.pdf)",
+                )
+                if not path:
+                    return
+                if not path.lower().endswith(".pdf"):
+                    path += ".pdf"
+            else:
+                preview_file = QTemporaryFile("VSH-voucher-XXXXXX.pdf", self)
+                if not preview_file.open():
+                    QMessageBox.critical(
+                        self, "Voucher PDF", "Could not create a temporary PDF for preview."
+                    )
+                    return
+                path = preview_file.fileName()
+                preview_file.close()
+            ok, detail = call_service(
+                self, self._vouchers.get_voucher, self._session, selected.id
+            )
+            if not ok:
+                if preview_file is not None:
+                    preview_file.remove()
+                return
+            try:
+                self._voucher_pdf.generate(
+                    detail,
+                    self._company.get_profile(self._session),
+                    path,
+                )
+            except VoucherPdfError as ex:
+                if preview_file is not None:
+                    preview_file.remove()
+                QMessageBox.critical(self, "Voucher PDF", str(ex))
+                return
+            if preview_file is not None:
+                if not QDesktopServices.openUrl(QUrl.fromLocalFile(path)):
+                    preview_file.remove()
+                    QMessageBox.critical(
+                        self, "Voucher PDF", "Could not open the voucher PDF preview."
+                    )
+                    return
+                if self._preview_file is not None:
+                    self._preview_file.remove()
+                self._preview_file = preview_file
+                return
+            QMessageBox.information(
+                self, "Saved", f"Payment voucher saved to:\n{path}"
+            )
+            return
         title = f"Voucher {selected.voucher_no}" if selected is not None else "Voucher"
         export_table(
             self, title, _HEADERS, self._selected_detail, file_format,
