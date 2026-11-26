@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
     QListWidget,
     QMessageBox,
     QPushButton,
@@ -58,9 +59,15 @@ class VouchersView(QWidget):
         self.status_filter = QComboBox()
         self.status_filter.addItems(["All", *TRANSITIONS])
         self.status_filter.currentIndexChanged.connect(self.refresh)
+        self.search_input = QLineEdit()
+        self.search_input.setPlaceholderText("Voucher no., party, reference...")
+        self.search_input.returnPressed.connect(self.refresh)
+        self.btn_search = self._button("Search", self.refresh)
+        self.btn_clear_search = self._button("Clear", self._clear_search)
 
         self.btn_new = self._button("New voucher", self._new, primary=True)
         self.btn_edit = self._button("Edit draft", self._edit_selected)
+        self.btn_delete = self._button("Delete draft", self._delete_selected)
         self.btn_submit = self._button("Submit", lambda: self._move("submit"))
         self.btn_approve = self._button("Approve", lambda: self._move("approve"))
         self.btn_back = self._button("Return to draft", lambda: self._move("return_to_draft"))
@@ -74,8 +81,12 @@ class VouchersView(QWidget):
         bar = QHBoxLayout()
         bar.addWidget(QLabel("Status"))
         bar.addWidget(self.status_filter)
+        bar.addWidget(QLabel("Search"))
+        bar.addWidget(self.search_input)
+        bar.addWidget(self.btn_search)
+        bar.addWidget(self.btn_clear_search)
         bar.addStretch()
-        for b in (self.btn_new, self.btn_edit, self.btn_submit, self.btn_approve, self.btn_back,
+        for b in (self.btn_new, self.btn_edit, self.btn_delete, self.btn_submit, self.btn_approve, self.btn_back,
                   self.btn_post, self.btn_reverse, self.btn_print):
             bar.addWidget(b)
 
@@ -105,13 +116,15 @@ class VouchersView(QWidget):
     def refresh(self) -> None:
         status = self.status_filter.currentText()
         ok, rows = call_service(self, self._vouchers.list_vouchers, self._session,
-                                None if status == "All" else status)
+                                None if status == "All" else status,
+                                self.search_input.text().strip() or None)
         self._rows = rows if ok else []
         self.table.blockSignals(True)
         self.table.clear()
         for voucher in self._rows:
             self.table.addItem(
-                f"{voucher.voucher_no} | {voucher.voucher_date:%d-%b-%Y} | "
+                f"{voucher.voucher_type} | {voucher.voucher_no} | "
+                f"{voucher.voucher_date:%d-%b-%Y} | "
                 f"{voucher.narration or ''} | {voucher.status}"
             )
         self.table.setCurrentRow(-1)
@@ -162,12 +175,19 @@ class VouchersView(QWidget):
         self.btn_edit.setEnabled(
             bool(v and status == "Draft" and s.has(P.VOUCHER_EDIT_DRAFT))
         )
+        self.btn_delete.setEnabled(
+            bool(v and status == "Draft" and s.has(P.VOUCHER_DELETE_DRAFT))
+        )
         self.btn_submit.setEnabled(allowed("Submitted", P.VOUCHER_SUBMIT))
         self.btn_approve.setEnabled(allowed("Approved", P.VOUCHER_APPROVE))
         self.btn_back.setEnabled(allowed("Draft", P.VOUCHER_APPROVE))
         self.btn_post.setEnabled(allowed("Posted", P.VOUCHER_POST))
         self.btn_reverse.setEnabled(allowed("Reversed", P.VOUCHER_REVERSE))
         self.btn_print.setEnabled(bool(self._selected_detail))
+
+    def _clear_search(self) -> None:
+        self.search_input.clear()
+        self.refresh()
 
     def _new(self) -> None:
         ok, accounts = call_service(self, self._accounts.list_accounts, self._session)
@@ -228,6 +248,21 @@ class VouchersView(QWidget):
         if ok:
             self.refresh()
 
+    def _delete_selected(self) -> None:
+        voucher = self._selected()
+        if voucher is None:
+            return
+        if QMessageBox.question(
+            self, "Delete draft",
+            f"Delete draft voucher {voucher.voucher_no}? This cannot be undone.",
+        ) != QMessageBox.StandardButton.Yes:
+            return
+        ok, _ = call_service(
+            self, self._vouchers.delete_draft, self._session, voucher.id
+        )
+        if ok:
+            self.refresh()
+
     def _export(self, file_format: str) -> None:
         selected = self._selected()
         if file_format in ("pdf", "print"):
@@ -238,7 +273,7 @@ class VouchersView(QWidget):
             if file_format == "pdf":
                 path, _ = QFileDialog.getSaveFileName(
                     self,
-                    "Save payment voucher",
+                    f"Save {selected.voucher_type.lower()} voucher",
                     f"{selected.voucher_no}.pdf",
                     "PDF (*.pdf)",
                 )
@@ -285,7 +320,7 @@ class VouchersView(QWidget):
                 self._preview_file = preview_file
                 return
             QMessageBox.information(
-                self, "Saved", f"Payment voucher saved to:\n{path}"
+                self, "Saved", f"Voucher saved to:\n{path}"
             )
             return
         title = f"Voucher {selected.voucher_no}" if selected is not None else "Voucher"

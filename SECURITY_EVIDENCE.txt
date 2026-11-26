@@ -1,0 +1,95 @@
+
+src\app\application\dto.py:22:    voucher_date: date
+src\app\application\dto.py:29:    cheque_date: date | None = None
+src\app\application\dto.py:88:    cheque_date: date | None = None
+src\app\application\session.py:9:    must_change_password: bool = False
+src\app\application\services\account_service.py:4:    PermissionService,
+src\app\application\services\account_service.py:40:        PermissionService.require(session.permissions, P.ACCOUNT_MANAGE)
+src\app\application\services\auth_service.py:44:            must_change_password=bool(user["must_change_password"]),
+src\app\application\services\company_service.py:2:from src.app.application.services.permission_service import PermissionService
+src\app\application\services\company_service.py:42:        PermissionService.require(session.permissions, getattr(P, "USER_MANAGE", "user.manage"))
+src\app\application\services\permission_service.py:5:class PermissionService:
+src\app\application\services\posting_service.py:2:    PermissionService,
+src\app\application\services\posting_service.py:18:        PermissionService.require(
+src\app\application\services\report_service.py:5:from src.app.application.services.permission_service import PermissionService
+src\app\application\services\report_service.py:17:        PermissionService.require(session.permissions, P.REPORT_VIEW)
+src\app\application\services\report_service.py:23:        PermissionService.require(session.permissions, P.REPORT_VIEW)
+src\app\application\services\report_service.py:37:                cheque_date=None,
+src\app\application\services\report_service.py:53:                    cheque_date=r.get("cheque_date"),
+src\app\application\services\voucher_pdf_service.py:293:        cheque_date = (
+src\app\application\services\voucher_pdf_service.py:294:            header.cheque_date.strftime("%d/%m/%Y")
+src\app\application\services\voucher_pdf_service.py:295:            if header.cheque_date is not None else ""
+src\app\application\services\voucher_pdf_service.py:298:            page, pymupdf.Rect(488, 208, 572, 224), cheque_date, 10, 7
+src\app\application\services\voucher_service.py:5:from src.app.application.services.permission_service import PermissionService
+src\app\application\services\voucher_service.py:44:        PermissionService.require(session.permissions, P.VOUCHER_VIEW)
+src\app\application\services\voucher_service.py:53:        PermissionService.require(session.permissions, P.VOUCHER_VIEW)
+src\app\application\services\voucher_service.py:62:    def create_draft(self, session: Session, voucher_date: date,
+src\app\application\services\voucher_service.py:64:                     cheque_no: str = "", cheque_date: date | None = None,
+src\app\application\services\voucher_service.py:66:        PermissionService.require(session.permissions, P.VOUCHER_CREATE)
+src\app\application\services\voucher_service.py:67:        if not isinstance(voucher_date, date):
+src\app\application\services\voucher_service.py:69:        if cheque_date is not None and not isinstance(cheque_date, date):
+src\app\application\services\voucher_service.py:82:            if not uow.vouchers.is_period_open(voucher_date, lock=True):
+src\app\application\services\voucher_service.py:94:            number = uow.vouchers.next_voucher_no(voucher_date.year, voucher_type)
+src\app\application\services\voucher_service.py:97:                voucher_date,
+src\app\application\services\voucher_service.py:102:                cheque_date,
+src\app\application\services\voucher_service.py:111:        self, session: Session, voucher_id: int, voucher_date: date,
+src\app\application\services\voucher_service.py:113:        cheque_no: str = "", cheque_date: date | None = None,
+src\app\application\services\voucher_service.py:116:        PermissionService.require(session.permissions, P.VOUCHER_EDIT_DRAFT)
+src\app\application\services\voucher_service.py:117:        if not isinstance(voucher_date, date):
+src\app\application\services\voucher_service.py:119:        if cheque_date is not None and not isinstance(cheque_date, date):
+src\app\application\services\voucher_service.py:139:            if not uow.vouchers.is_period_open(voucher_date, lock=True):
+src\app\application\services\voucher_service.py:153:                voucher_date,
+src\app\application\services\voucher_service.py:157:                cheque_date,
+src\app\application\services\voucher_service.py:269:        PermissionService.require(session.permissions, P.VOUCHER_POST)
+src\app\application\services\voucher_service.py:280:                header["voucher_date"], lock=True
+src\app\application\services\voucher_service.py:298:        PermissionService.require(session.permissions, P.VOUCHER_REVERSE)
+src\app\application\services\voucher_service.py:315:        PermissionService.require(session.permissions, P.VOUCHER_DELETE_DRAFT)
+src\app\application\services\voucher_service.py:333:        PermissionService.require(session.permissions, permission)
+src\app\infrastructure\repositories\report_repository.py:24:                  WHERE vh.voucher_date <= %s
+src\app\infrastructure\repositories\report_repository.py:33:            + " WHERE jl.account_id = %s AND vh.voucher_date < %s",
+src\app\infrastructure\repositories\report_repository.py:41:            """SELECT vh.voucher_date AS entry_date,
+src\app\infrastructure\repositories\report_repository.py:44:                      vh.cheque_date,
+src\app\infrastructure\repositories\report_repository.py:50:            + """ WHERE jl.account_id = %s AND vh.voucher_date BETWEEN %s AND %s
+src\app\infrastructure\repositories\report_repository.py:51:                  ORDER BY vh.voucher_date, je.id, jl.id""",
+src\app\infrastructure\repositories\user_repository.py:18:                        must_change_password
+src\app\infrastructure\repositories\user_repository.py:35:                    "must_change_password": row[4],
+src\app\infrastructure\repositories\voucher_repository.py:8:    SELECT h.id, h.voucher_no, h.voucher_date, h.narration, h.status,
+src\app\infrastructure\repositories\voucher_repository.py:9:           h.party_name, h.cheque_no, h.cheque_date, h.voucher_type,
+src\app\infrastructure\repositories\voucher_repository.py:31:        self, voucher_no, voucher_date, narration, created_by,
+src\app\infrastructure\repositories\voucher_repository.py:32:        party_name="", cheque_no="", cheque_date=None, voucher_type="Journal",
+src\app\infrastructure\repositories\voucher_repository.py:37:                   (voucher_no, voucher_date, narration, status, created_by,
+src\app\infrastructure\repositories\voucher_repository.py:38:                    party_name, cheque_no, cheque_date, voucher_type, reference_no)
+src\app\infrastructure\repositories\voucher_repository.py:42:                voucher_no, voucher_date, narration, created_by,
+src\app\infrastructure\repositories\voucher_repository.py:43:                party_name, cheque_no, cheque_date, voucher_type, reference_no,
+src\app\infrastructure\repositories\voucher_repository.py:67:        self, voucher_id, voucher_date, narration, party_name,
+src\app\infrastructure\repositories\voucher_repository.py:68:        cheque_no, cheque_date, reference_no,
+src\app\infrastructure\repositories\voucher_repository.py:72:               SET voucher_date = %s, narration = %s, party_name = %s,
+src\app\infrastructure\repositories\voucher_repository.py:73:                   cheque_no = %s, cheque_date = %s, reference_no = %s
+src\app\infrastructure\repositories\voucher_repository.py:76:                voucher_date, narration, party_name, cheque_no, cheque_date,
+src\app\infrastructure\repositories\voucher_repository.py:117:    def is_period_open(self, voucher_date, lock=False) -> bool:
+src\app\infrastructure\repositories\voucher_repository.py:124:            sql, (voucher_date, voucher_date)
+src\app\ui\voucher_dialog.py:54:        self.cheque_date_enabled = QCheckBox("Enter cheque date")
+src\app\ui\voucher_dialog.py:55:        self.cheque_date = QDateEdit(QDate.currentDate())
+src\app\ui\voucher_dialog.py:56:        self.cheque_date.setCalendarPopup(True)
+src\app\ui\voucher_dialog.py:57:        self.cheque_date.setDisplayFormat("dd-MMM-yyyy")
+src\app\ui\voucher_dialog.py:58:        self.cheque_date.setEnabled(False)
+src\app\ui\voucher_dialog.py:59:        self.cheque_date_enabled.toggled.connect(self.cheque_date.setEnabled)
+src\app\ui\voucher_dialog.py:67:        form.addRow("Cheque Date", self.cheque_date_enabled)
+src\app\ui\voucher_dialog.py:68:        form.addRow("", self.cheque_date)
+src\app\ui\voucher_dialog.py:104:                header.voucher_date.year,
+src\app\ui\voucher_dialog.py:105:                header.voucher_date.month,
+src\app\ui\voucher_dialog.py:106:                header.voucher_date.day,
+src\app\ui\voucher_dialog.py:112:            if header.cheque_date is not None:
+src\app\ui\voucher_dialog.py:113:                self.cheque_date_enabled.setChecked(True)
+src\app\ui\voucher_dialog.py:114:                self.cheque_date.setDate(QDate(
+src\app\ui\voucher_dialog.py:115:                    header.cheque_date.year,
+src\app\ui\voucher_dialog.py:116:                    header.cheque_date.month,
+src\app\ui\voucher_dialog.py:117:                    header.cheque_date.day,
+src\app\ui\voucher_dialog.py:205:            "voucher_date": date(d.year(), d.month(), d.day()),
+src\app\ui\voucher_dialog.py:210:            "cheque_date": (
+src\app\ui\voucher_dialog.py:212:                    self.cheque_date.date().year(),
+src\app\ui\voucher_dialog.py:213:                    self.cheque_date.date().month(),
+src\app\ui\voucher_dialog.py:214:                    self.cheque_date.date().day(),
+src\app\ui\voucher_dialog.py:216:                if self.cheque_date_enabled.isChecked()
+src\app\ui\vouchers_view.py:127:                f"{voucher.voucher_date:%d-%b-%Y} | "
+

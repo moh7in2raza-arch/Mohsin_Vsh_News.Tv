@@ -1,0 +1,39 @@
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .vscode/settings.json
+	modified:   build/vsh_erp.spec
+	modified:   docs/PROJECT_BIBLE.md
+	modified:   docs/adr/ADR-041-voucher-template-preservation.md
+	modified:   requirements.lock.txt
+	modified:   requirements.txt
+	modified:   src/app/application/dto.py
+	modified:   src/app/application/services/voucher_service.py
+	modified:   src/app/domain/security/permissions.py
+	modified:   src/app/infrastructure/repositories/voucher_repository.py
+	modified:   src/app/ui/report_headings.py
+	modified:   src/app/ui/voucher_dialog.py
+	modified:   src/app/ui/vouchers_view.py
+	modified:   tests/integration/test_voucher_flow.py
+	modified:   tests/unit/test_report_standardization.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	GIT_STATUS_REPORT.txt
+	PROJECT_STRUCTURE_REPORT.txt
+	PYTHON_FILES_REPORT.txt
+	docs/decisions/source_data/
+	docs/templates/_backup_voucher_db.py
+	docs/templates/_migrate_voucher_db.py
+	docs/templates/_patch_voucher_ui.py
+	docs/templates/vsh_accounting_before_voucher_migration_20261022_115230.db
+	src/app/application/services/voucher_pdf_service.py
+	src/app/infrastructure/database/migrations/0011_voucher_line_description.sql
+	tests/unit/test_voucher_dialog.py
+	tests/unit/test_voucher_pdf_service.py
+	tests/unit/test_vouchers_view.py
+
+no changes added to commit (use "git add" and/or "git commit -a")

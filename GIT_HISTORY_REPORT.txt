@@ -1,0 +1,30 @@
+3953175 Add ADR-041 voucher template preservation
+29d0b95 Add approved payment voucher master template
+b0e2934 Freeze project bible, audits and visual mockups
+9b21da0 Create Project Bible and freeze architecture
+3cccf19 feature completed
+6e59f8f All 29 tests passed - saved progress
+6915a97 Feature completed
+67a6561 Switch startup to VSH NEWS TV dashboard
+b177994 Backup before dashboard switch
+7ee039b Fix admin views and ERP updates
+ab7338a Step 2: move reports, SQL draft and backup files out of root and ui
+8c60259 Checkpoint before structure cleanup
+16753a3 Start dashboard service and users module ADR route
+5fc11b9 Generate ADR canonical tree
+90f0f03 ADR cleanup phase 2 remove duplicate UI routes
+c924d47 ADR consolidation: archive duplicate dashboards UI and SQLite route
+0160220 Fix requirements.txt formatting
+d47bd59 Stop tracking zips and SQLite prototype database
+54ae204 Expand README with project scope and architecture
+2ae07c7 Translate posting errors in voucher service, add tests
+d281fed Fix requirements and project metadata
+a1d7661 Add migration 0009: restrict account manage permission
+e4d52e2 Add migration 0008: company settings and fiscal periods
+b300c55 Fix login window startup flow
+945de33 Phase 20: Register employee service
+5a63dca Phase 19: Employee repository migrated to PostgreSQL
+5b565bb Phase 19 recovery checkpoint
+56b6ddc Recovery checkpoint after Git restore
+02e745a Remove duplicate ADR file
+b1b1e08 Ignore audit records

@@ -153,7 +153,10 @@ class VoucherPdfService:
                 )
 
             output.set_metadata({
-                "title": f"Payment Voucher {voucher.header.voucher_no}",
+                "title": (
+                    f"{voucher.header.voucher_type} Voucher "
+                    f"{voucher.header.voucher_no}"
+                ),
                 "author": "",
                 "subject": "",
                 "keywords": "",
@@ -198,6 +201,7 @@ class VoucherPdfService:
         company_span = None
         printing_span = None
         page_number_span = None
+        voucher_type_span = None
         for block in page.get_text("dict")["blocks"]:
             for line in block.get("lines", ()):
                 for span in line["spans"]:
@@ -208,7 +212,11 @@ class VoucherPdfService:
                         printing_span = span
                     elif text == "1 of 1":
                         page_number_span = span
-        for span in (company_span, printing_span, page_number_span):
+                    elif text == "PAYMENT VOUCHER":
+                        voucher_type_span = span
+        for span in (
+            company_span, printing_span, page_number_span, voucher_type_span
+        ):
             if span is not None:
                 rect = pymupdf.Rect(span["bbox"])
                 rect.x0 -= 1
@@ -255,8 +263,17 @@ class VoucherPdfService:
         page_number: int,
         page_count: int,
     ) -> None:
+        header = voucher.header
         self._insert_fitted_text(
             page, pymupdf.Rect(47, 62, 468, 83), company.company_name, 16, 10
+        )
+        self._insert_fitted_text(
+            page,
+            pymupdf.Rect(245, 104, 408, 124),
+            f"{header.voucher_type.upper()} VOUCHER",
+            13,
+            8,
+            align=pymupdf.TEXT_ALIGN_CENTER,
         )
         if logo_path is not None:
             for image in page.get_images(full=True):
@@ -267,7 +284,6 @@ class VoucherPdfService:
                 keep_proportion=True,
             )
 
-        header = voucher.header
         self._insert_fitted_text(
             page, pymupdf.Rect(488, 171, 572, 188), header.voucher_no, 10, 7
         )
@@ -285,7 +301,14 @@ class VoucherPdfService:
             page, pymupdf.Rect(88, 203, 410, 220), header.party_name, 11, 8
         )
         self._insert_fitted_text(
-            page, pymupdf.Rect(98, 220, 410, 237), header.narration or "", 11, 8
+            page,
+            pymupdf.Rect(98, 220, 410, 237),
+            (
+                f"{header.narration or ''}  (Ref: {header.reference_no})"
+                if header.reference_no else header.narration or ""
+            ),
+            11,
+            8,
         )
 
         for index, line in enumerate(lines):

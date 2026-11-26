@@ -9,8 +9,15 @@ EXPECTED = {
     "permissions": {"id", "code"},
     "role_permissions": {"role_id", "permission_id"},
     "user_roles": {"user_id", "role_id"},
-    "accounts": {"id", "code", "name", "type", "normal_balance", "is_active"},
-    "voucher_headers": {"id", "voucher_no", "voucher_date", "narration", "status"},
+    "accounts": {
+        "id", "code", "name", "type", "normal_balance", "is_active", "header_id",
+    },
+    "account_groups": {"id", "code", "name", "type", "normal_balance"},
+    "account_headers": {"id", "code", "name", "type", "group_id", "is_active"},
+    "voucher_headers": {
+        "id", "voucher_no", "voucher_date", "narration", "status",
+        "voucher_type", "reference_no",
+    },
     "voucher_lines": {"id", "voucher_id", "account_id", "debit", "credit"},
 }
 
@@ -33,7 +40,7 @@ def main() -> int:
 
         applied = conn.execute(
             "SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
-        print(f"\nschema_version = {applied} (run tools\\migrate.py until it reaches 6)")
+        print(f"\nschema_version = {applied} (run tools\\migrate.py until it reaches 12)")
 
         if "code" in cols.get("permissions", set()):
             have = {r[0] for r in conn.execute("SELECT code FROM permissions")}

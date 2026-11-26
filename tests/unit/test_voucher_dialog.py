@@ -70,3 +70,18 @@ def test_searchable_account_input_and_draft_edit_preserve_description():
     finally:
         dialog.close()
         app.processEvents()
+
+
+def test_new_voucher_defaults_to_journal_and_captures_reference():
+    app = QApplication.instance() or QApplication([])
+    accounts = [SimpleNamespace(id=1, code="1000", name="Cash")]
+    dialog = VoucherDialog(accounts)
+    try:
+        assert dialog.voucher_type.currentText() == "Journal"
+        dialog.voucher_type.setCurrentText("Purchase")
+        dialog.reference_no.setText("SUP-INV-7")
+        assert dialog.values()["voucher_type"] == "Purchase"
+        assert dialog.values()["reference_no"] == "SUP-INV-7"
+    finally:
+        dialog.close()
+        app.processEvents()

@@ -31,23 +31,34 @@ _HEADERS = ACCOUNTS_HEADINGS
 
 
 class _AccountDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, headers, parent=None):
         super().__init__(parent)
         self.setWindowTitle("New account")
         self.code = QLineEdit()
         self.name = QLineEdit()
         self.type = QComboBox()
         self.type.addItems(list(ACCOUNT_TYPES))
+        self.header = QComboBox()
+        self._headers = headers
+        self.type.currentTextChanged.connect(self._filter_headers)
         form = QFormLayout(self)
         form.addRow("Code", self.code)
         form.addRow("Name", self.name)
         form.addRow("Type", self.type)
+        form.addRow("Account header", self.header)
+        self._filter_headers(self.type.currentText())
         buttons = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
         )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         form.addRow(buttons)
+
+    def _filter_headers(self, account_type):
+        self.header.clear()
+        for header in self._headers:
+            if header.type == account_type:
+                self.header.addItem(header.name, header.id)
 
 
 class AccountsView(QWidget):
@@ -111,8 +122,15 @@ class AccountsView(QWidget):
 
     def _data(self):
         return [
-            (a.code, f"{'    ' * self._indent_level(a.code)}{a.name}", a.type,
-             "", "", a.is_active)
+            (
+                a.code,
+                f"{'    ' * self._indent_level(a.code)}{a.name}",
+                a.type,
+                a.header_name or "",
+                "",
+                "",
+                a.is_active,
+            )
             for a in self._rows
         ]
 
@@ -122,7 +140,18 @@ class AccountsView(QWidget):
         fill_table(self.table, _HEADERS, self._data())
 
     def _new(self) -> None:
-        dialog = _AccountDialog(self)
+        ok, headers = call_service(
+            self, self._accounts.list_headers, self._session
+        )
+        if not ok:
+            return
+        if not headers:
+            QMessageBox.information(
+                self, "No account headers",
+                "Run the accounting migration before adding accounts.",
+            )
+            return
+        dialog = _AccountDialog(headers, self)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             ok, _ = call_service(
                 self,
@@ -131,6 +160,7 @@ class AccountsView(QWidget):
                 dialog.code.text(),
                 dialog.name.text(),
                 dialog.type.currentText(),
+                dialog.header.currentData(),
             )
             if ok:
                 self.refresh()
@@ -141,7 +171,7 @@ class AccountsView(QWidget):
     def _export(self, file_format: str) -> None:
         export_table(
             self, "Chart of Accounts", _HEADERS, self._data(), file_format,
-            right_cols=(3, 4),
+            right_cols=(4, 5),
         )
 
     def _save_csv(self) -> None:
@@ -194,7 +224,7 @@ class AccountsView(QWidget):
                 for col in range(1, len(_HEADERS) + 1):
                     ws.cell(row=r_idx, column=col).font = Font(bold=True)
 
-        for column, width in zip("ABCDEF", (16, 55, 18, 18, 18, 12)):
+        for column, width in zip("ABCDEFG", (16, 45, 18, 28, 18, 18, 12)):
             ws.column_dimensions[column].width = width
         wb.save(path)
         QMessageBox.information(self, "Saved", f"Chart of Accounts saved to:\n{path}")

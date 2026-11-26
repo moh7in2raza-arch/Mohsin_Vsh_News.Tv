@@ -30,6 +30,7 @@ def _voucher(lines):
             party_name="Payroll",
             cheque_no="CHQ-12",
             cheque_date=date(2026, 11, 25),
+            reference_no="SUP-INV-01",
         ),
         lines=lines,
     )
@@ -80,8 +81,10 @@ def test_generate_removes_annotations_and_replaces_sample_values(tmp_path):
         assert list(page.annots() or ()) == []
         assert "Test Company" in text
         assert "V-2026-000123" in text
+        assert "JOURNAL VOUCHER" in text
         assert "Payroll" in text
         assert "CHQ-12" in text
+        assert "Ref: SUP-INV-01" in text
         assert "November salary" in text
         assert "Salaries" in text
         assert "Rupees One Hundred Twenty Three and Paisa Forty Five Only" in text

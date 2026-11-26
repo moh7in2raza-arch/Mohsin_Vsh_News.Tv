@@ -60,7 +60,8 @@ EMPLOYEES_HEADINGS = (
 ACCOUNTS_HEADINGS = (
     "AcCode",
     "AcName",
-    "TypeCode",
+    "Account Group",
+    "Account Header",
     "Opening Balance",
     "Current Balance",
     "Active",

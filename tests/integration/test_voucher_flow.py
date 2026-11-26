@@ -25,9 +25,9 @@ def conn():
         pytest.skip(f"database not reachable: {ex}")
     c.execute("SELECT 1")                      # open the outer transaction
     version = c.execute("SELECT COALESCE(MAX(version), 0) FROM schema_version").fetchone()[0]
-    if version < 6:
+    if version < 12:
         c.close()
-        pytest.skip("run tools\\migrate.py first (0006 not applied)")
+        pytest.skip("run tools\\migrate.py first (0012 not applied)")
     yield c
     c.rollback()
     c.close()

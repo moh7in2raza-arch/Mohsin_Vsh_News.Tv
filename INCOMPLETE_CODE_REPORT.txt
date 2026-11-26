@@ -1,0 +1,64 @@
+
+src\app\application\services\account_service.py:13:    pass
+src\app\application\services\auth_service.py:3:from argon2 import PasswordHasher
+src\app\application\services\auth_service.py:14:    pass
+src\app\application\services\auth_service.py:22:        self._hasher = PasswordHasher()
+src\app\application\services\auth_service.py:25:    def login(self, username: str, password: str) -> Session:
+src\app\application\services\auth_service.py:29:        if user is None or not self._password_ok(user, password):
+src\app\application\services\auth_service.py:31:            raise AuthError("Invalid username or password")
+src\app\application\services\auth_service.py:44:            must_change_password=bool(user["must_change_password"]),
+src\app\application\services\auth_service.py:62:    def _password_ok(self, user, password) -> bool:
+src\app\application\services\auth_service.py:64:            return self._hasher.verify(user["password_hash"], password)
+src\app\application\services\company_service.py:29:            pass
+src\app\application\services\permission_service.py:2:    pass
+src\app\application\services\posting_service.py:7:    pass
+src\app\application\services\voucher_pdf_service.py:45:    pass
+src\app\application\services\voucher_pdf_service.py:95:    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+src\app\application\services\voucher_pdf_service.py:96:        return Path(sys._MEIPASS)
+src\app\application\services\voucher_service.py:22:    pass
+src\app\application\session.py:9:    must_change_password: bool = False
+src\app\domain\accounting\journal.py:11:    pass
+src\app\infrastructure\database\connection.py:25:            password=os.environ["DB_PASSWORD"],
+src\app\infrastructure\repositories\user_repository.py:16:                        password_hash,
+src\app\infrastructure\repositories\user_repository.py:18:                        must_change_password
+src\app\infrastructure\repositories\user_repository.py:33:                    "password_hash": row[2],
+src\app\infrastructure\repositories\user_repository.py:35:                    "must_change_password": row[4],
+src\app\ui\employee_document.py:41:    pass
+src\app\ui\login_window.py:34:    bases = [Path(sys._MEIPASS)] if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS") else []
+src\app\ui\login_window.py:46:    forgot_password_requested = Signal(str)
+src\app\ui\login_window.py:62:        self.pass_input.clear()
+src\app\ui\login_window.py:67:        self.pass_input.setEchoMode(QLineEdit.EchoMode.Password)
+src\app\ui\login_window.py:156:        password_layout = QHBoxLayout()
+src\app\ui\login_window.py:157:        password_layout.setSpacing(6)
+src\app\ui\login_window.py:158:        self.pass_input = QLineEdit()
+src\app\ui\login_window.py:159:        self.pass_input.setPlaceholderText("Password")
+src\app\ui\login_window.py:160:        self.pass_input.setEchoMode(QLineEdit.EchoMode.Password)
+src\app\ui\login_window.py:161:        self.pass_input.returnPressed.connect(self._handle_login)
+src\app\ui\login_window.py:167:        self.eye_button.clicked.connect(self._toggle_password)
+src\app\ui\login_window.py:169:        password_layout.addWidget(self.pass_input)
+src\app\ui\login_window.py:170:        password_layout.addWidget(self.eye_button)
+src\app\ui\login_window.py:171:        card_layout.addLayout(password_layout)
+src\app\ui\login_window.py:177:        self.forgot_button = QPushButton("Forgot Password?")
+src\app\ui\login_window.py:180:        self.forgot_button.clicked.connect(lambda: self.forgot_password_requested.emit(self.user_input.text().strip()))
+src\app\ui\login_window.py:226:    def _toggle_password(self):
+src\app\ui\login_window.py:227:        if self.pass_input.echoMode() == QLineEdit.EchoMode.Password:
+src\app\ui\login_window.py:228:            self.pass_input.setEchoMode(QLineEdit.EchoMode.Normal)
+src\app\ui\login_window.py:231:            self.pass_input.setEchoMode(QLineEdit.EchoMode.Password)
+src\app\ui\login_window.py:242:        password = self.pass_input.text()
+src\app\ui\login_window.py:243:        if not username or not password:
+src\app\ui\login_window.py:244:            QMessageBox.warning(self, "Validation Error", "Please enter both username and password.")
+src\app\ui\login_window.py:250:            session = self._auth.login(username, password)
+src\app\ui\login_window.py:253:            self.pass_input.clear()
+src\app\ui\login_window.py:254:            self.pass_input.setFocus()
+src\app\ui\login_window.py:261:            self.pass_input.clear()
+src\app\ui\module_shell.py:73:    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+src\app\ui\module_shell.py:74:        bases.append(Path(sys._MEIPASS))
+src\app\ui\support.py:43:    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+src\app\ui\support.py:44:        bases.append(Path(sys._MEIPASS))
+src\app\ui\users_view.py:97:        self.reset_button = QPushButton("Reset Password")
+src\app\ui\users_view.py:164:            self.reset_password
+src\app\ui\users_view.py:272:    def reset_password(self):
+src\app\ui\users_view.py:281:            f"Reset Password: {username}",
+src\app\__init__.py:4:    password = self.password.text()
+src\app\__init__.py:10:            password,
+

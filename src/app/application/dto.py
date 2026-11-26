@@ -27,6 +27,8 @@ class VoucherRow:
     party_name: str = ""
     cheque_no: str = ""
     cheque_date: date | None = None
+    voucher_type: str = "Journal"
+    reference_no: str = ""
 
 
 @dataclass(frozen=True)
@@ -53,6 +55,15 @@ class AccountRow:
     type: str
     normal_balance: str
     is_active: bool
+    header_name: str | None = None
+
+
+@dataclass(frozen=True)
+class AccountHeaderRow:
+    id: int
+    code: str
+    name: str
+    type: str
 
 
 @dataclass(frozen=True)

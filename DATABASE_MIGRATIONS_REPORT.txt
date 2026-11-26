@@ -1,0 +1,30 @@
+
+    Directory: C:\Mohsin_Vsh_News.tv\src\app\infrastructure\database\migrations
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          11/18/2026  2:37 PM                __pycache__
+-a---          11/18/2026  2:05 PM              0 __init__.py
+-a---          11/18/2026  2:05 PM           2786 0001_core.sql
+-a---          11/18/2026  2:05 PM            572 0002_hr.sql
+-a---          11/18/2026  2:05 PM            549 0003_administrat
+                                                  ion.sql
+-a---          11/18/2026  2:05 PM            527 0004_vouchers.sq
+                                                  l
+-a---          11/18/2026  2:05 PM            870 0005_journal.sql
+-a---          11/18/2026  2:05 PM           2530 0006_accounting_
+                                                  integrity.sql
+-a---          11/17/2026  2:27 PM            992 0007_employee_pr
+                                                  ofile.sql
+-a---          11/19/2026  3:25 PM           1035 0008_company_set
+                                                  tings_fiscal_per
+                                                  iods.sql
+-a---          11/19/2026  3:31 PM            260 0009_restrict_ac
+                                                  count_manage.sql
+-a---          11/21/2026  7:58 PM            798 0010_company_and
+                                                  _statement_field
+                                                  s.sql
+-a---          11/25/2026  1:12 PM             75 0011_voucher_lin
+                                                  e_description.sq
+                                                  l
+

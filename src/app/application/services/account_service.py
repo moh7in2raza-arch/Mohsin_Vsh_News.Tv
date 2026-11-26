@@ -1,4 +1,4 @@
-from src.app.application.dto import AccountRow
+from src.app.application.dto import AccountHeaderRow, AccountRow
 from src.app.application.services.permission_service import (
     PermissionDenied,
     PermissionService,
@@ -25,7 +25,18 @@ class AccountService:
         with self._uow_factory() as uow:
             return [AccountRow(**r) for r in uow.accounts.list_all(active_only)]
 
-    def create_account(self, session: Session, code: str, name: str, account_type: str) -> int:
+    def list_headers(self, session: Session) -> list[AccountHeaderRow]:
+        if not any(
+            session.has(c) for c in (P.ACCOUNT_VIEW, P.ACCOUNT_MANAGE)
+        ):
+            raise PermissionDenied(f"Missing permission: {P.ACCOUNT_VIEW}")
+        with self._uow_factory() as uow:
+            return [AccountHeaderRow(**r) for r in uow.accounts.list_headers()]
+
+    def create_account(
+        self, session: Session, code: str, name: str, account_type: str,
+        header_id: int | None = None,
+    ) -> int:
         PermissionService.require(session.permissions, P.ACCOUNT_MANAGE)
         code, name = (code or "").strip(), (name or "").strip()
         if not code or not name:
@@ -35,8 +46,18 @@ class AccountService:
         with self._uow_factory() as uow:
             if uow.accounts.code_exists(code):
                 raise AccountError(f"Account code {code} already exists")
+            selected_header = (
+                header_id
+                if header_id is not None
+                else uow.accounts.default_header_id(account_type)
+            )
+            if selected_header is None:
+                raise AccountError("Choose a valid account header")
+            if uow.accounts.header_type(selected_header) != account_type:
+                raise AccountError("Account header must match the account type")
             account_id = uow.accounts.insert(code, name, account_type,
-                                             normal_balance_for(account_type))
+                                             normal_balance_for(account_type),
+                                             selected_header)
             uow.audit.record(session.user_id, "account.create", "account", account_id)
         return account_id
     

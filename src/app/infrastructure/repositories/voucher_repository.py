@@ -2,10 +2,12 @@ class rom:
     ...
 
 from src.app.infrastructure.repositories._sql import fetch_all, fetch_one
+from src.app.domain.accounting.voucher_types import VOUCHER_TYPE_PREFIXES
 
 _HEADER_SQL = """
     SELECT h.id, h.voucher_no, h.voucher_date, h.narration, h.status,
-           h.party_name, h.cheque_no, h.cheque_date,
+           h.party_name, h.cheque_no, h.cheque_date, h.voucher_type,
+           h.reference_no,
            COALESCE((SELECT SUM(debit)  FROM voucher_lines WHERE voucher_id = h.id), 0) AS debit,
            COALESCE((SELECT SUM(credit) FROM voucher_lines WHERE voucher_id = h.id), 0) AS credit
     FROM voucher_headers h
@@ -20,22 +22,25 @@ class VoucherRepository:
         self.conn = conn
 
     # ---- vouchers ----
-    def next_voucher_no(self, year: int) -> str:
+    def next_voucher_no(self, year: int, voucher_type: str = "Journal") -> str:
         n = self.conn.execute("SELECT nextval('voucher_no_seq')").fetchone()[0]
-        return f"V-{year}-{n:06d}"
+        prefix = VOUCHER_TYPE_PREFIXES[voucher_type]
+        return f"{prefix}-{year}-{n:06d}"
 
     def insert_header(
         self, voucher_no, voucher_date, narration, created_by,
-        party_name="", cheque_no="", cheque_date=None,
+        party_name="", cheque_no="", cheque_date=None, voucher_type="Journal",
+        reference_no="",
     ) -> int:
         row = self.conn.execute(
             """INSERT INTO voucher_headers
                    (voucher_no, voucher_date, narration, status, created_by,
-                    party_name, cheque_no, cheque_date)
-               VALUES (%s, %s, %s, 'Draft', %s, %s, %s, %s) RETURNING id""",
+                    party_name, cheque_no, cheque_date, voucher_type, reference_no)
+               VALUES (%s, %s, %s, 'Draft', %s, %s, %s, %s, %s, %s)
+               RETURNING id""",
             (
                 voucher_no, voucher_date, narration, created_by,
-                party_name, cheque_no, cheque_date,
+                party_name, cheque_no, cheque_date, voucher_type, reference_no,
             ),
         ).fetchone()
         return row[0]
@@ -60,14 +65,17 @@ class VoucherRepository:
 
     def update_draft_header(
         self, voucher_id, voucher_date, narration, party_name,
-        cheque_no, cheque_date,
+        cheque_no, cheque_date, reference_no,
     ) -> None:
         self.conn.execute(
             """UPDATE voucher_headers
                SET voucher_date = %s, narration = %s, party_name = %s,
-                   cheque_no = %s, cheque_date = %s
+                   cheque_no = %s, cheque_date = %s, reference_no = %s
                WHERE id = %s AND status = 'Draft'""",
-            (voucher_date, narration, party_name, cheque_no, cheque_date, voucher_id),
+            (
+                voucher_date, narration, party_name, cheque_no, cheque_date,
+                reference_no, voucher_id,
+            ),
         )
 
     def replace_lines(self, voucher_id, lines) -> None:
@@ -99,12 +107,41 @@ class VoucherRepository:
             (status, voucher_id),
         )
 
-    def list_headers(self, status=None, limit=500) -> list[dict]:
+    def delete_draft(self, voucher_id: int) -> None:
+        self.conn.execute(
+            """UPDATE voucher_headers SET status = 'Deleted'
+               WHERE id = %s AND status = 'Draft'""",
+            (voucher_id,),
+        )
+
+    def is_period_open(self, voucher_date, lock=False) -> bool:
+        sql = """SELECT is_closed FROM fiscal_periods
+                 WHERE start_date <= %s AND end_date >= %s
+                 ORDER BY start_date DESC LIMIT 2"""
+        if lock:
+            sql += " FOR SHARE"
+        rows = self.conn.execute(
+            sql, (voucher_date, voucher_date)
+        ).fetchall()
+        return len(rows) == 1 and not rows[0][0]
+
+    def list_headers(self, status=None, query=None, limit=500) -> list[dict]:
         return fetch_all(
             self.conn,
             _HEADER_SQL
-            + " WHERE (%s::text IS NULL OR h.status = %s) ORDER BY h.id DESC LIMIT %s",
-            (status, status, limit),
+            + """ WHERE ((%s::text IS NOT NULL AND h.status = %s)
+                       OR (%s::text IS NULL AND h.status <> 'Deleted'))
+                  AND (%s::text IS NULL OR
+                       h.voucher_no ILIKE %s OR
+                       COALESCE(h.narration, '') ILIKE %s OR
+                       h.party_name ILIKE %s OR h.cheque_no ILIKE %s OR
+                       h.reference_no ILIKE %s OR h.voucher_type ILIKE %s)
+                  ORDER BY h.id DESC LIMIT %s""",
+            (
+                status, status, status, query,
+                f"%{query}%", f"%{query}%", f"%{query}%",
+                f"%{query}%", f"%{query}%", f"%{query}%", limit,
+            ),
         )
 
     # ---- journal ----

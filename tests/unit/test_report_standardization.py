@@ -69,8 +69,8 @@ def test_approved_heading_sets_and_text_formats():
         "Phone No.", "Joining Date", "Salary", "Status",
     )
     assert ACCOUNTS_HEADINGS == (
-        "AcCode", "AcName", "TypeCode", "Opening Balance", "Current Balance",
-        "Active",
+        "AcCode", "AcName", "Account Group", "Account Header",
+        "Opening Balance", "Current Balance", "Active",
     )
     assert BALANCE_SHEET_ASSET_HEADINGS == ("ASSETS", "Amount (PKR)")
     assert BALANCE_SHEET_LIABILITY_HEADINGS == (

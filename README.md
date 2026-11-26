@@ -13,7 +13,7 @@ No stack substitution without explicit approval.
 
 | Module | What it covers |
 |---|---|
-| **Accounts** | Chart of accounts, vouchers (Payment first, then Receipt, Journal, Contra), posting to the journal, ledger, trial balance, reports |
+| **Accounts** | Grouped chart of accounts, Journal/Payment/Receipt/Contra/Sales/Purchase vouchers, posting to the journal, ledger, trial balance, reports |
 | **HR** | One record per employee covering the whole life cycle (joining, documents, working record, exit); status changes (active, resigned, terminated, completed); office letters and applications printed on the company letterhead |
 | **Admin** | Setup layer: users, roles, permissions, company settings, fiscal periods, backup and restore |
 
@@ -147,8 +147,11 @@ Use the project's `.venv` interpreter. System Python does not have pytest.
 ## Database migrations
 
 Migrations live in `src/app/infrastructure/database/migrations/` and are applied in order by `tools.migrate`.
-Applied versions are recorded in the `schema_version` table.
-Take a backup before applying a migration to a database that holds real data.
+Applied versions are recorded in the `schema_version` table. Before applying
+pending migrations, `tools.migrate` creates a PostgreSQL custom-format backup
+under `%LOCALAPPDATA%\VSH ERP\database-backups`; it stops without migrating if
+the backup cannot be created. Set `DB_BACKUP_USER` and `DB_BACKUP_PASSWORD`
+when the application database role cannot read every table for a full dump.
 
 | Version | Content |
 |---|---|
@@ -161,6 +164,9 @@ Take a backup before applying a migration to a database that holds real data.
 | 0007 | Employee profile |
 | 0008 | Company settings and fiscal periods, finance grants |
 | 0009 | `account.manage` restricted to Accountant and Admin |
+| 0010 | Company profile and voucher cheque/party fields |
+| 0011 | Voucher line descriptions |
+| 0012 | Voucher types, account groups/headers, default chart and open fiscal year |
 
 ---
 

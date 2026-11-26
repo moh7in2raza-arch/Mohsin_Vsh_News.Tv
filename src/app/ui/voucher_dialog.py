@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from src.app.domain.accounting.voucher_types import VOUCHER_TYPES
 from src.app.ui.report_headings import VOUCHER_HEADINGS
 
 _ZERO = Decimal("0")
@@ -41,11 +42,14 @@ class VoucherDialog(QDialog):
         self.resize(760, 480)
         self._accounts = accounts
 
+        self.voucher_type = QComboBox()
+        self.voucher_type.addItems(VOUCHER_TYPES)
         self.date = QDateEdit(QDate.currentDate())
         self.date.setCalendarPopup(True)
         self.date.setDisplayFormat("dd-MMM-yyyy")
         self.narration = QLineEdit()
         self.party_name = QLineEdit()
+        self.reference_no = QLineEdit()
         self.cheque_no = QLineEdit()
         self.cheque_date_enabled = QCheckBox("Enter cheque date")
         self.cheque_date = QDateEdit(QDate.currentDate())
@@ -54,8 +58,10 @@ class VoucherDialog(QDialog):
         self.cheque_date.setEnabled(False)
         self.cheque_date_enabled.toggled.connect(self.cheque_date.setEnabled)
         form = QFormLayout()
+        form.addRow("Voucher type", self.voucher_type)
         form.addRow("Date", self.date)
         form.addRow("Payee", self.party_name)
+        form.addRow("Invoice / reference no.", self.reference_no)
         form.addRow("Narration", self.narration)
         form.addRow("Cheque No", self.cheque_no)
         form.addRow("Cheque Date", self.cheque_date_enabled)
@@ -92,12 +98,15 @@ class VoucherDialog(QDialog):
             self.add_row()
         else:
             header = voucher.header
+            self.voucher_type.setCurrentText(header.voucher_type)
+            self.voucher_type.setEnabled(False)
             self.date.setDate(QDate(
                 header.voucher_date.year,
                 header.voucher_date.month,
                 header.voucher_date.day,
             ))
             self.party_name.setText(header.party_name)
+            self.reference_no.setText(header.reference_no)
             self.narration.setText(header.narration or "")
             self.cheque_no.setText(header.cheque_no)
             if header.cheque_date is not None:
@@ -192,8 +201,10 @@ class VoucherDialog(QDialog):
         lines, _ = self._read()
         d = self.date.date()
         return {
+            "voucher_type": self.voucher_type.currentText(),
             "voucher_date": date(d.year(), d.month(), d.day()),
             "party_name": self.party_name.text().strip(),
+            "reference_no": self.reference_no.text().strip(),
             "narration": self.narration.text().strip(),
             "cheque_no": self.cheque_no.text().strip(),
             "cheque_date": (

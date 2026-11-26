@@ -17,6 +17,8 @@ TRANSITIONS = {
     },
 
     "Reversed": set(),
+
+    "Deleted": set(),
 }
 
 
