@@ -18,46 +18,78 @@ class Shell:
     def __init__(self, services):
         self._services = services
         self._main = None
+
         self.login = LoginWindow(services.auth)
         self.login.authenticated.connect(self._open_main)
 
     def start(self) -> None:
+        if self._main is not None:
+            self._main.hide()
+
         self.login.reset()
         self.login.show()
+        self.login.raise_()
+        self.login.activateWindow()
 
     def _open_main(self, session) -> None:
-        self._main = VshNewsMainWindow(self._services, session)
+        self._main = VshNewsMainWindow(
+            self._services,
+            session
+        )
+
         self._main.logged_out.connect(self.start)
+
         self._main.show()
         self.login.hide()
 
     def shutdown(self) -> None:
         main, self._main = self._main, None
+
         if main is not None:
             main.shutdown()
             main.deleteLater()
+
         self.login.close()
         self.login.deleteLater()
 
         app = QApplication.instance()
+
         if app is not None:
-            QCoreApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
+            QCoreApplication.sendPostedEvents(
+                None,
+                QEvent.Type.DeferredDelete,
+            )
             app.processEvents()
 
 
 def _excepthook(exc_type, exc, tb) -> None:
-    log.critical("Unhandled error", exc_info=(exc_type, exc, tb))
-    QMessageBox.critical(None, "Unexpected error",
-                         "The application hit an unexpected error. Details were written to the log.")
+    log.critical(
+        "Unhandled error",
+        exc_info=(exc_type, exc, tb),
+    )
+
+    QMessageBox.critical(
+        None,
+        "Unexpected error",
+        f"{exc_type.__name__}: {exc}",
+    )
 
 
 def main() -> int:
     start_logging()
+
     sys.excepthook = _excepthook
+
     app = QApplication(sys.argv)
+
     apply_style(app)
-    shell = Shell(build_services())
+
+    services = build_services()
+
+    shell = Shell(services)
+
     shell.start()
+
     try:
         return app.exec()
     finally:
@@ -66,4 +98,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
+    
